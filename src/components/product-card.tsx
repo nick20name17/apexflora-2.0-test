@@ -73,17 +73,17 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                 <div className='flex items-start justify-between gap-1 border-b border-b-secondary p-2.5 leading-none max-sm:w-full'>
                     <div className='flex h-full max-w-36 flex-col gap-1 truncate'>
                         <h1 className='truncate text-sm'>
-                            {shopProduct.product.ukr_name}
+                            {shopProduct?.product?.ukr_name}
                         </h1>
                         <div className='flex items-center gap-x-1'>
                             <img
                                 className='shrink-0'
-                                src={shopProduct.producer.country.flag}
-                                alt={shopProduct.producer.name}
+                                src={shopProduct?.producer?.country?.flag}
+                                alt={shopProduct?.producer?.name}
                             />
 
                             <span className='truncate text-[11px] text-muted'>
-                                {shopProduct.producer.name}
+                                {shopProduct.producer?.name}
                             </span>
                         </div>
                     </div>
