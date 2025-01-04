@@ -1,0 +1,46 @@
+.driver-popover.driverjs-theme {
+    @apply max-w-md bg-transparent p-0 shadow-none;
+}
+
+.driver-popover.driverjs-theme .driver-popover-progress-text {
+    @apply text-background;
+}
+
+.driver-popover.driverjs-theme .driver-popover-description {
+    @apply w-full rounded-md bg-accent p-5 text-base text-primary;
+}
+
+.driver-popover.driverjs-theme button {
+    @apply !flex h-10 w-24 items-center justify-center rounded-xs border-none text-sm transition-colors [text-shadow:none];
+}
+.driver-popover.driverjs-theme .driver-popover-next-btn {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+.driver-popover.driverjs-theme .driver-popover-prev-btn {
+    @apply bg-background/20 text-background backdrop-blur-lg hover:bg-background/50;
+}
+
+.driver-popover.driverjs-theme .driver-popover-close-btn {
+    @apply !hidden;
+}
+
+/* .driver-popover.driverjs-theme .driver-popover-navigation-btns {
+    @apply bg-background;
+} */
+
+.driver-popover.driverjs-theme .driver-popover-arrow-side-left.driver-popover-arrow {
+    @apply border-l-accent;
+}
+
+.driver-popover.driverjs-theme .driver-popover-arrow-side-right.driver-popover-arrow {
+    @apply border-r-accent;
+}
+
+.driver-popover.driverjs-theme .driver-popover-arrow-side-top.driver-popover-arrow {
+    @apply border-t-accent;
+}
+
+.driver-popover.driverjs-theme .driver-popover-arrow-side-bottom.driver-popover-arrow {
+    @apply border-b-accent;
+}
