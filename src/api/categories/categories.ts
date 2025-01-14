@@ -15,7 +15,7 @@ export const getAllCategories = async (queryParams: Partial<CategoriesQueryParam
 }
 
 export const getCategories = async (queryParams: Partial<CategoriesQueryParams>) => {
-    const res = await api.get<CategoriesResponse>(`/categories/all/`, {
+    const res = await api.get<CategoriesResponse>('/categories/', {
         params: queryParams
     })
 

@@ -19,14 +19,14 @@ export const Footer = () => {
                     <div className='grid grid-cols-2 gap-x-6 gap-y-8 lg:gap-y-10'>
                         <nav>
                             <h3>Головна</h3>
-                            <ul className='mt-3 space-y-3'>
+                            <ul className='mt-3 space-y-3 font-book'>
                                 <li>
-                                    <Link
+                                    <a
                                         className='text-muted transition-colors hover:text-background'
-                                        to='#catalogue'
+                                        href='#catalogue'
                                     >
                                         Каталог
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
                                     <a
@@ -37,18 +37,18 @@ export const Footer = () => {
                                     </a>
                                 </li>
                                 <li>
-                                    <Link
+                                    <a
                                         className='text-muted transition-colors hover:text-background'
-                                        to='#contact'
+                                        href='#contact'
                                     >
                                         Контакти
-                                    </Link>
+                                    </a>
                                 </li>
                             </ul>
                         </nav>
                         <nav>
                             <h3>Про компанію</h3>
-                            <ul className='mt-3 space-y-3'>
+                            <ul className='mt-3 space-y-3 font-book'>
                                 <li>
                                     <Link
                                         className='text-muted transition-colors hover:text-background'
@@ -58,12 +58,12 @@ export const Footer = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link
+                                    <a
                                         className='text-muted transition-colors hover:text-background'
-                                        to='#about'
+                                        href='#about'
                                     >
                                         Про нас
-                                    </Link>
+                                    </a>
                                 </li>
                                 <li>
                                     <Link
@@ -113,7 +113,7 @@ export const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex items-center justify-center border-t pt-6 text-xs text-muted sm:justify-between'>
+                <div className='flex items-center justify-center border-t pt-6 font-book text-xs text-muted sm:justify-between'>
                     <span>Copyright {currentYear}. All Rights Reserved</span>
                     <Link
                         className='hidden transition-colors hover:text-accent sm:block'

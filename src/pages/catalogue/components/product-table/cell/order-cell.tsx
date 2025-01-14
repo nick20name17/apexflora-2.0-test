@@ -11,10 +11,10 @@ export const OrderCell = ({ stocks }: { stocks: Stock[] }) => {
 
     return currentStockMaxDiscountPercentage && +totalPriceWithDiscount > 0 ? (
         <div className='flex flex-col'>
-            <span className='text-muted line-through'>{totalPrice} грн</span>
-            <span className='text-primary'>{totalPriceWithDiscount} грн</span>
+            <span className='text-muted line-through'>{totalPrice}₴</span>
+            <span className='text-primary'>{totalPriceWithDiscount}₴</span>
         </div>
     ) : (
-        <span className='text-primary'>{totalPrice} грн</span>
+        <span className='text-primary'>{totalPrice}₴</span>
     )
 }

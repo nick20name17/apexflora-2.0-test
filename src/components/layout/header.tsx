@@ -6,11 +6,11 @@ import { ReactSVG } from 'react-svg'
 import { HeaderCatalogue } from '../header-catalogue'
 import { HeartIcon, ShoppingCartIcon } from '../icons'
 
-import { getCarts } from '@/api/baskets/baskets'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import { Button } from '@/components/ui/button'
 import { Logo } from '@/components/ui/logo'
 import { routes } from '@/config/routes'
+import { useCartOperations } from '@/hooks/use-cart-operations'
 
 export const Header = () => {
     const [catalogueOpen, setCatalogueOpen] = useState(false)
@@ -24,17 +24,11 @@ export const Header = () => {
             })
     })
 
-    const carttQuery = useQuery({
-        queryKey: ['cart'],
-        queryFn: () =>
-            getCarts({
-                limit: 200
-            })
-    })
+    const { cartCount } = useCartOperations()
 
     return (
-        <header className='sticky top-0 z-50 h-15 border-b bg-background'>
-            <div className='relative z-50 flex h-full items-center justify-between gap-x-1 px-10'>
+        <header className='sticky top-0 z-50 h-[70px] border-b bg-card'>
+            <div className='container relative z-50 flex h-full items-center justify-between gap-x-1 px-10'>
                 <div className='flex items-center gap-x-2 md:gap-x-6'>
                     <Logo className='max-md:w-10' />
                     <HeaderCatalogue
@@ -67,7 +61,7 @@ export const Header = () => {
                         id='wish-list'
                         asChild
                     >
-                        <Link to={routes.favorites}>
+                        <Link to={routes.wishList}>
                             <div className='relative'>
                                 <HeartIcon />
                                 <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
@@ -88,7 +82,7 @@ export const Header = () => {
                             <div className='relative'>
                                 <ShoppingCartIcon />
                                 <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
-                                    {carttQuery.data?.count || 0}
+                                    {cartCount}
                                 </div>
                             </div>
                             <span>Кошик</span>

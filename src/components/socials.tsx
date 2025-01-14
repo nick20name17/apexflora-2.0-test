@@ -19,7 +19,7 @@ export const Socials = ({
             <h2 className={cn('text-xl md:text-2xl', titleClassName)}>
                 Ми у соц. мережах
             </h2>
-            <p className='mt-0.5 text-sm text-muted md:text-base'>
+            <p className='mt-0.5 font-book text-sm text-muted md:text-base'>
                 Будьте в курсі всіх новин, акцій та нових надходжень! Слідкуйте за нами в
                 соціальних мережах, щоб не пропустити важливу інформацію.
             </p>
@@ -31,6 +31,7 @@ export const Socials = ({
                             socilasClassName
                         )}
                         to='/'
+                        target='_blank'
                     >
                         <ReactSVG src='/icons/telegram.svg' />
                         <span>Telegram</span>
@@ -42,7 +43,8 @@ export const Socials = ({
                             'flex size-full items-center justify-center gap-x-1 rounded-full border border-black bg-background/10 text-xs transition-colors hover:bg-muted sm:text-sm',
                             socilasClassName
                         )}
-                        to='/'
+                        to='https://www.instagram.com/apexflora.ua/'
+                        target='_blank'
                     >
                         <ReactSVG src='/icons/Instagram.svg' />
                         <span>Instagram</span>
@@ -55,6 +57,7 @@ export const Socials = ({
                             socilasClassName
                         )}
                         to='/'
+                        target='_blank'
                     >
                         <ReactSVG src='/icons/facebook.svg' />
                         <span>Facebook</span>

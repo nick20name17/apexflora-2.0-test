@@ -8,7 +8,8 @@ export interface Cart {
     created_at: string
     creator: string
     discount: number
-    visible_discount: string
+    visible_discount: number
+    in_wish_list: boolean
 }
 
 export interface CartAddPayload {

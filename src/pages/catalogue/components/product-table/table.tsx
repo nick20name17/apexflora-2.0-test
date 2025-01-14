@@ -4,12 +4,8 @@ import {
     getCoreRowModel,
     useReactTable
 } from '@tanstack/react-table'
-import { useLayoutEffect, useState } from 'react'
 
-import type {
-    ShopProduct,
-    ShopProductsQueryParams
-} from '@/api/shop-products/shop-products.types'
+import type { ShopProduct } from '@/api/shop-products/shop-products.types'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -25,41 +21,20 @@ import { defaultLimit } from '@/constants/table'
 interface DataTableProps {
     columns: ColumnDef<ShopProduct, ShopProduct>[]
     data: ShopProduct[]
-    filters: Partial<ShopProductsQueryParams>
     isLoading: boolean
 }
 
-export const ProductTable = ({
-    columns,
-    data,
-
-    filters,
-    isLoading
-}: DataTableProps) => {
+export const ProductTable = ({ columns, data, isLoading }: DataTableProps) => {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel()
     })
 
-    const [activeFiltersHeight, setActiveFiltersHeight] = useState(0)
-
-    useLayoutEffect(() => {
-        const activeFilters = document.querySelector('#active-filters')
-        if (activeFilters) {
-            setActiveFiltersHeight(activeFilters.clientHeight)
-        }
-    }, [filters])
-
     return (
-        <ScrollArea
-            className='mt-3'
-            style={{
-                height: `calc(100% - 255px + ${activeFiltersHeight ? 0 : 50}px)`
-            }}
-        >
+        <ScrollArea className='mt-3 pr-2.5'>
             <Table>
-                <TableHeader className='sticky top-0 z-50 bg-secondary'>
+                <TableHeader className='sticky top-0 z-40 bg-secondary'>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {

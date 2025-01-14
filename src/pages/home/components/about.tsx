@@ -5,10 +5,10 @@ import { routes } from '@/config/routes'
 export const About = () => {
     return (
         <section
-            className='container mt-10 grid gap-10 lg:grid-cols-2'
+            className='container mt-10 grid gap-10 lg:grid-cols-2 [&_p]:font-book [&_p]:text-foreground/60'
             id='about'
         >
-            <div className='rounded-2xl bg-background px-4 py-8 md:p-10'>
+            <div className='rounded-2xl bg-background/40 px-4 py-8 transition-colors hover:bg-background/70 md:p-10'>
                 <h2 className='text-2xl font-medium'>Про нас</h2>
                 <p className='mt-3'>
                     Ми молода та швидко прогресуюча команда, яка любить те що робить і
@@ -30,7 +30,7 @@ export const About = () => {
                     Let's go досягати її разом ?
                 </p>
             </div>
-            <div className='rounded-2xl bg-background p-10'>
+            <div className='rounded-2xl bg-background/40 p-10 transition-colors hover:bg-background/70'>
                 <h2 className='text-2xl font-medium'>Про наш сервіс</h2>
                 <p className='mt-3'>
                     Ми зібрали величезний асортимент квітів від краших виробників з усього

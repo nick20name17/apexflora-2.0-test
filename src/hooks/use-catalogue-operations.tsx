@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
 import { useAuth } from './use-auth'
-import { addToCart, removeFromCart, updateCart } from '@/api/baskets/baskets'
-import type { Cart, CartsResponse } from '@/api/baskets/baskets.types'
+import { addToCart, removeFromCart, updateCart } from '@/api/carts/carts'
+import type { Cart, CartsResponse } from '@/api/carts/carts.types'
 import type { ShopProductsResponse, Stock } from '@/api/shop-products/shop-products.types'
 import { deleteFromWishList, postWishList } from '@/api/wish-list/wish-list'
 import { useFilters } from '@/pages/catalogue/store/filters'
@@ -13,19 +13,25 @@ type CartOperation = {
     amount: number
     stock_product: number
 }
-const formatPrice = (price: number) => {
+
+export const formatPrice = (price: number): number => {
     const formatter = new Intl.NumberFormat('uk-UA', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2
     })
-    return formatter.format(price)
+
+    const formattedString = formatter.format(price)
+
+    return Number(formattedString.replace(/\s/g, '').replace(',', '.'))
 }
 
 export const useCatalogueOperations = ({
     stocks,
-    inWishList
+    inWishList,
+    initialCurrentStock
 }: {
-    stocks: Stock[]
+    stocks?: Stock[]
+    initialCurrentStock?: Stock
     inWishList?: boolean
 }) => {
     const { filters } = useFilters()
@@ -38,28 +44,24 @@ export const useCatalogueOperations = ({
         parse: Number
     })
 
-    const currentStock = useMemo(
-        () => stocks.find((stock) => stock.status.id === currentStockId),
-        [stocks, currentStockId]
-    )
+    const currentStock =
+        initialCurrentStock ||
+        useMemo(
+            () => stocks?.find((stock) => stock.status.id === currentStockId),
+            [stocks, currentStockId]
+        )
     const currentStockPrice = useMemo(
-        () => +formatPrice(+currentStock?.retail_price!),
+        () => formatPrice(+currentStock?.retail_price!),
         [currentStock]
     )
 
-    const currentStockMaxDiscountPercentage = currentStock?.discounts.reduce(
-        (innerAcc, discount) => {
-            const discountValue = parseFloat(discount.percentage) || 0
-            return Math.max(innerAcc, discountValue)
-        },
-        0
-    )
+    const currentStockMaxDiscountPercentage = currentStock?.visible_discount
 
     const priceWithDiscount = currentStockMaxDiscountPercentage
-        ? +formatPrice(
+        ? formatPrice(
               currentStock?.retail_price! * (1 - currentStockMaxDiscountPercentage / 100)
           )
-        : '-'
+        : 0
 
     const [amount, setAmount] = useState(currentStock?.in_basket || 0)
 
@@ -263,6 +265,36 @@ export const useCatalogueOperations = ({
         onMutate: async (newWishListItem) => {
             await queryClient.cancelQueries(['wishList'])
             await queryClient.cancelQueries(['shopProducts', filters])
+            await queryClient.cancelQueries(['cart'])
+
+            const previousState = {
+                wishList: queryClient.getQueryData(['wishList']),
+                shopProducts: queryClient.getQueryData<ShopProductsResponse>([
+                    'shopProducts',
+                    filters
+                ]),
+                cart: queryClient.getQueryData<CartsResponse>(['cart'])
+            }
+
+            queryClient.setQueryData<ShopProductsResponse>(
+                ['shopProducts'],
+                (oldData): ShopProductsResponse => {
+                    if (!oldData) return oldData!
+
+                    return {
+                        ...oldData,
+                        results: oldData.results.map((shopProduct) => {
+                            if (shopProduct.id === newWishListItem.shop_product) {
+                                return {
+                                    ...shopProduct,
+                                    in_wish_list: true
+                                }
+                            }
+                            return shopProduct
+                        })
+                    }
+                }
+            )
 
             queryClient.setQueryData<ShopProductsResponse>(
                 ['shopProducts', filters],
@@ -277,17 +309,59 @@ export const useCatalogueOperations = ({
                                     ...shopProduct,
                                     in_wish_list: true
                                 }
-                            } else {
-                                return shopProduct
+                            }
+                            return shopProduct
+                        })
+                    }
+                }
+            )
+
+            queryClient.setQueryData<ShopProductsResponse>(
+                ['wishList'],
+                (oldData): ShopProductsResponse => {
+                    if (!oldData) return oldData!
+
+                    return {
+                        ...oldData,
+                        count: oldData.count + 1
+                    }
+                }
+            )
+
+            queryClient.setQueryData<CartsResponse>(
+                ['cart'],
+                (oldData): CartsResponse => {
+                    if (!oldData) return oldData!
+
+                    return {
+                        ...oldData,
+                        results: oldData.results.map((cartItem) => {
+                            return {
+                                ...cartItem,
+                                in_wish_list:
+                                    cartItem.stock_product.shop_product.id ===
+                                    newWishListItem.shop_product
+                                        ? true
+                                        : cartItem.in_wish_list
                             }
                         })
                     }
                 }
             )
+
+            return previousState
+        },
+        onError: (_, __, context) => {
+            if (context) {
+                queryClient.setQueryData(['wishList'], context.wishList)
+                queryClient.setQueryData(['shopProducts', filters], context.shopProducts)
+                queryClient.setQueryData(['cart'], context.cart)
+            }
         },
         onSettled: () => {
             queryClient.invalidateQueries('wishList')
             queryClient.invalidateQueries('shopProducts')
+            queryClient.invalidateQueries('cart')
         }
     })
 
@@ -298,6 +372,36 @@ export const useCatalogueOperations = ({
             onMutate: async (newWishListItem) => {
                 await queryClient.cancelQueries(['wishList'])
                 await queryClient.cancelQueries(['shopProducts', filters])
+                await queryClient.cancelQueries(['cart'])
+
+                const previousState = {
+                    wishList: queryClient.getQueryData(['wishList']),
+                    shopProducts: queryClient.getQueryData<ShopProductsResponse>([
+                        'shopProducts',
+                        filters
+                    ]),
+                    cart: queryClient.getQueryData<CartsResponse>(['cart'])
+                }
+
+                queryClient.setQueryData<ShopProductsResponse>(
+                    ['shopProducts'],
+                    (oldData): ShopProductsResponse => {
+                        if (!oldData) return oldData!
+
+                        return {
+                            ...oldData,
+                            results: oldData.results.map((shopProduct) => {
+                                if (shopProduct.id === newWishListItem.shopProductId) {
+                                    return {
+                                        ...shopProduct,
+                                        in_wish_list: false
+                                    }
+                                }
+                                return shopProduct
+                            })
+                        }
+                    }
+                )
 
                 queryClient.setQueryData<ShopProductsResponse>(
                     ['shopProducts', filters],
@@ -312,23 +416,61 @@ export const useCatalogueOperations = ({
                                         ...shopProduct,
                                         in_wish_list: false
                                     }
-                                } else {
-                                    return shopProduct
                                 }
+                                return shopProduct
                             })
                         }
                     }
                 )
+
+                queryClient.setQueryData<ShopProductsResponse>(
+                    ['wishList'],
+                    (oldData): ShopProductsResponse => {
+                        if (!oldData) return oldData!
+
+                        return {
+                            ...oldData,
+                            count: oldData.count - 1
+                        }
+                    }
+                )
+
+                queryClient.setQueryData<CartsResponse>(
+                    ['cart'],
+                    (oldData): CartsResponse => {
+                        if (!oldData) return oldData!
+
+                        return {
+                            ...oldData,
+                            results: oldData.results.map((cartItem) => ({
+                                ...cartItem,
+                                in_wish_list:
+                                    cartItem.stock_product.shop_product.id ===
+                                    newWishListItem.shopProductId
+                                        ? false
+                                        : cartItem.in_wish_list
+                            }))
+                        }
+                    }
+                )
+
+                return previousState
+            },
+            onError: (_, __, context) => {
+                if (context) {
+                    queryClient.setQueryData(['wishList'], context.wishList)
+                    queryClient.setQueryData(
+                        ['shopProducts', filters],
+                        context.shopProducts
+                    )
+                    queryClient.setQueryData(['cart'], context.cart)
+                }
+            },
+            onSettled: () => {
+                queryClient.invalidateQueries('wishList')
+                queryClient.invalidateQueries('shopProducts')
+                queryClient.invalidateQueries('cart')
             }
-            // onError: (_, __, context) => {
-            //     if (context) {
-            //         queryClient.setQueryData(['wishList'], context.wishList)
-            //         queryClient.setQueryData(
-            //             ['shopProducts', filters],
-            //             context.shopProducts
-            //         )
-            //     }
-            // }
         }
     )
 
@@ -350,9 +492,10 @@ export const useCatalogueOperations = ({
         currentStock,
         currentStockMaxDiscountPercentage,
         currentStockPrice,
-        priceWithDiscount: +priceWithDiscount,
+        priceWithDiscount,
         inCart,
         totalPriceWithDiscount,
+        removeFromWishListMutation,
         totalPrice,
         addToCartMutation,
         removeFromCartMutation,

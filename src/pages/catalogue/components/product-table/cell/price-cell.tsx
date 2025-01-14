@@ -5,12 +5,13 @@ export const PriceCell = ({ stocks }: { stocks: Stock[] }) => {
     const { currentStockPrice, priceWithDiscount } = useCatalogueOperations({
         stocks
     })
+
     return priceWithDiscount > 0 ? (
-        <div className='flex flex-col'>
-            <span className='text-muted line-through'>{currentStockPrice} грн</span>
-            <span className='text-primary'>{priceWithDiscount} грн</span>
+        <div className='flex flex-col text-base'>
+            <span className='text-sm text-muted line-through'>{currentStockPrice}₴</span>
+            <span className='font-medium text-primary'>{priceWithDiscount}₴</span>
         </div>
     ) : (
-        <span className='text-primary'>{currentStockPrice} грн</span>
+        <span className='text-base font-medium text-primary'>{currentStockPrice}₴</span>
     )
 }

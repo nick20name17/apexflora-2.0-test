@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
-
 import { DiametrIcon, HeartIcon, HeightIcon, WeightIcon } from './icons'
 import { Button } from './ui/button'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
+import { useAuth } from '@/hooks/use-auth'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 
@@ -10,53 +9,51 @@ interface ProductCardProps {
     shopProduct: ShopProduct
     className?: string
 }
-;``
+
 export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
-    const [inWishList, setInWishList] = useState(shopProduct.in_wish_list)
-
-    useEffect(() => {
-        setInWishList(shopProduct.in_wish_list)
-    }, [shopProduct.in_wish_list])
-
     const {
         handleAddToWishList,
+        currentStock,
         currentStockPrice,
         priceWithDiscount,
         currentStockMaxDiscountPercentage
     } = useCatalogueOperations({
         stocks: shopProduct.stocks,
-        inWishList
+        inWishList: shopProduct.in_wish_list
     })
 
     const isPromo = shopProduct.stocks.some((stock) => stock.promotion)
 
+    const { isAuth } = useAuth()
+
     return (
         <article
             className={cn(
-                'h-28 overflow-hidden rounded-sm border bg-background max-sm:flex max-sm:items-center sm:h-[248px]',
+                'h-32 overflow-hidden rounded-sm border bg-background max-sm:flex sm:h-[270px]',
                 className
             )}
         >
             <div className='relative h-full w-28 shrink-0 rounded-t-sm bg-muted sm:h-[150px] sm:w-full'>
                 <div className='absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/20 to-transparent'></div>
-                <Button
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        handleAddToWishList()
-                    }}
-                    className={cn(
-                        'absolute left-1 top-1 z-20 bg-background/40 backdrop-blur-lg hover:bg-background/50',
-                        inWishList ? 'bg-accent' : ''
-                    )}
-                    size='icon'
-                >
-                    <HeartIcon
-                        className={cn(
-                            '!size-5 text-background',
-                            inWishList ? 'text-primary' : ''
-                        )}
-                    />
-                </Button>
+                {isAuth ? (
+                    <Button
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            handleAddToWishList()
+                        }}
+                        className='group absolute left-1 top-1 z-20 size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
+                        size='icon'
+                    >
+                        <HeartIcon
+                            className={cn(
+                                '!size-5 text-card group-hover:fill-accent group-hover:text-accent',
+                                shopProduct.in_wish_list
+                                    ? 'fill-accent text-accent hover:text-primary'
+                                    : ''
+                            )}
+                        />
+                    </Button>
+                ) : null}
                 <img
                     className='size-full object-cover'
                     src={shopProduct.image}
@@ -69,7 +66,15 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                     ) : null}
                 </div>
             </div>
+            <div className='h-5 truncate bg-accent/20 px-1.5 text-center text-xs max-sm:hidden'>
+                Доступно:{'  '}
+                <span className='text-primary'> {currentStock?.quantity}</span>
+            </div>
             <div className='flex flex-col max-sm:w-full'>
+                <div className='block h-5 truncate bg-accent/20 px-1.5 text-center text-xs sm:hidden'>
+                    Доступно:{'  '}
+                    <span className='text-primary'> {currentStock?.quantity}</span>
+                </div>
                 <div className='flex items-start justify-between gap-1 border-b border-b-secondary p-2.5 leading-none max-sm:w-full'>
                     <div className='flex h-full max-w-36 flex-col gap-1 truncate'>
                         <h1 className='truncate text-sm'>
@@ -83,22 +88,22 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                             />
 
                             <span className='truncate text-[11px] text-muted'>
-                                {shopProduct.producer?.name}
+                                {shopProduct?.producer?.name}
                             </span>
                         </div>
                     </div>
                     {currentStockMaxDiscountPercentage ? (
                         <div className='flex h-full flex-col gap-y-1'>
                             <span className='text-xs text-muted line-through'>
-                                ₴{currentStockPrice}
+                                {currentStockPrice}₴
                             </span>
-                            <span className='text-sm font-medium text-primary'>
-                                ₴{priceWithDiscount}
+                            <span className='font-medium text-primary'>
+                                {priceWithDiscount}₴
                             </span>
                         </div>
                     ) : (
-                        <span className='text-sm font-medium text-primary'>
-                            ₴{currentStockPrice}
+                        <span className='font-medium text-primary'>
+                            {currentStockPrice}₴
                         </span>
                     )}
                 </div>
@@ -153,7 +158,7 @@ export const PromoLabel = () => {
 
 export const DiscountLabel = ({ discount }: { discount: number }) => {
     return (
-        <div className='flex h-[26px] w-10 items-center justify-center rounded-xs bg-accent text-xs'>
+        <div className='flex h-[26px] w-10 items-center justify-center rounded-xs bg-accent text-xs text-primary'>
             -{discount}%
         </div>
     )

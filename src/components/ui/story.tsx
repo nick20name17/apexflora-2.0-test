@@ -7,32 +7,22 @@ import { cn } from '@/lib/utils'
 interface StoryProps {
     videoSrc: string
     isActive: boolean
-    onUserInteraction: () => void
-    hasUserInteracted: boolean
 }
 
-export const Story = ({
-    videoSrc,
-    isActive,
-    onUserInteraction,
-    hasUserInteracted
-}: StoryProps) => {
+export const Story = ({ videoSrc, isActive }: StoryProps) => {
     const [progress, setProgress] = useState(0)
     const [isPlaying, setIsPlaying] = useState(false)
     const videoRef = useRef<HTMLVideoElement>(null)
     const [duration, setDuration] = useState(0)
 
     useEffect(() => {
-        if (isActive && videoRef.current) {
-            if (hasUserInteracted) {
-                videoRef.current.play()
-                setIsPlaying(true)
-            }
-        } else if (!isActive && videoRef.current) {
+        if (!isActive && videoRef.current) {
             videoRef.current.pause()
+            videoRef.current.currentTime = 0
+            setProgress(0)
             setIsPlaying(false)
         }
-    }, [isActive, hasUserInteracted])
+    }, [isActive])
 
     useEffect(() => {
         let interval: NodeJS.Timeout
@@ -46,17 +36,14 @@ export const Story = ({
     }, [isPlaying, duration])
 
     const togglePlay = () => {
-        if (videoRef.current) {
-            if (isPlaying) {
-                videoRef.current.pause()
-                setIsPlaying(false)
-            } else {
-                videoRef.current.play()
-                setIsPlaying(true)
-                if (!hasUserInteracted) {
-                    onUserInteraction()
-                }
-            }
+        if (!videoRef.current || !isActive) return
+
+        if (isPlaying) {
+            videoRef.current.pause()
+            setIsPlaying(false)
+        } else {
+            videoRef.current.play()
+            setIsPlaying(true)
         }
     }
 

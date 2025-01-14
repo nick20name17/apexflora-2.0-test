@@ -1,5 +1,4 @@
 import { type ColumnDef } from '@tanstack/react-table'
-import { useQueryState } from 'nuqs'
 
 import { DiscountCell } from './cell/discount-cell'
 import { OrderCell } from './cell/order-cell'
@@ -10,13 +9,13 @@ import type { ShopProduct } from '@/api/shop-products/shop-products.types'
 import { DiametrIcon, WeightIcon } from '@/components/icons'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
+import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 
 export const columns: ColumnDef<ShopProduct>[] = [
     {
         accessorKey: 'image',
         header: '',
         cell: ({ row }) => (
-            // FIXME: HoverCard scroll over catalogue
             <HoverCard>
                 <HoverCardTrigger asChild>
                     <div className='h-[32px] w-[46px]'>
@@ -96,21 +95,16 @@ export const columns: ColumnDef<ShopProduct>[] = [
         header: 'Ціна',
         accessorKey: 'price',
         cell: ({ row }) => <PriceCell stocks={row.original?.stocks} />,
-        size: 64
+        size: 65
     },
     {
         accessorKey: 'promotion',
         header: '',
         size: 20,
         cell: ({ row }) => {
-            const [currentStockId] = useQueryState('status', {
-                defaultValue: 2,
-                parse: Number
+            const { currentStock } = useCatalogueOperations({
+                stocks: row.original.stocks
             })
-
-            const currentStock = row.original?.stocks.find(
-                (stock) => stock?.status?.id === currentStockId
-            )
 
             return currentStock?.promotion ? (
                 <svg

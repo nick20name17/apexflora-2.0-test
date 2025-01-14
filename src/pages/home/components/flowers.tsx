@@ -16,7 +16,7 @@ export const Flowers = () => {
                     <h2 className='text-2xl font-medium md:text-4xl'>
                         Apex Flora — найкращі квіти без посередників з усього світу!
                     </h2>
-                    <p className='mt-3 text-muted'>
+                    <p className='mt-3 font-book text-foreground/60'>
                         Ми пропонуємо широкий асортимент квітів від провідних виробників з
                         усього світу, зокрема з Еквадору, Колумбії, Кенії, Нідерландів та
                         України. Купуючи у нас, ви отримуєте квіти без посередників за

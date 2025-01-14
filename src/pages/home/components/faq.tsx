@@ -39,13 +39,13 @@ export const FAQ = () => {
                 <h2 className='text-center text-2xl font-medium md:text-4xl'>
                     Ми завжди раді відповісти на ваші запитання
                 </h2>
-                <p className='mt-1 max-w-2xl text-center text-muted'>
+                <p className='mt-1 max-w-2xl text-center font-book text-muted'>
                     Ніхто не скаже про тебе краще, ніж задоволений клієнт. Нам довіряють і
                     для нас це найдорожче
                 </p>
             </div>
 
-            <div className='flex flex-col items-center gap-10 md:mt-5 lg:h-[520px] lg:flex-row'>
+            <div className='flex flex-col items-center gap-10 md:mt-5 lg:flex-row'>
                 <img
                     className='rounded-2xl object-cover object-top max-lg:h-96 max-lg:w-full max-md:hidden'
                     src='/img/home/faq-bg.jpg'
@@ -71,7 +71,7 @@ export const FAQ = () => {
                                     <div>{faq.title}</div>
                                 </div>
                             </AccordionTrigger>
-                            <AccordionContent className='ml-12 text-muted'>
+                            <AccordionContent className='ml-6 text-muted'>
                                 {faq.description}
                             </AccordionContent>
                         </AccordionItem>

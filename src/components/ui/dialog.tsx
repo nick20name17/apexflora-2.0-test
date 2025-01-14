@@ -63,7 +63,7 @@ DialogContent.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
     <div
-        className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)}
+        className={cn('flex flex-col space-y-1.5 text-left', className)}
         {...props}
     />
 )
@@ -101,7 +101,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <DialogPrimitive.Description
         ref={ref}
-        className={cn('text-sm text-muted-foreground', className)}
+        className={cn('font-book text-sm text-muted-foreground', className)}
         {...props}
     />
 ))

@@ -5,6 +5,7 @@ import { OrderingFilter } from '../../../components/ordering-filter'
 
 import { ActiveFilters } from './active-filters'
 import { CartPopup } from './cart-popup'
+import { FiltersPopup } from './filters-popup'
 import { MobileFiltersSidebar } from './filters-sidebar'
 import { PromoFilter } from './filters/promo-filters'
 import { columns } from './product-table/columns'
@@ -12,7 +13,7 @@ import { ProductTable } from './product-table/table'
 import { TablePagination } from './product-table/table-pagination'
 import { ProductsList } from './products-list'
 import type {
-    ShopProductsQueryParams,
+    MinMaxValues,
     ShopProductsResponse
 } from '@/api/shop-products/shop-products.types'
 import { SearchBar } from '@/components/search-bar'
@@ -31,16 +32,23 @@ import { routes } from '@/config/routes'
 interface CatalogueProps {
     shopProducts: ShopProductsResponse
     isLoading: boolean
-    filters: Partial<ShopProductsQueryParams>
+    minMaxValues: MinMaxValues
+    scrollPosition: number
 }
 
-export const Catalogue = ({ shopProducts, isLoading, filters }: CatalogueProps) => {
+export const Catalogue = ({
+    shopProducts,
+    isLoading,
+    minMaxValues,
+    scrollPosition
+}: CatalogueProps) => {
     const [view] = useQueryState('view', {
         defaultValue: 'lines'
     })
+
     return (
         <section
-            className='relative mt-3 w-full rounded-xl border bg-background p-6 max-xl:px-4 md:mx-4 md:mt-5 xl:ml-0 xl:h-[calc(100vh-120px)]'
+            className='relative mt-4 size-full rounded-xl border bg-background p-6 max-xl:px-4'
             id='catalogue'
         >
             <Breadcrumb>
@@ -90,13 +98,11 @@ export const Catalogue = ({ shopProducts, isLoading, filters }: CatalogueProps) 
             {view === 'tiles' ? (
                 <ProductsList
                     shopProducts={shopProducts}
-                    filters={filters}
                     isLoading={isLoading}
                 />
             ) : (
                 <ProductTable
                     isLoading={isLoading}
-                    filters={filters}
                     columns={columns}
                     data={shopProducts?.results || []}
                 />
@@ -106,6 +112,10 @@ export const Catalogue = ({ shopProducts, isLoading, filters }: CatalogueProps) 
                 isLoading={isLoading}
             />
             <CartPopup />
+            <FiltersPopup
+                minMaxValues={minMaxValues}
+                scrollPosition={scrollPosition}
+            />
         </section>
     )
 }

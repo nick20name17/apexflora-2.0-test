@@ -81,7 +81,7 @@ export const DualSliderWithInputs = ({
                     onChange={(e) => handleInputChange(e.target.value, true)}
                     className={cn(
                         'h-10 w-16 flex-1',
-                        !validateInput(localMin, true) && 'border-red-500'
+                        !validateInput(localMin, true) && 'pointer-events-none opacity-50'
                     )}
                     min={min}
                     max={localMax - step}
@@ -93,7 +93,8 @@ export const DualSliderWithInputs = ({
                     onChange={(e) => handleInputChange(e.target.value, false)}
                     className={cn(
                         'h-10 w-16 flex-1',
-                        !validateInput(localMax, false) && 'border-red-500'
+                        !validateInput(localMax, false) &&
+                            'pointer-events-none opacity-50'
                     )}
                     min={localMin + step}
                     max={max}

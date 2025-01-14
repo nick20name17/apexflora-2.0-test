@@ -1,15 +1,17 @@
 import { driver } from 'driver.js'
 import { useQueryState } from 'nuqs'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { Catalogue } from './components/catalogue'
 import { FiltersSidebar } from './components/filters-sidebar'
+import { OrderSuccess } from './components/order-success'
 import { useActiveStockId } from './store/active-stock'
 import { useFilters } from './store/filters'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import '@/assets/styles/driver-js.css'
 import { MetaHead } from '@/components/meta-head'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { defaultLimit } from '@/constants/table'
 import { useAuth } from '@/hooks/use-auth'
 
@@ -220,20 +222,49 @@ export const CataloguePage = () => {
         }
     }, [showOnboarding])
 
+    const scrollAreaRef = useRef<HTMLDivElement>(null)
+    const [scrollPosition, setScrollPosition] = useState(0)
+
+    const handleScroll = (event: Event) => {
+        const target = event.target as HTMLDivElement
+        setScrollPosition(target.scrollTop)
+    }
+
+    useEffect(() => {
+        const scrollViewport = scrollAreaRef.current?.querySelector(
+            '[data-radix-scroll-area-viewport]'
+        )
+
+        if (scrollViewport) {
+            scrollViewport.addEventListener('scroll', handleScroll)
+
+            return () => {
+                scrollViewport.removeEventListener('scroll', handleScroll)
+            }
+        }
+    }, [])
+
     return (
         <>
             <MetaHead title='Каталог' />
-            <div className='flex items-start gap-x-5 overflow-y-hidden'>
+            <div className='flex h-[calc(100vh-70px)] items-start gap-x-4'>
                 <FiltersSidebar
                     className='hidden xl:block'
                     minMaxValues={shopProducts?.min_max_values!}
                 />
-                <Catalogue
-                    filters={filters}
-                    shopProducts={shopProducts!}
-                    isLoading={isLoading}
-                />
+                <ScrollArea
+                    className='mr-4 h-full flex-1 pb-8 max-xl:ml-4 max-lg:mx-0'
+                    ref={scrollAreaRef}
+                >
+                    <Catalogue
+                        scrollPosition={scrollPosition}
+                        shopProducts={shopProducts!}
+                        isLoading={isLoading}
+                        minMaxValues={shopProducts?.min_max_values!}
+                    />
+                </ScrollArea>
             </div>
+            <OrderSuccess />
         </>
     )
 }

@@ -1,6 +1,7 @@
 import { CheckCircle } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 import { type PropsWithChildren, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { DiametrIcon, HeartIcon, HeightIcon, ShoppingCartIcon, WeightIcon } from './icons'
 import { DiscountLabel, PromoLabel } from './product-card'
@@ -14,6 +15,8 @@ import {
     DialogTitle,
     DialogTrigger
 } from '@/components/ui/dialog'
+import { routes } from '@/config/routes'
+import { useAuth } from '@/hooks/use-auth'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 import { useActiveStockId } from '@/pages/catalogue/store/active-stock'
@@ -36,6 +39,8 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
         stocks: shopProduct.stocks,
         inWishList: shopProduct.in_wish_list
     })
+
+    const { isAuth } = useAuth()
 
     const { activeStockId } = useActiveStockId()
 
@@ -95,21 +100,25 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                 <article className='w-full p-4'>
                     <div className='relative h-60 max-w-full overflow-hidden rounded-xs bg-muted'>
                         <div className='absolute inset-x-0 top-0 z-10 h-24 max-w-full bg-gradient-to-b from-black/20 to-transparent'></div>
-                        <Button
-                            onClick={handleAddToWishList}
-                            className={cn(
-                                'absolute left-2 top-2 z-20 bg-background/40 backdrop-blur-lg hover:bg-background/50',
-                                inWishList ? 'bg-accent' : ''
-                            )}
-                            size='icon'
-                        >
-                            <HeartIcon
-                                className={cn(
-                                    '!size-5 text-background',
-                                    inWishList ? 'text-primary' : ''
-                                )}
-                            />
-                        </Button>
+                        {isAuth ? (
+                            <Button
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleAddToWishList()
+                                }}
+                                className='group absolute left-2 top-2 z-20 size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
+                                size='icon'
+                            >
+                                <HeartIcon
+                                    className={cn(
+                                        '!size-5 text-card group-hover:fill-accent group-hover:text-accent',
+                                        inWishList
+                                            ? 'fill-accent text-accent hover:text-primary'
+                                            : ''
+                                    )}
+                                />
+                            </Button>
+                        ) : null}
                         <img
                             className='size-full max-h-full max-w-full object-cover'
                             src={shopProduct.image}
@@ -140,18 +149,20 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                                 </span>
                             </div>
                         </div>
-                        <Button
-                            variant={inWishList ? 'accent' : 'ghost'}
-                            onClick={handleAddToWishList}
-                            size='icon'
-                        >
-                            <HeartIcon
-                                className={cn(
-                                    '!size-5 text-muted',
-                                    inWishList ? 'text-primary' : ''
-                                )}
-                            />
-                        </Button>
+                        {isAuth ? (
+                            <Button
+                                variant={inWishList ? 'accent' : 'ghost'}
+                                onClick={handleAddToWishList}
+                                size='icon'
+                            >
+                                <HeartIcon
+                                    className={cn(
+                                        '!size-5 text-muted',
+                                        inWishList ? 'text-primary' : ''
+                                    )}
+                                />
+                            </Button>
+                        ) : null}
                     </div>
 
                     <div className='grid grid-cols-3 border-t py-3 text-sm'>
@@ -209,54 +220,65 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                             {currentStockMaxDiscountPercentage ? (
                                 <div className='flex flex-col'>
                                     <span className='text-muted line-through'>
-                                        {currentStockPrice} грн
+                                        {currentStockPrice}₴
                                     </span>
                                     <span className='text-base text-primary'>
-                                        {priceWithDiscount} грн
+                                        {priceWithDiscount}₴
                                     </span>
                                 </div>
                             ) : (
                                 <span className='text-base text-primary'>
-                                    {currentStockPrice} грн
+                                    {currentStockPrice}₴
                                 </span>
                             )}
                             <NumberStepper
-                                key={amount}
                                 onChange={inCart ? handleValueChange : setAmount}
-                                className='w-24 shrink-0'
+                                className='mx-auto w-24 shrink-0'
                                 max={currentStock?.quantity || 0}
-                                initialValue={amount}
+                                value={amount}
                                 step={currentStock?.shop_product.packaging_of || 1}
                             />
                             {currentStockMaxDiscountPercentage &&
                             totalPriceWithDiscount > 0 ? (
                                 <div className='flex flex-col text-right'>
                                     <span className='text-muted line-through'>
-                                        {totalPrice} грн
+                                        {totalPrice}₴
                                     </span>
                                     <span className='text-base text-primary'>
-                                        {totalPriceWithDiscount} грн
+                                        {totalPriceWithDiscount}₴
                                     </span>
                                 </div>
                             ) : (
                                 <span className='text-right text-base text-primary'>
-                                    {totalPrice} грн
+                                    {totalPrice}₴
                                 </span>
                             )}
                         </div>
                     </div>
-                    <Button
-                        onClick={() => handleValueChange(inCart ? 0 : amount)}
-                        className={cn(
-                            'w-full',
-                            inCart ? '' : 'bg-foreground text-background'
-                        )}
-                        variant={inCart ? 'highlight' : 'default'}
-                        size='lg'
-                    >
-                        {inCart ? <CheckCircle /> : <ShoppingCartIcon />}
-                        <span>{inCart ? 'Видалити з кошику' : 'В кошик'}</span>
-                    </Button>
+                    {isAuth ? (
+                        <Button
+                            onClick={() => handleValueChange(inCart ? 0 : amount)}
+                            className={cn(
+                                'w-full',
+                                inCart ? '' : 'bg-foreground text-background'
+                            )}
+                            variant={inCart ? 'highlight' : 'default'}
+                            size='lg'
+                        >
+                            {inCart ? <CheckCircle /> : <ShoppingCartIcon />}
+                            <span>{inCart ? 'Видалити з кошику' : 'В кошик'}</span>
+                        </Button>
+                    ) : (
+                        <Link to={routes.signIn}>
+                            <Button
+                                className='w-full bg-foreground text-background'
+                                size='lg'
+                            >
+                                <ShoppingCartIcon />
+                                <span>В кошик</span>
+                            </Button>
+                        </Link>
+                    )}
                 </article>
             </DialogContent>
         </Dialog>

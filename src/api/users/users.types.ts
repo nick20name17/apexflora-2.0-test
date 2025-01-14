@@ -1,6 +1,7 @@
+import type { Coworker } from '../coworkers/coworkers.types'
+
 export type Roles = 'admin' | 'manager' | 'client'
 
-// FIXME: This type is incomplete
 export interface User {
     id: number
     email: string
@@ -14,13 +15,26 @@ export interface User {
     service_manager: ServiceManager
     is_active: boolean
     code_1c: string
-    bonus_program: any
-    coworkers: any[]
+    bonus_program: BonusProgram
+    coworkers: Coworker[]
     last_login: string
     is_deleted: boolean
 }
 
-export type UsersAddData = Omit<
+interface BonusProgram {
+    id: number
+    title: string
+    default: boolean
+    limits: Limit[]
+}
+
+export interface Limit {
+    id: number
+    accumulation_limit: number
+    discount: number
+}
+
+export type UserPayload = Omit<
     User,
     'id' | 'is_active' | 'last_login' | 'coworkers' | 'service_manager' | 'bonus_program'
 > & {

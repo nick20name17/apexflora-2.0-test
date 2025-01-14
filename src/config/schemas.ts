@@ -6,7 +6,7 @@ export const emailSchema = z.object({
     })
 })
 
-export const passwordSchema = z.object({
+export const passwordShape = {
     password: z
         .string({
             required_error: "Це поле є обов'язковим"
@@ -20,4 +20,9 @@ export const passwordSchema = z.object({
             /[!@#$%^&*]/,
             'Пароль повинен містити не менше одного спеціального символу (!@#$%^&*)'
         )
+}
+
+export const newPasswordSchema = z.object({
+    new_password1: passwordShape.password,
+    new_password2: z.string().min(1, 'Підведження паролю необхідне')
 })

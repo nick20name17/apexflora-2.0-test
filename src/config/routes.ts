@@ -4,16 +4,25 @@ export const routes = {
     signIn: '/sign-in',
     catalogue: '/catalogue',
     cart: '/cart',
-    settings: '/settings',
-    favorites: '/favorites',
+    settings: '/profile/settings',
+    wishList: '/profile/wish-list',
+    orders: '/profile/orders',
+    loyalty: '/profile/loyalty',
+    balance: '/profile/balance',
+    adds: '/profile/adds',
     delivery: '/delivery'
 } as const
+
+export const adminRoutes = {
+    orders: '/admin/orders'
+}
 
 export const publicRoutes = [
     routes.home,
     routes.signIn,
     routes.signUp,
-    routes.catalogue
+    routes.catalogue,
+    routes.delivery
 ] as const
 
 export const DEFAULT_LOGIN_REDIRECT = routes.catalogue

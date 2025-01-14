@@ -1,11 +1,6 @@
 import { api } from '../api'
 
-import type {
-    Cart,
-    CartAddPayload,
-    CartsQueryParams,
-    CartsResponse
-} from './baskets.types'
+import type { Cart, CartAddPayload, CartsQueryParams, CartsResponse } from './carts.types'
 
 export const getCarts = async (queryParams: Partial<CartsQueryParams>) => {
     const res = await api.get<CartsResponse>(`/baskets/`, {

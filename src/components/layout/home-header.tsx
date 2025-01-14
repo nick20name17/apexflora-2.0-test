@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { ReactSVG } from 'react-svg'
@@ -6,7 +6,6 @@ import { ReactSVG } from 'react-svg'
 import { HeaderCatalogue } from '../header-catalogue'
 import { CallIcon, HeartIcon, ShoppingCartIcon } from '../icons'
 
-import { getCarts } from '@/api/baskets/baskets'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import { Button } from '@/components/ui/button'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
@@ -19,6 +18,7 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import { routes } from '@/config/routes'
+import { useCartOperations } from '@/hooks/use-cart-operations'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
 
@@ -26,7 +26,7 @@ export const HomeHeader = () => {
     const [catalogueOpen, setCatalogueOpen] = useState(false)
     const [contactOpen, setContactOpen] = useState(false)
 
-    const wishListQuery = useQuery({
+    const { data: wishList } = useQuery({
         queryKey: ['wishList'],
         queryFn: () =>
             getShopProducts({
@@ -35,19 +35,28 @@ export const HomeHeader = () => {
             })
     })
 
-    const cartQuery = useQuery({
-        queryKey: ['cart'],
-        queryFn: () =>
-            getCarts({
-                limit: 200
-            })
-    })
+    const [isScrolled, setIsScrolled] = useState(false)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 0)
+        }
+
+        window.addEventListener('scroll', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+    const { cartCount } = useCartOperations()
 
     return (
-        <header className='container sticky left-0 right-0 top-4 z-50 md:top-7'>
+        <header className='container sticky left-0 right-0 top-4 z-50'>
             <div
                 className={cn(
-                    'relative flex h-20 items-center justify-between gap-x-1 px-4 py-2.5 before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-10 md:py-4',
+                    'relative flex items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-10 md:py-4',
+                    isScrolled ? 'h-[70px]' : 'h-20',
                     catalogueOpen || contactOpen ? 'before:rounded-b-none' : ''
                 )}
             >
@@ -77,7 +86,7 @@ export const HomeHeader = () => {
                                 src='/icons/user.svg'
                                 className='size-5 stroke-foreground'
                             />
-                            <span>Кабінет</span>
+                            <span className='font-book'>Кабінет</span>
                         </Link>
                     </Button>
                     <Button
@@ -85,14 +94,14 @@ export const HomeHeader = () => {
                         variant='ghost'
                         asChild
                     >
-                        <Link to={routes.favorites}>
+                        <Link to={routes.wishList}>
                             <div className='relative'>
                                 <HeartIcon />
                                 <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
-                                    {wishListQuery.data?.count || 0}
+                                    {wishList?.count ?? 0}
                                 </div>
                             </div>
-                            <span>Обране</span>
+                            <span className='font-book'>Обране</span>
                         </Link>
                     </Button>
                     <Button
@@ -104,10 +113,10 @@ export const HomeHeader = () => {
                             <div className='relative'>
                                 <ShoppingCartIcon />
                                 <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
-                                    {cartQuery.data?.count || 0}
+                                    {cartCount}
                                 </div>
                             </div>
-                            <span>Кошик</span>
+                            <span className='font-book'>Кошик</span>
                         </Link>
                     </Button>
                 </div>
@@ -125,7 +134,7 @@ const HeaderContact = () => {
         <HoverCard openDelay={200}>
             <HoverCardTrigger asChild>
                 <Button
-                    className='max-md:size-10 max-md:[&>span]:hidden'
+                    className='font-book max-md:size-10 max-md:[&>span]:hidden'
                     variant='ghost'
                 >
                     <CallIcon className='text-foreground md:hidden' />

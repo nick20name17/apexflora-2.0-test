@@ -26,11 +26,6 @@ const stories = [
 export const Feedback = () => {
     const [api, setApi] = useState<any>()
     const [current, setCurrent] = useState(0)
-    const [hasUserInteracted, setHasUserInteracted] = useState(false)
-
-    const handleUserInteraction = () => {
-        setHasUserInteracted(true)
-    }
 
     useEffect(() => {
         if (!api) {
@@ -41,7 +36,6 @@ export const Feedback = () => {
 
         api.on('select', () => {
             setCurrent(api.selectedScrollSnap())
-            handleUserInteraction()
         })
     }, [api])
 
@@ -51,7 +45,7 @@ export const Feedback = () => {
                 <h2 className='text-center text-2xl font-medium md:text-4xl'>
                     Відгуки наших клієнтів
                 </h2>
-                <p className='mx-auto mt-2 max-w-2xl text-center text-muted'>
+                <p className='mx-auto mt-2 max-w-2xl text-center font-book text-muted'>
                     Ніхто не скаже про тебе краще, ніж задоволений клієнт. Нам довіряють і
                     для нас це найдорожче
                 </p>
@@ -73,26 +67,18 @@ export const Feedback = () => {
                         >
                             <Story
                                 videoSrc={story.videoSrc}
-                                onUserInteraction={handleUserInteraction}
                                 isActive={index === current}
-                                hasUserInteracted={hasUserInteracted}
                             />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <div className='container mt-12 flex justify-end gap-x-4'>
+                <div className='container mt-12 hidden justify-end gap-x-4 sm:flex'>
                     <CarouselPrevious
-                        onClick={() => {
-                            api?.scrollPrev()
-                            handleUserInteraction()
-                        }}
+                        onClick={() => api?.scrollPrev()}
                         className='static bg-transparent hover:bg-foreground hover:text-background'
                     />
                     <CarouselNext
-                        onClick={() => {
-                            api?.scrollNext()
-                            handleUserInteraction()
-                        }}
+                        onClick={() => api?.scrollNext()}
                         className='static bg-transparent hover:bg-foreground hover:text-background'
                     />
                 </div>

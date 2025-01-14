@@ -45,8 +45,8 @@ export const HeaderCatalogue = ({
             <SheetTrigger asChild>
                 <Button
                     size={size}
-                    className='max-md:h-10 max-md:px-2'
-                    variant={open ? 'accent' : 'ghost'}
+                    className='font-book max-md:h-10 max-md:px-2'
+                    variant={open ? 'accent' : 'outline'}
                 >
                     <AlignJustify className='hidden sm:inline' />
                     <span> Каталог</span>
@@ -56,7 +56,7 @@ export const HeaderCatalogue = ({
                 overlayHidden
                 closeHidden
                 className={cn(
-                    '!absolute left-0 top-16 !-z-50 max-h-[calc(100vh-8rem)] min-h-[460px] w-full rounded-b-xl bg-background/90 p-3 pt-2 backdrop-blur-lg max-md:h-[calc(100vh-8rem)] md:top-20 md:bg-[#FFFEFC]/90 md:p-6 md:pt-4',
+                    '!absolute left-0 top-16 !-z-50 max-h-[calc(100vh-8rem)] min-h-[460px] w-full rounded-b-xl bg-background/90 p-3 pt-2 shadow-lg backdrop-blur-lg max-md:h-[calc(100vh-8rem)] md:top-20 md:bg-[#FFFEFC]/90 md:p-6 md:pt-4',
                     className
                 )}
                 side='top'
@@ -95,7 +95,7 @@ export const CatalogueNavigationMenu = ({ setOpen }: CatalogueNavigationMenuProp
 
     const flowersComponents = flowers?.results?.[0]?.children?.map((flower) => ({
         title: flower.name,
-        to: `${routes.catalogue}/?category=${flower.id}`
+        to: `${routes.catalogue}?categories=${flower.id}`
     })) || [
         {
             title: 'До каталогу',
@@ -105,7 +105,7 @@ export const CatalogueNavigationMenu = ({ setOpen }: CatalogueNavigationMenuProp
 
     const furnituresComponents = furnitures?.results?.[0]?.children?.map((flower) => ({
         title: flower.name,
-        to: `${routes.catalogue}/?category=${flower.id}`
+        to: `${routes.catalogue}?categories=${flower.id}`
     })) || [
         {
             title: 'До каталогу',
@@ -124,7 +124,7 @@ export const CatalogueNavigationMenu = ({ setOpen }: CatalogueNavigationMenuProp
                     className='w-full'
                 >
                     <Link
-                        to={`${routes.catalogue}/catagory=flowers`}
+                        to={`${routes.catalogue}?categories=${flowers?.results[0]?.id}`}
                         className='w-full'
                     >
                         <NavigationMenuTrigger
@@ -152,10 +152,15 @@ export const CatalogueNavigationMenu = ({ setOpen }: CatalogueNavigationMenuProp
                     className='w-full'
                 >
                     <Link
-                        to={`${routes.catalogue}/catagory=furnitures`}
-                        className='w-full'
+                        to={`${routes.catalogue}?categories=${furnitures?.results[0]?.id}`}
+                        className={cn(
+                            'w-full',
+                            furnitures?.results[0]?.id === undefined &&
+                                'pointer-events-none opacity-50'
+                        )}
                     >
                         <NavigationMenuTrigger
+                            disabled={furnitures?.results[0]?.id === undefined}
                             onClick={() => setOpen(false)}
                             className='w-full justify-between text-left'
                         >
@@ -165,34 +170,6 @@ export const CatalogueNavigationMenu = ({ setOpen }: CatalogueNavigationMenuProp
                     <NavigationMenuContent className='h-full min-w-full'>
                         <ul className='grid h-[calc(460px-3rem)] min-w-full grid-cols-1 gap-x-16 overflow-y-auto max-md:h-[calc(100vh-10rem)] md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                             {furnituresComponents.map((component) => (
-                                <ListItem
-                                    onClick={() => setOpen(false)}
-                                    key={component.title}
-                                    title={component.title}
-                                    href={component.to}
-                                ></ListItem>
-                            ))}
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem
-                    value='flowers'
-                    className='w-full'
-                >
-                    <Link
-                        to={`${routes.catalogue}/catagory=flowers`}
-                        className='w-full'
-                    >
-                        <NavigationMenuTrigger
-                            onClick={() => setOpen(false)}
-                            className='w-full justify-between text-left'
-                        >
-                            Вазони
-                        </NavigationMenuTrigger>
-                    </Link>
-                    <NavigationMenuContent className='h-full min-w-full'>
-                        <ul className='grid h-[calc(460px-3rem)] min-w-full grid-cols-1 gap-x-16 overflow-y-auto max-md:h-[calc(100vh-10rem)] md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-                            {flowersComponents.map((component) => (
                                 <ListItem
                                     onClick={() => setOpen(false)}
                                     key={component.title}

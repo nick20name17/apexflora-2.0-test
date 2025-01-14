@@ -21,12 +21,12 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordWithReveal } from '@/components/ui/password-with-reveal'
 import { DEFAULT_LOGIN_REDIRECT, routes } from '@/config/routes'
-import { emailSchema, passwordSchema } from '@/config/schemas'
+import { emailSchema, passwordShape } from '@/config/schemas'
 import { isErrorWithMessage } from '@/utils/is-error-with-message'
 
 const signInSchema = z.object({
     ...emailSchema.shape,
-    ...passwordSchema.shape
+    ...passwordShape
 })
 
 type SignInFormData = z.infer<typeof signInSchema>

@@ -22,12 +22,12 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordWithReveal } from '@/components/ui/password-with-reveal'
 import { routes } from '@/config/routes'
-import { emailSchema, passwordSchema } from '@/config/schemas'
+import { emailSchema, passwordShape } from '@/config/schemas'
 import { isErrorWithMessage } from '@/utils/is-error-with-message'
 
 export const signUpSchema = z.object({
     ...emailSchema.shape,
-    ...passwordSchema.shape,
+    ...passwordShape,
     first_name: z
         .string({
             required_error: "Це поле є обов'язковим"

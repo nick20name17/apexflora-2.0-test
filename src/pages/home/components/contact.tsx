@@ -24,7 +24,10 @@ import { Textarea } from '@/components/ui/textarea'
 
 export const Contact = () => {
     return (
-        <section className='container mt-15'>
+        <section
+            className='container mt-15'
+            id='contact'
+        >
             <div className='relative min-h-[720px] rounded-2xl bg-flower bg-cover bg-no-repeat p-4 py-8 md:p-10 xl:p-15'>
                 <div className='absolute inset-0 rounded-2xl bg-foreground/70'></div>
 
@@ -169,16 +172,16 @@ const ContactForm = () => {
     }
 
     return (
-        <div className='min-h-full rounded-xl bg-background px-8 py-8 xl:px-10'>
+        <div className='h-full min-h-full rounded-xl bg-background px-8 py-8 xl:px-10'>
             <h2 className='text-2xl font-medium'>Зв'язатися з нами</h2>
-            <p className='mt-1 text-muted'>
+            <p className='mt-1 font-book text-muted'>
                 Скористайтесь формою для зв'язку нижче, і ми обов'язково відповімо на ваше
                 повідомлення у найкоротший термін.
             </p>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className='mt-3 space-y-3.5'
+                    className='mt-3 h-full space-y-3.5'
                 >
                     <FormField
                         control={form.control}

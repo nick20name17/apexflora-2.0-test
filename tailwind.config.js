@@ -122,7 +122,8 @@ export default {
                 15: '3.75rem',
                 16: '4rem',
                 18: '4.5rem',
-                20: '5rem'
+                20: '5rem',
+                30: '7.5rem'
             },
             container: {
                 center: true,
@@ -132,7 +133,8 @@ export default {
                 }
             },
             fontFamily: {
-                sans: ['Stolzl', 'sans-serif']
+                sans: ['Stolzl', 'sans-serif'],
+                book: ['Book', 'sans-serif']
             },
             keyframes: {
                 'accordion-down': {

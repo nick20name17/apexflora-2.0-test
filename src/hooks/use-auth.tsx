@@ -1,30 +1,37 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
+import { useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
+// Assuming this function exists
+import { getUser } from '@/api/users/users'
 import type { Roles, User } from '@/api/users/users.types'
 import { routes } from '@/config/routes'
 
 export const useAuth = () => {
-    const [isAuth, setIsAuth] = useState<boolean>(
-        () => !!localStorage.getItem('accessToken')
-    )
-    const [currentUser, setCurrentUser] = useState<User | null>(() => {
-        const userString = localStorage.getItem('user')
-        return userString ? JSON.parse(userString) : null
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}') as User
+    const accessToken = localStorage.getItem('accessToken')
+
+    const { data: currentUser, isLoading } = useQuery({
+        queryKey: ['currentUser', user?.id],
+        queryFn: () => getUser(user?.id),
+        enabled: !!user?.id && !!accessToken,
+        staleTime: 5 * 60 * 1000,
+        cacheTime: 30 * 60 * 1000
     })
 
-    const navigate = useNavigate()
+    const isAuth = !!accessToken && !!user?.id
 
     useEffect(() => {
         const handleStorageChange = () => {
-            setIsAuth(!!localStorage.getItem('accessToken'))
-            const userString = localStorage.getItem('user')
-            setCurrentUser(userString ? JSON.parse(userString) : null)
+            queryClient.invalidateQueries(['currentUser'])
         }
 
         window.addEventListener('storage', handleStorageChange)
         return () => window.removeEventListener('storage', handleStorageChange)
-    }, [])
+    }, [queryClient])
 
     const getCurrentUserRole = useCallback(
         (role: Roles | Roles[]) => {
@@ -39,16 +46,16 @@ export const useAuth = () => {
     const logOut = useCallback(() => {
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
-        localStorage.removeItem('user')
-        setIsAuth(false)
-        setCurrentUser(null)
+        localStorage.removeItem('userId')
+        queryClient.removeQueries(['currentUser'])
         navigate(routes.signIn)
-    }, [navigate])
+    }, [navigate, queryClient])
 
     return {
         isAuth,
         logOut,
         currentUser,
+        isLoadingUser: isLoading,
         getCurrentUserRole
     }
 }

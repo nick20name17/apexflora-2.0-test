@@ -1,11 +1,12 @@
 import { Minus, Plus } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 
 interface NumberStepperProps {
+    value?: number
     initialValue?: number
     min?: number
     max?: number
@@ -15,6 +16,7 @@ interface NumberStepperProps {
 }
 
 export const NumberStepper = ({
+    value,
     initialValue = 0,
     min = 0,
     max = 100,
@@ -22,23 +24,29 @@ export const NumberStepper = ({
     onChange,
     className
 }: NumberStepperProps) => {
-    const [value, setValue] = useState(initialValue)
+    const [internalValue, setInternalValue] = useState(initialValue)
+
+    useEffect(() => {
+        if (value !== undefined) {
+            setInternalValue(value)
+        }
+    }, [value])
 
     const handleIncrement = () => {
-        const newValue = Math.min(value + step, max)
-        setValue(newValue)
+        const newValue = Math.min((value ?? internalValue) + step, max)
+        setInternalValue(newValue)
         onChange?.(newValue)
     }
 
     const handleDecrement = () => {
-        const newValue = Math.max(value - step, min)
-        setValue(newValue)
+        const newValue = Math.max((value ?? internalValue) - step, min)
+        setInternalValue(newValue)
         onChange?.(newValue)
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = Math.min(Math.max(Number(e.target.value), min), max)
-        setValue(newValue)
+        setInternalValue(newValue)
         onChange?.(newValue)
     }
 
@@ -49,14 +57,14 @@ export const NumberStepper = ({
                 size='icon'
                 className='absolute bottom-0 left-0 top-0 h-full px-2 hover:bg-transparent'
                 onClick={handleDecrement}
-                disabled={value <= min}
+                disabled={(value ?? internalValue) <= min}
                 aria-label='Decrease value'
             >
                 <Minus />
             </Button>
             <Input
                 type='number'
-                value={value}
+                value={value ?? internalValue}
                 onChange={handleInputChange}
                 className='h-10 w-full truncate pl-8 pr-8 text-center focus:border-primary focus-visible:ring-0 focus-visible:ring-offset-0'
                 min={min}
@@ -68,7 +76,7 @@ export const NumberStepper = ({
                 size='icon'
                 className='absolute bottom-0 right-0 top-0 h-full px-2 hover:bg-transparent'
                 onClick={handleIncrement}
-                disabled={value >= max}
+                disabled={(value ?? internalValue) >= max}
                 aria-label='Increase value'
             >
                 <Plus />

@@ -53,10 +53,7 @@ export const FiltersSidebar = ({ minMaxValues, className }: FiltersSidebarProps)
 
     return (
         <ScrollArea
-            className={cn(
-                'h-[calc(100vh-60px)] w-72 bg-background px-5 py-10',
-                className
-            )}
+            className={cn('h-full w-72 bg-background px-5 py-10', className)}
             id='filters'
         >
             <Accordion type='multiple'>
@@ -113,10 +110,16 @@ export const FiltersSidebar = ({ minMaxValues, className }: FiltersSidebarProps)
         </ScrollArea>
     )
 }
+
+interface MobileFiltersSidebar extends FiltersSidebarProps {
+    size?: 'icon' | 'lg'
+}
+
 export const MobileFiltersSidebar = ({
     minMaxValues,
-    className
-}: FiltersSidebarProps) => {
+    className,
+    size = 'lg'
+}: MobileFiltersSidebar) => {
     const { data: categories } = useQuery({
         queryKey: ['categories'],
         queryFn: () =>
@@ -139,12 +142,16 @@ export const MobileFiltersSidebar = ({
         <Sheet>
             <SheetTrigger asChild>
                 <Button
-                    className={cn('justify-start text-left', className)}
-                    size='lg'
+                    className={cn(
+                        'hover:text-background',
+                        size === 'lg' && 'justify-start text-left',
+                        className
+                    )}
+                    size={size}
                     variant='outline'
                 >
                     <FilterIcon />
-                    <span>Фільтри</span>
+                    {size === 'lg' ? <span>Фільтри</span> : null}
                 </Button>
             </SheetTrigger>
             <SheetContent
