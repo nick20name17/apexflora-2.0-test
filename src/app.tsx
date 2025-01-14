@@ -1,26 +1,26 @@
-import { NuqsAdapter } from 'nuqs/adapters/react-router'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Toaster } from 'sonner'
+import { NuqsAdapter } from "nuqs/adapters/react-router";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Toaster } from "sonner";
 
-import { DeliveryPage } from './pages/delivery/delivery-page'
-import { Layout } from '@/components/layout/Layout'
-import { AuthLayout } from '@/components/layout/auth-layout'
-import { HomeLayout } from '@/components/layout/home-layout'
-import { ProfileLayout } from '@/components/layout/profile-layout'
-import { routes } from '@/config/routes'
-import { SignInPage } from '@/pages/auth/sign-in/sign-in-page'
-import { SignUpPage } from '@/pages/auth/sign-up/sign-up-page'
-import { CartPage } from '@/pages/cart/cart-page'
-import { CataloguePage } from '@/pages/catalogue/catalogue-page'
-import { HomePage } from '@/pages/home/home-page'
-import { NotFoundPage } from '@/pages/not-found/not-found-page'
-import { AddsPage } from '@/pages/profile/adds/adds-page'
-import { BalancePage } from '@/pages/profile/balance/balance-page'
-import { LoyaltyPage } from '@/pages/profile/loyalty/loyalty-page'
-import { OrdersPage } from '@/pages/profile/orders/orders-page'
-import { SettingsPage } from '@/pages/profile/settings/settings-page'
-import { WishListPage } from '@/pages/profile/wish-list/wish-list'
-import { RequireAuthProvider } from '@/providers/require-auth-provider'
+import { AuthLayout } from "@/components/layout/auth-layout";
+import { HomeLayout } from "@/components/layout/home-layout";
+import { ProfileLayout } from "@/components/layout/profile-layout";
+import { routes } from "@/config/routes";
+import { SignInPage } from "@/pages/auth/sign-in/sign-in-page";
+import { SignUpPage } from "@/pages/auth/sign-up/sign-up-page";
+import { CartPage } from "@/pages/cart/cart-page";
+import { CataloguePage } from "@/pages/catalogue/catalogue-page";
+import { HomePage } from "@/pages/home/home-page";
+import { NotFoundPage } from "@/pages/not-found/not-found-page";
+import { AddsPage } from "@/pages/profile/adds/adds-page";
+import { BalancePage } from "@/pages/profile/balance/balance-page";
+import { LoyaltyPage } from "@/pages/profile/loyalty/loyalty-page";
+import { OrdersPage } from "@/pages/profile/orders/orders-page";
+import { SettingsPage } from "@/pages/profile/settings/settings-page";
+import { WishListPage } from "@/pages/profile/wish-list/wish-list";
+import { RequireAuthProvider } from "@/providers/require-auth-provider";
+import { Layout } from "./components/layout/layout";
+import { DeliveryPage } from "./pages/delivery/delivery-page";
 
 const router = createBrowserRouter([
     {
@@ -39,9 +39,9 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <HomePage />
-            }
-        ]
+                element: <HomePage />,
+            },
+        ],
     },
     {
         path: routes.home,
@@ -54,31 +54,31 @@ const router = createBrowserRouter([
         children: [
             {
                 path: routes.catalogue,
-                element: <CataloguePage />
+                element: <CataloguePage />,
             },
             {
                 path: routes.delivery,
-                element: <DeliveryPage />
+                element: <DeliveryPage />,
             },
             {
                 path: routes.cart,
-                element: <CartPage />
-            }
-        ]
+                element: <CartPage />,
+            },
+        ],
     },
     {
-        path: '/',
+        path: "/",
         element: <AuthLayout />,
         children: [
             {
                 path: routes.signIn,
-                element: <SignInPage />
+                element: <SignInPage />,
             },
             {
                 path: routes.signUp,
-                element: <SignUpPage />
-            }
-        ]
+                element: <SignUpPage />,
+            },
+        ],
     },
     {
         path: routes.home,
@@ -90,48 +90,44 @@ const router = createBrowserRouter([
         children: [
             {
                 path: routes.settings,
-                element: <SettingsPage />
+                element: <SettingsPage />,
             },
             {
                 path: routes.wishList,
-                element: <WishListPage />
+                element: <WishListPage />,
             },
             {
                 path: routes.orders,
-                element: <OrdersPage />
+                element: <OrdersPage />,
             },
             {
                 path: routes.loyalty,
-                element: <LoyaltyPage />
+                element: <LoyaltyPage />,
             },
             {
                 path: routes.balance,
-                element: <BalancePage />
+                element: <BalancePage />,
             },
             {
                 path: routes.adds,
-                element: <AddsPage />
-            }
-        ]
+                element: <AddsPage />,
+            },
+        ],
     },
 
     {
-        path: '*',
+        path: "*",
         element: (
             <HomeLayout>
                 <NotFoundPage />
             </HomeLayout>
-        )
-    }
-])
+        ),
+    },
+]);
 
 export const App = () => (
     <NuqsAdapter>
         <RouterProvider router={router} />
-        <Toaster
-            richColors
-            closeButton
-            duration={5000}
-        />
+        <Toaster richColors closeButton duration={5000} />
     </NuqsAdapter>
-)
+);
