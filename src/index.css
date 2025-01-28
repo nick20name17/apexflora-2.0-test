@@ -116,7 +116,11 @@
     }
 
     body {
-        @apply grid min-h-screen grid-rows-[auto_1fr_auto] overscroll-none bg-background text-foreground;
+        @apply overscroll-none bg-background text-foreground;
+    }
+
+    #root {
+        @apply grid min-h-screen grid-rows-[auto_1fr_auto];
     }
 
     input[type='number']::-webkit-inner-spin-button,

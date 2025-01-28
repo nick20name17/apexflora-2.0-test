@@ -1,5 +1,6 @@
 import { Search, X } from 'lucide-react'
 import { useQueryState } from 'nuqs'
+import { useDebouncedCallback } from 'use-debounce'
 
 import { Button } from './ui/button'
 import { Input } from './ui/input'
@@ -12,18 +13,21 @@ export const SearchBar = ({ className }: { className?: string }) => {
 
     const [, setOffset] = useQueryState('offset', { defaultValue: 0, parse: Number })
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setOffset(0)
-        setSearch(e.target.value)
-    }
+    const handleSearchChange = useDebouncedCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setOffset(0)
+            setSearch(e.target.value)
+        },
+        300
+    )
 
     return (
-        <div className={cn('relative overflow-hidden', className)}>
+        <div className={cn('relative h-10 overflow-hidden', className)}>
             <Search className='absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
             <Input
-                className='bg-background pl-9 placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0'
+                className='h-full bg-background pl-9 placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0'
                 placeholder='Пошук'
-                value={search}
+                defaultValue={search}
                 onChange={handleSearchChange}
             />
 

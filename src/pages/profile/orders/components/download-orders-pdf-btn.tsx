@@ -18,8 +18,10 @@ import { saveAs } from 'file-saver'
 import { DownloadIcon, Loader2 } from 'lucide-react'
 import { useMutation } from 'react-query'
 
-import type { Order, OrderItem, Statuses } from '@/api/orders/orders.types'
+import type { OrderItem } from '@/api/order-items/order-items.types'
+import type { Order, Statuses } from '@/api/orders/orders.types'
 import { Button } from '@/components/ui/button'
+import { DATE_FORMATS } from '@/constants/app'
 import { formatPrice } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 
@@ -221,7 +223,7 @@ const splitOrderItems = (items: Order['order_items']) => {
 }
 
 const OrderItem = ({ item }: { item: OrderItem }) => {
-    const itemTotal = item.amount * item.stock_product.retail_price
+    const itemTotal = item.amount * +item.stock_product.retail_price
     const itemTotalWithDiscount = itemTotal - +item.discount
 
     return (
@@ -304,9 +306,9 @@ const OrderItem = ({ item }: { item: OrderItem }) => {
 
             <View style={styles.priceInfo}>
                 {+item.discount > 0 && (
-                    <Text style={styles.discountPrice}>{formatPrice(itemTotal)}₴</Text>
+                    <Text style={styles.discountPrice}>{formatPrice(itemTotal)}грн</Text>
                 )}
-                <Text style={styles.value}>{formatPrice(itemTotalWithDiscount)}₴</Text>
+                <Text style={styles.value}>{formatPrice(itemTotalWithDiscount)}грн</Text>
             </View>
         </View>
     )
@@ -326,7 +328,7 @@ const OrderPage = ({
     if (!items?.length) return null
 
     const totalPrice = order.order_items.reduce(
-        (acc, item) => acc + item.amount * item.stock_product.retail_price,
+        (acc, item) => acc + item.amount * +item.stock_product.retail_price,
         0
     )
     const totalPriceWithDiscount = totalPrice - +order.discount
@@ -351,7 +353,7 @@ const OrderPage = ({
                             <View>
                                 <Text style={styles.label}>Дата оформлення</Text>
                                 <Text style={styles.value}>
-                                    {format(order.created_at, 'dd.MM.yyyy')}
+                                    {format(order.created_at, DATE_FORMATS.date)}
                                 </Text>
                             </View>
 
@@ -370,11 +372,11 @@ const OrderPage = ({
                                 <Text style={styles.label}>Сума</Text>
                                 {+order.discount > 0 && (
                                     <Text style={styles.discountPrice}>
-                                        {formatPrice(totalPrice)}₴
+                                        {formatPrice(totalPrice)}грн
                                     </Text>
                                 )}
                                 <Text style={styles.value}>
-                                    {formatPrice(totalPriceWithDiscount)}₴
+                                    {formatPrice(totalPriceWithDiscount)}грн
                                 </Text>
                             </View>
                         </View>

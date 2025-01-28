@@ -3,7 +3,8 @@ import { api } from '../api'
 import type {
     CategoriesQueryParams,
     CategoriesResponse,
-    Category
+    Category,
+    CategoryPayload
 } from './categories.types'
 
 export const getAllCategories = async (queryParams: Partial<CategoriesQueryParams>) => {
@@ -20,4 +21,20 @@ export const getCategories = async (queryParams: Partial<CategoriesQueryParams>)
     })
 
     return res.data
+}
+
+export const addCategory = async (payload: CategoryPayload) => {
+    const res = await api.post<Category>('/categories/', payload)
+
+    return res.data
+}
+
+export const patchCategory = async (id: number, payload: CategoryPayload) => {
+    const res = await api.patch<Category>(`/categories/${id}/`, payload)
+
+    return res.data
+}
+
+export const deleteCategory = async (id: number) => {
+    await api.delete(`/categories/${id}/`)
 }

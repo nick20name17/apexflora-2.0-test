@@ -4,3 +4,8 @@ export const app = {
 }
 
 export const API_URL = 'https://api.apexflora.com.ua/api/v1'
+
+export const DATE_FORMATS = {
+    iso: 'yyyy-MM-dd',
+    date: 'dd.MM.yyyy'
+}

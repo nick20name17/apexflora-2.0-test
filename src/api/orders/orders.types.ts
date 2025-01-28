@@ -1,5 +1,6 @@
 import type { BaseQueryParams, Response } from '../api.types'
-import type { Stock } from '../shop-products/shop-products.types'
+import type { AdminOrderItem, OrderItem } from '../order-items/order-items.types'
+import type { ServiceManager } from '../users/users.types'
 
 export type Statuses =
     | 'pending'
@@ -14,7 +15,7 @@ export interface Order {
     status: Statuses
     created_at: string
     recipient: Recipient
-    creator: string
+    creator: OrdersCreator
     comments: Comment[]
     discount: number
     address: Address
@@ -22,16 +23,22 @@ export interface Order {
     is_supplier: boolean
 }
 
-export interface OrderItem {
+export interface OrdersCreator {
     id: number
-    stock_product: Stock
-    amount: number
-    price: number
-    creator: number
-    discount: number
-    percentage: number
-    in_wish_list: boolean
+    email: string
+    first_name: string
+    last_name: string
+    phone_number: string
+    company: string
+    position: string
+    role: string
+    city: string
+    service_manager: ServiceManager
+    code_1c: string
+    bonus_program: number
+    last_login: string
 }
+
 interface Recipient {
     id: number
     creator: number
@@ -63,7 +70,16 @@ export interface OrderPayload {
     creator: number
     is_supplier?: boolean
     discount?: number
-    address: number
+    address: number | null
+}
+
+export interface AdminOrderPayload {
+    is_supplier: boolean
+    order_items: AdminOrderItem[]
+    creator: number
+    address: number | null
+    status: string
+    discount: number
 }
 
 export interface OrderQueryParams extends BaseQueryParams {

@@ -1,6 +1,8 @@
-import type { BaseQueryParams, PatchData, Response } from '../api.types'
-import type { Discount } from '../discounts/discounts.types'
-import type { StatusProduct } from '../status-products/status-products.types'
+import type { BaseQueryParams, Response } from '../api.types'
+import type { Category } from '../categories/categories.types'
+import type { Color } from '../colors/colors.types'
+import type { Producer } from '../producers/producers.types'
+import type { Stock } from '../stock/stock.types'
 
 export interface ShopProduct {
     id: number
@@ -29,50 +31,12 @@ export interface ShopProduct {
     stocks: Stock[]
 }
 
-export interface Producer {
-    id: number
-    name: string
-    country: Country
-}
-
-export interface Country {
-    code: string
-    name: string
-    flag: string
-}
-
 export interface Product {
     id: number
     name: string
     ukr_name: string
     description: string
     category: Category
-}
-
-export interface Category {
-    id: number
-    name: string
-    origin_id: string
-    parent: number
-}
-
-export interface Color {
-    id: number
-    name: string
-    hex: string
-}
-export interface Stock {
-    id: number
-    shop_product: ShopProduct
-    status: StatusProduct
-    quantity: number
-    retail_price: number
-    stock_price: number
-    visible_discount: number
-    promotion: boolean
-    is_visible: boolean
-    discounts: Discount[]
-    in_basket: number | null
 }
 
 export interface InnerShopProduct {
@@ -93,7 +57,7 @@ export interface InnerShopProduct {
     main_property: string
 }
 
-export interface ShopProductsAddPayload {
+export interface ShopProductsPayload {
     product: number
     colors: number[]
     origin_id: string
@@ -107,10 +71,8 @@ export interface ShopProductsAddPayload {
     width: number
     length: number
     main_property: string
-    image: FormData
+    image: FormData | null
 }
-
-export type ShopProductsPatchData = PatchData<ShopProductsAddPayload>
 
 export interface ShopProductsQueryParams extends BaseQueryParams {
     weight_size: string
@@ -127,8 +89,8 @@ export interface ShopProductsQueryParams extends BaseQueryParams {
     price: string | null
     height: string
     startswith: string
-    categories: string
-    statuses: number
+    categories: string | null
+    statuses: string | null
     countries: string
     in_wish_list: boolean
     colors: string
@@ -169,6 +131,18 @@ export interface MinMaxValues {
 }
 
 export type ShopProductsResponse = Response<ShopProduct> & {
-    possible_letters: string[]
     min_max_values: MinMaxValues
+}
+
+export interface SupplierOrderPayload {
+    product_status: number
+    file: FormData
+    category: string
+}
+
+export interface SupplierOrderResponse {
+    amount_total: number
+    count_updated: number
+    not_updated: number
+    order_id: number
 }

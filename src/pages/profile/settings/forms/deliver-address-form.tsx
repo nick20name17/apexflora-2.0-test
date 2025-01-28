@@ -29,7 +29,7 @@ interface DeliverAddressFormProps {
     setOpen: (open: boolean) => void
 }
 
-const ordersAddressSchema = z.object({
+export const ordersAddressSchema = z.object({
     city: z
         .string({
             required_error: "Це поле є обов'язковим"

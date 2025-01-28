@@ -11,6 +11,7 @@ export interface DeliverAddress {
 
 export interface DeliverAddressQueryParams extends BaseQueryParams {
     creator?: number
+    search: string
 }
 
 export type DeliverAddressPayload = Omit<DeliverAddress, 'id'>

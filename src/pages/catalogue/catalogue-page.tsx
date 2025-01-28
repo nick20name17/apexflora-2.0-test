@@ -19,8 +19,7 @@ import 'driver.js/dist/driver.css'
 
 export const CataloguePage = () => {
     const [statuses] = useQueryState('status', {
-        defaultValue: 2,
-        parse: Number
+        defaultValue: '2'
     })
 
     const [ordering] = useQueryState('ordering', {
@@ -123,7 +122,7 @@ export const CataloguePage = () => {
 
     const firstStockId = useMemo(() => {
         return shopProducts?.results[0]?.stocks?.find(
-            (stock) => stock.status.id === statuses
+            (stock) => stock.status.id === +statuses
         )?.id
     }, [shopProducts?.results, isLoading])
 

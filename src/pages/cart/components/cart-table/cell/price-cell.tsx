@@ -1,4 +1,4 @@
-import type { Stock } from '@/api/shop-products/shop-products.types'
+import type { Stock } from '@/api/stock/stock.types'
 import { formatPrice } from '@/hooks/use-catalogue-operations'
 
 export const PriceCell = ({ stock }: { stock: Stock }) => {

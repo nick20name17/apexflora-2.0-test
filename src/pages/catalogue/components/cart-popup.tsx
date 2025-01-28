@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { routes } from '@/config/routes'
 import { useCartOperations } from '@/hooks/use-cart-operations'
 
-const getProductLabel = (count: number) => {
+export const getProductLabel = (count: number) => {
     const lastDigit = count % 10
     const lastTwoDigits = count % 100
 

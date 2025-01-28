@@ -5,7 +5,8 @@ import { useMutation, useQueryClient } from 'react-query'
 import { useAuth } from './use-auth'
 import { addToCart, removeFromCart, updateCart } from '@/api/carts/carts'
 import type { Cart, CartsResponse } from '@/api/carts/carts.types'
-import type { ShopProductsResponse, Stock } from '@/api/shop-products/shop-products.types'
+import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
+import type { Stock } from '@/api/stock/stock.types'
 import { deleteFromWishList, postWishList } from '@/api/wish-list/wish-list'
 import { useFilters } from '@/pages/catalogue/store/filters'
 
@@ -28,26 +29,29 @@ export const formatPrice = (price: number): number => {
 export const useCatalogueOperations = ({
     stocks,
     inWishList,
-    initialCurrentStock
+    initialCurrentStock,
+    initialCurrentStockId
 }: {
     stocks?: Stock[]
     initialCurrentStock?: Stock
     inWishList?: boolean
+    initialCurrentStockId?: string
 }) => {
     const { filters } = useFilters()
 
     const queryClient = useQueryClient()
     const { currentUser } = useAuth()
 
-    const [currentStockId] = useQueryState('status', {
-        defaultValue: 2,
-        parse: Number
+    const [currentStockStatus] = useQueryState('status', {
+        defaultValue: initialCurrentStockId || '2'
     })
+
+    const currentStockId = initialCurrentStockId ?? currentStockStatus
 
     const currentStock =
         initialCurrentStock ||
         useMemo(
-            () => stocks?.find((stock) => stock.status.id === currentStockId),
+            () => stocks?.find((stock) => stock.status.id === +currentStockId),
             [stocks, currentStockId]
         )
     const currentStockPrice = useMemo(

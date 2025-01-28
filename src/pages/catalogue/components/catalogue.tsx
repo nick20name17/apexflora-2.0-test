@@ -78,7 +78,7 @@ export const Catalogue = ({
                     <PromoFilter className='xl:hidden' />
                 </div>
                 <div className='flex flex-col-reverse items-center justify-end gap-3 max-xl:w-full md:flex-row'>
-                    <SearchBar className='w-full xl:w-96' />
+                    <SearchBar className='h-12 w-full xl:w-96' />
                     <div className='flex items-center gap-3 max-xl:w-full'>
                         <MobileFiltersSidebar
                             className='flex flex-1 xl:hidden'

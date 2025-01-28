@@ -5,11 +5,6 @@ export interface Response<T> {
     results: T[]
 }
 
-export interface PatchData<T> {
-    id: number | string
-    data: Partial<T>
-}
-
 export interface BaseQueryParams {
     offset?: number
     limit?: number

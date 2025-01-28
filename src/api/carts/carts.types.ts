@@ -1,5 +1,5 @@
-import type { BaseQueryParams, PatchData, Response } from '../api.types'
-import type { Stock } from '../shop-products/shop-products.types'
+import type { BaseQueryParams, Response } from '../api.types'
+import type { Stock } from '../stock/stock.types'
 
 export interface Cart {
     id: number
@@ -17,8 +17,6 @@ export interface CartAddPayload {
     amount: number
     creator: number
 }
-
-export type CartPatchData = PatchData<CartAddPayload>
 
 export interface CartsQueryParams extends BaseQueryParams {
     name: string

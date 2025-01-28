@@ -4,7 +4,8 @@ import { useState } from 'react'
 
 import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
 import { OrderCardStatus } from './order-card'
-import type { Order, OrderItem, Statuses } from '@/api/orders/orders.types'
+import type { OrderItem } from '@/api/order-items/order-items.types'
+import type { Order, Statuses } from '@/api/orders/orders.types'
 import { DiametrIcon, HeartIcon, HeightIcon, WeightIcon } from '@/components/icons'
 import { DiscountLabel } from '@/components/product-card'
 import { Button } from '@/components/ui/button'
@@ -14,6 +15,7 @@ import {
     CollapsibleTrigger
 } from '@/components/ui/collapsible'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
+import { DATE_FORMATS } from '@/constants/app'
 import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 
@@ -46,7 +48,7 @@ export const MobileOrderCard = ({ order }: OrderCardProps) => {
                     </div>
                     <div className='flex flex-col items-start gap-y-0.5 text-left'>
                         <span className='text-xs'>Дата оформлення</span>
-                        <span>{format(order.created_at, 'dd.MM.yyyy')}</span>
+                        <span>{format(order.created_at, DATE_FORMATS.date)}</span>
                     </div>
                     <div className='ml-auto flex flex-col gap-y-0.5 text-left'>
                         <span className='text-xs'>Спосіб доставки</span>

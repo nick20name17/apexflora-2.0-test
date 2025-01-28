@@ -1,3 +1,4 @@
+import type { BaseQueryParams } from '../api.types'
 import type { Coworker } from '../coworkers/coworkers.types'
 
 export type Roles = 'admin' | 'manager' | 'client'
@@ -49,4 +50,17 @@ export interface ServiceManager {
     last_name: string
     phone_number: string
     email: string
+}
+
+export interface UsersQueryParams extends BaseQueryParams {
+    first_name: string
+    last_name: string
+    email: string
+    is_active: boolean
+    city: string
+    phone_number: string
+    role: string
+    is_deleted: boolean
+    search: string
+    ordering: string
 }

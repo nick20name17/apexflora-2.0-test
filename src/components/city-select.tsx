@@ -45,14 +45,14 @@ export const CitySelect = ({ city, setCity, className }: CitySelectProps) => {
 
     return (
         <Popover
-            modal
+            modal={true}
             open={open}
             onOpenChange={setOpen}
         >
             <PopoverTrigger asChild>
                 <Button
                     className={cn(
-                        'h-12 w-full justify-between hover:border-primary hover:bg-transparent',
+                        'h-12 w-full justify-between hover:border-primary hover:bg-transparent hover:text-muted-foreground',
                         className
                     )}
                     variant='outline'

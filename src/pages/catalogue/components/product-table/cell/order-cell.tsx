@@ -1,4 +1,4 @@
-import type { Stock } from '@/api/shop-products/shop-products.types'
+import type { Stock } from '@/api/stock/stock.types'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 
 export const OrderCell = ({ stocks }: { stocks: Stock[] }) => {

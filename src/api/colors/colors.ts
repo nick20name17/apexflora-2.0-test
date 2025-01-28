@@ -1,7 +1,7 @@
 // import { api } from '..'
 import { api } from '../api'
 
-import type { Color, ColorsQueryParams } from './colors.types'
+import type { Color, ColorPayload, ColorsQueryParams } from './colors.types'
 
 // import type {
 //     ColorsAddData,
@@ -71,6 +71,24 @@ export const getAllColors = async (queryParams: Partial<ColorsQueryParams>) => {
     const res = await api.get<Color[]>(`/colors/all/`, {
         params: queryParams
     })
+
+    return res.data
+}
+
+export const removeColor = async (id: number) => {
+    const res = await api.delete(`/colors/${id}/`)
+
+    return res.data
+}
+
+export const addColor = async (payload: ColorPayload) => {
+    const res = await api.post<Color>('/colors/', payload)
+
+    return res.data
+}
+
+export const patchColor = async (id: number, payload: ColorPayload) => {
+    const res = await api.patch<Color>(`/colors/${id}/`, payload)
 
     return res.data
 }

@@ -1,4 +1,4 @@
-import type { BaseQueryParams } from '../api.types'
+import type { BaseQueryParams, Response } from '../api.types'
 
 export interface Country {
     code: string
@@ -19,6 +19,8 @@ export interface ProducerCountries {
 }
 
 export type ProducerPayload = Omit<ProducerCountries, 'id'>
+
+export type ProducerResponse = Response<Producer>
 
 export interface ProducersQueryParams extends BaseQueryParams {
     name: string

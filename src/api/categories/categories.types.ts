@@ -1,11 +1,13 @@
-import type { BaseQueryParams, PatchData, Response } from '@/api/api.types'
+import type { BaseQueryParams, Response } from '@/api/api.types'
 
 export interface Category {
     id: number
     name: string
-    parent: number
+    parent: string | null
     children: Category[]
 }
+
+export type CategoryPayload = Omit<Category, 'id' | 'children'>
 
 export interface CategoriesQueryParams extends BaseQueryParams {
     name: string
@@ -17,7 +19,5 @@ export interface CategoriesQueryParams extends BaseQueryParams {
 }
 
 export type CategoryAddPayload = Omit<Category, 'id' | 'children'>
-
-export type CategoryPatchData = PatchData<CategoryAddPayload>
 
 export type CategoriesResponse = Response<Category>

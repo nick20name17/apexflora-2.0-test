@@ -23,7 +23,7 @@ export const OrderingFilter = ({ className }: OrderingFilterProps) => {
             defaultValue={ordering}
             onValueChange={setOrdering}
         >
-            <SelectTrigger className={cn('w-44', className)}>
+            <SelectTrigger className={cn('h-12 w-44', className)}>
                 <SelectValue placeholder='Оберіть сортування' />
             </SelectTrigger>
             <SelectContent>

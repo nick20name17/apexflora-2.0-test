@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
-import type { Stock } from '@/api/shop-products/shop-products.types'
+import type { Stock } from '@/api/stock/stock.types'
 import { NumberStepper } from '@/components/ui/number-stepper'
 import { routes } from '@/config/routes'
 import { useAuth } from '@/hooks/use-auth'

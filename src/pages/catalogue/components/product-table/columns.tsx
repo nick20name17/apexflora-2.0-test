@@ -80,16 +80,16 @@ export const columns: ColumnDef<ShopProduct>[] = [
         cell: ({ row }) => (
             <div className='flex items-center gap-x-1'>
                 <div className='flex items-center gap-x-0.5'>
-                    <DiametrIcon className='size-5' />
-                    {row.original?.diameter ?? '-'}
-                </div>
-                <div className='flex items-center gap-x-0.5'>
                     <WeightIcon className='size-5' />
                     {row.original?.weight_size ?? '-'}
                 </div>
+                <div className='flex items-center gap-x-0.5'>
+                    <DiametrIcon className='size-5' />
+                    {row.original?.diameter ?? '-'}
+                </div>
             </div>
         ),
-        size: 100
+        size: 110
     },
     {
         header: 'Ціна',

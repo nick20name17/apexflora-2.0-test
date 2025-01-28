@@ -66,7 +66,7 @@ export const WishListPage = () => {
                     </div>
                 </div>
                 <div className='flex w-full items-center justify-end gap-3'>
-                    <SearchBar className='flex-1 shrink-0' />
+                    <SearchBar className='h-12 flex-1 shrink-0' />
                     <OrderingFilter className='shrink-0 max-xl:flex-1' />
                     <ViewFilter className='hidden xl:block' />
                 </div>
