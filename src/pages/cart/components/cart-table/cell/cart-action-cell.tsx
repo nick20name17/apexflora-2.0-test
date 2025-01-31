@@ -15,6 +15,7 @@ export const CartActionsCell = ({ cart }: CartActionsCellProps) => {
     const { removeFromCartMutation } = useCartOperations()
 
     const { handleAddToWishList } = useCatalogueOperations({
+        // @ts-ignore
         initialCurrentStock: cart.stock_product,
         inWishList: cart.in_wish_list
     })

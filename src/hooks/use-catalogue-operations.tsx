@@ -2,13 +2,13 @@ import { useQueryState } from 'nuqs'
 import { useEffect, useMemo, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { useAuth } from './use-auth'
 import { addToCart, removeFromCart, updateCart } from '@/api/carts/carts'
 import type { Cart, CartsResponse } from '@/api/carts/carts.types'
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
 import type { Stock } from '@/api/stock/stock.types'
 import { deleteFromWishList, postWishList } from '@/api/wish-list/wish-list'
 import { useFilters } from '@/pages/catalogue/store/filters'
+import { useAuth } from './use-auth'
 
 type CartOperation = {
     amount: number
@@ -63,8 +63,8 @@ export const useCatalogueOperations = ({
 
     const priceWithDiscount = currentStockMaxDiscountPercentage
         ? formatPrice(
-              currentStock?.retail_price! * (1 - currentStockMaxDiscountPercentage / 100)
-          )
+            currentStock?.retail_price! * (1 - currentStockMaxDiscountPercentage / 100)
+        )
         : 0
 
     const [amount, setAmount] = useState(currentStock?.in_basket || 0)
@@ -125,13 +125,13 @@ export const useCatalogueOperations = ({
                     newResults = oldData.results.map((cart) =>
                         cart.stock_product.id === stockId
                             ? {
-                                  ...cart,
-                                  amount: newAmount,
-                                  stock_product: {
-                                      ...cart.stock_product,
-                                      in_basket: newAmount
-                                  }
-                              }
+                                ...cart,
+                                amount: newAmount,
+                                stock_product: {
+                                    ...cart.stock_product,
+                                    in_basket: newAmount
+                                }
+                            }
                             : cart
                     )
                 }
@@ -139,13 +139,14 @@ export const useCatalogueOperations = ({
                 if (newAmount > 0) {
                     newResults = [
                         ...oldData.results,
+                        // @ts-ignore
                         {
                             id: Date.now(),
                             amount: newAmount,
                             stock_product: {
                                 ...currentStock!,
                                 in_basket: newAmount
-                            }
+                            },
                         } as Cart
                     ]
                     newCount++
@@ -344,7 +345,7 @@ export const useCatalogueOperations = ({
                                 ...cartItem,
                                 in_wish_list:
                                     cartItem.stock_product.shop_product.id ===
-                                    newWishListItem.shop_product
+                                        newWishListItem.shop_product
                                         ? true
                                         : cartItem.in_wish_list
                             }
@@ -450,7 +451,7 @@ export const useCatalogueOperations = ({
                                 ...cartItem,
                                 in_wish_list:
                                     cartItem.stock_product.shop_product.id ===
-                                    newWishListItem.shopProductId
+                                        newWishListItem.shopProductId
                                         ? false
                                         : cartItem.in_wish_list
                             }))
