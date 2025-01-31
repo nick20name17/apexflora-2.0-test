@@ -1,11 +1,12 @@
 import Autoplay from 'embla-carousel-autoplay'
+import { Heart } from 'iconsax-react'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { DiametrIcon, HeartIcon, HeightIcon, WeightIcon } from '@/components/icons'
+import { DiametrIcon, HeightIcon, WeightIcon } from '@/components/icons'
 import { DiscountLabel, PromoLabel } from '@/components/product-card'
 import { Button } from '@/components/ui/button'
 import {
@@ -115,7 +116,7 @@ export const Catalogue = () => {
                                           className={cn(
                                               'flex-shrink-0 flex-grow-0 basis-[210px] pl-2.5 transition-[filter]',
                                               !slidesInView.includes(index)
-                                                  ? 'blur-[2.5px]'
+                                                  ? 'md:blur-[1.6px]'
                                                   : 'blur-none'
                                           )}
                                       >
@@ -171,7 +172,7 @@ export const ProductCard = ({ shopProduct }: ProductCardProps) => {
                         className='group absolute left-1 top-1 z-20 size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
                         size='icon'
                     >
-                        <HeartIcon
+                        <Heart
                             className={cn(
                                 '!size-5 text-card group-hover:fill-accent group-hover:text-accent/40',
                                 shopProduct.in_wish_list

@@ -1,13 +1,31 @@
-import { DiametrIcon, HeartIcon, HeightIcon, WeightIcon } from './icons'
-import { Button } from './ui/button'
+import { Heart } from 'iconsax-react'
+
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
 import { useAuth } from '@/hooks/use-auth'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
+import { DiametrIcon, HeightIcon, WeightIcon } from './icons'
+import { Button } from './ui/button'
 
 interface ProductCardProps {
     shopProduct: ShopProduct
     className?: string
+}
+
+export const getProductLabel = (count: number) => {
+    const lastDigit = count % 10
+    const lastTwoDigits = count % 100
+
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+        return 'штук'
+    }
+    if (lastDigit === 1) {
+        return 'штука'
+    }
+    if (lastDigit >= 2 && lastDigit <= 4) {
+        return 'штуки'
+    }
+    return 'штук'
 }
 
 export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
@@ -22,14 +40,14 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
         inWishList: shopProduct.in_wish_list
     })
 
-    const isPromo = shopProduct.stocks.some((stock) => stock.promotion)
+    const isPromo = currentStock?.promotion
 
     const { isAuth } = useAuth()
 
     return (
         <article
             className={cn(
-                'h-32 overflow-hidden rounded-sm border bg-background max-sm:flex sm:h-[270px]',
+                'h-32 overflow-hidden rounded-sm border bg-background max-sm:flex sm:h-[272px] shadow-sm',
                 className
             )}
         >
@@ -44,7 +62,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                         className='group absolute left-1 top-1 z-20 size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
                         size='icon'
                     >
-                        <HeartIcon
+                        <Heart
                             className={cn(
                                 '!size-5 text-card group-hover:fill-accent group-hover:text-accent',
                                 shopProduct.in_wish_list
@@ -65,19 +83,16 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                         <DiscountLabel discount={currentStockMaxDiscountPercentage} />
                     ) : null}
                 </div>
+
             </div>
-            <div className='h-5 truncate bg-accent/20 px-1.5 text-center text-xs max-sm:hidden'>
-                Доступно:{'  '}
-                <span className='text-primary'> {currentStock?.quantity}</span>
-            </div>
-            <div className='flex flex-col max-sm:w-full'>
-                <div className='block h-5 truncate bg-accent/20 px-1.5 text-center text-xs sm:hidden'>
+            <div className='flex flex-col max-sm:w-full justify-between'>
+                <div className='h-6 truncate bg-[#F9F9F9] text-muted-foreground px-1.5 flex items-center justify-center text-xs max-sm:hidden'>
                     Доступно:{'  '}
-                    <span className='text-primary'> {currentStock?.quantity}</span>
+                    {currentStock?.quantity} {getProductLabel(currentStock?.quantity ?? 0)}
                 </div>
-                <div className='flex items-start justify-between gap-1 border-b border-b-secondary p-2.5 leading-none max-sm:w-full'>
-                    <div className='flex h-full max-w-36 flex-col gap-1 truncate'>
-                        <h1 className='truncate text-sm'>
+                <div className='flex flex-1 items-start justify-between gap-1 border-b border-b-secondary p-1.5 md:p-2 leading-none max-sm:w-full'>
+                    <div className='flex h-full sm:max-w-30 min-[480px]:max-w-52 max-[480px]:max-w-36 flex-col gap-1 items-start '>
+                        <h1 className='truncate text-sm max-w-full'>
                             {shopProduct?.product?.ukr_name}
                         </h1>
                         <div className='flex items-center gap-x-1'>
@@ -87,13 +102,13 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                                 alt={shopProduct?.producer?.name}
                             />
 
-                            <span className='truncate text-[11px] text-muted'>
+                            <span className='truncate text-[11px] text-muted max-w-full'>
                                 {shopProduct?.producer?.name}
                             </span>
                         </div>
                     </div>
                     {currentStockMaxDiscountPercentage ? (
-                        <div className='flex h-full flex-col gap-y-1'>
+                        <div className='flex h-full flex-col items-end gap-y-1'>
                             <span className='text-xs text-muted line-through'>
                                 {currentStockPrice}₴
                             </span>
@@ -107,7 +122,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                         </span>
                     )}
                 </div>
-                <div className='flex items-start justify-between px-2.5 py-1.5 leading-none max-sm:w-full'>
+                <div className='flex flex-1 items-center justify-between p-1.5 md:p-2 leading-none max-sm:w-full'>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Висота</h2>
                         <div className='flex items-center gap-x-0.5'>
@@ -132,6 +147,10 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className='h-6 truncate bg-[#F9F9F9] text-muted-foreground px-1.5 md:px-2 flex items-center justify-center text-xs sm:hidden'>
+                    Доступно:{'  '}
+                    {currentStock?.quantity} {getProductLabel(currentStock?.quantity ?? 0)}
                 </div>
             </div>
         </article>

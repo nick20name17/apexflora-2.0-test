@@ -31,7 +31,9 @@ import {
 import { routes } from '@/config/routes'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
+import { AddAddressModal } from '@/pages/admin/orders/components/modals/add-address'
 import { isErrorWithMessage } from '@/utils/is-error-with-message'
+import { AddCoworkerModal } from './add-coworker-modal'
 
 const addOrderSchema = z.object({
     username: z
@@ -80,7 +82,7 @@ export const CartForm = () => {
     const [step, setStep] = useState(1)
 
     const { data: deliveryAddresses } = useQuery({
-        queryKey: ['deliveryAddresses', currentUserUserId],
+        queryKey: ['delivery-address', currentUserUserId],
         queryFn: () => getDeliverAddress({ creator: currentUserUserId })
     })
 
@@ -200,7 +202,7 @@ export const CartForm = () => {
                             <>
                                 <FormItem>
                                     <FormLabel>Отримувач</FormLabel>
-                                    <div className='flex items-center gap-x-4'>
+                                    <div className='flex items-center gap-x-2'>
                                         <Select
                                             disabled={deliverAddress.length === 0}
                                             onValueChange={field.onChange}
@@ -209,14 +211,17 @@ export const CartForm = () => {
                                             <FormControl>
                                                 <SelectTrigger
                                                     ref={field.ref}
-                                                    className='border border-muted-foreground bg-transparent'
+                                                    className='border border-muted-foreground bg-transparent truncate'
                                                 >
-                                                    <SelectValue placeholder='Оберіть отримувача' />
+                                                    <div className='max-w-44 truncate'>
+                                                        <SelectValue placeholder='Оберіть отримувача' />
+                                                    </div>
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
                                                 {userCoworkers.map((userCoworker) => (
                                                     <SelectItem
+                                                        className='truncate'
                                                         key={userCoworker.id}
                                                         value={userCoworker.id?.toString()}
                                                     >
@@ -227,7 +232,7 @@ export const CartForm = () => {
                                                 ))}
                                             </SelectContent>
                                         </Select>
-                                        {/* <OrdersCoworkerModal /> */}
+                                        <AddCoworkerModal size='icon' />
                                     </div>
                                     <FormMessage />
                                 </FormItem>
@@ -273,7 +278,7 @@ export const CartForm = () => {
                             <>
                                 <FormItem>
                                     <FormLabel>Адреса доставки</FormLabel>
-                                    <div className='flex items-center gap-x-4'>
+                                    <div className='flex items-center gap-x-2'>
                                         <Select
                                             disabled={deliverAddress.length === 0}
                                             onValueChange={field.onChange}
@@ -282,23 +287,26 @@ export const CartForm = () => {
                                             <FormControl>
                                                 <SelectTrigger
                                                     ref={field.ref}
-                                                    className='border border-muted-foreground bg-transparent'
+                                                    className='border border-muted-foreground bg-transparent truncate'
                                                 >
-                                                    <SelectValue placeholder='Оберіть адресу доставки' />
+                                                    <div className='max-w-44 truncate'>
+                                                        <SelectValue placeholder='Оберіть адресу доставки' />
+                                                    </div>
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
                                                 {deliverAddress.map((deliverAddress) => (
                                                     <SelectItem
+                                                        className='truncate'
                                                         key={deliverAddress.id}
                                                         value={deliverAddress.id?.toString()}
                                                     >
-                                                        {deliverAddress.street}
+                                                        {deliverAddress.city}, {deliverAddress.street}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>
-                                        {/* <DeliverAddressModal /> */}
+                                        <AddAddressModal size='icon' />
                                     </div>
                                     <FormMessage />
                                 </FormItem>

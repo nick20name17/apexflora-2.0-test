@@ -144,13 +144,13 @@ export const columns: ColumnDef<ShopProduct>[] = [
         header: 'Кількість',
         accessorKey: 'quantity',
         cell: ({ row }) => <QuantityCell stocks={row.original?.stocks} />,
-        size: 165
+        size: 185
     },
     {
         header: 'Замовлення',
         accessorKey: 'order',
         cell: ({ row }) => <OrderCell stocks={row.original?.stocks} />,
-        size: 105
+        size: 100
     },
     {
         accessorKey: 'actions',

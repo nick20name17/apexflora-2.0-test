@@ -1,5 +1,5 @@
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from 'iconsax-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'

@@ -1,9 +1,10 @@
+import { Heart } from 'iconsax-react'
 import { CheckCircle } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 import { type PropsWithChildren, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { DiametrIcon, HeartIcon, HeightIcon, ShoppingCartIcon, WeightIcon } from './icons'
+import { DiametrIcon, HeightIcon, ShoppingCartIcon, WeightIcon } from './icons'
 import { DiscountLabel, PromoLabel } from './product-card'
 import { Button } from './ui/button'
 import { NumberStepper } from './ui/number-stepper'
@@ -17,7 +18,7 @@ import {
 } from '@/components/ui/dialog'
 import { routes } from '@/config/routes'
 import { useAuth } from '@/hooks/use-auth'
-import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
+import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 import { useActiveStockId } from '@/pages/catalogue/store/active-stock'
 
@@ -70,8 +71,8 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
 
     const isPromo = currentStock?.promotion
 
-    const totalPrice = amount * currentStockPrice
-    const totalPriceWithDiscount = amount * priceWithDiscount
+    const totalPrice = formatPrice(amount * currentStockPrice)
+    const totalPriceWithDiscount = formatPrice(amount * priceWithDiscount)
 
     const handleOpenChange = (newOpen: boolean) => {
         if (stock) {
@@ -90,7 +91,7 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
         >
             <DialogTrigger>{children}</DialogTrigger>
             <DialogContent
-                closeButtonClassName='bg-foreground text-background size-11 flex items-center justify-center rounded-full md:-top-11 md:-right-11 -right-2 -top-14'
+                closeButtonClassName='bg-[#2F2F2F] hover:bg-foreground text-background size-11 flex items-center justify-center rounded-full -right-2 -top-2 z-40'
                 className='w-80 p-0 md:w-96'
                 id='product-popup'
             >
@@ -100,7 +101,7 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                 <article className='w-full p-4'>
                     <div className='relative h-60 max-w-full overflow-hidden rounded-xs bg-muted'>
                         <div className='absolute inset-x-0 top-0 z-10 h-24 max-w-full bg-gradient-to-b from-black/20 to-transparent'></div>
-                        {isAuth ? (
+                        {/* {isAuth ? (
                             <Button
                                 onClick={(e) => {
                                     e.stopPropagation()
@@ -109,7 +110,7 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                                 className='group absolute left-2 top-2 z-20 size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
                                 size='icon'
                             >
-                                <HeartIcon
+                                <Heart
                                     className={cn(
                                         '!size-5 text-card group-hover:fill-accent group-hover:text-accent',
                                         inWishList
@@ -118,7 +119,7 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                                     )}
                                 />
                             </Button>
-                        ) : null}
+                        ) : null} */}
                         <img
                             className='size-full max-h-full max-w-full object-cover'
                             src={shopProduct.image}
@@ -155,7 +156,7 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                                 onClick={handleAddToWishList}
                                 size='icon'
                             >
-                                <HeartIcon
+                                <Heart
                                     className={cn(
                                         '!size-5 text-muted',
                                         inWishList ? 'text-primary' : ''
@@ -181,12 +182,12 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                             <h3 className='text-xs text-muted'>Ваг./діам.</h3>
                             <div className='flex items-center gap-x-1'>
                                 <div className='flex items-center gap-x-0.5'>
-                                    <DiametrIcon className='size-5 text-muted' />
-                                    {shopProduct?.diameter ?? '-'}
-                                </div>
-                                <div className='flex items-center gap-x-0.5'>
                                     <WeightIcon className='size-5 text-muted' />
                                     {shopProduct?.weight_size ?? '-'}
+                                </div>
+                                <div className='flex items-center gap-x-0.5'>
+                                    <DiametrIcon className='size-5 text-muted' />
+                                    {shopProduct?.diameter ?? '-'}
                                 </div>
                             </div>
                         </div>

@@ -252,7 +252,7 @@ export const CataloguePage = () => {
                     minMaxValues={shopProducts?.min_max_values!}
                 />
                 <ScrollArea
-                    className='mr-4 h-full flex-1 pb-8 max-xl:ml-4 max-lg:mx-0'
+                    className='mr-4 h-full flex-1 pb-4 max-xl:ml-4 max-lg:mx-0'
                     ref={scrollAreaRef}
                 >
                     <Catalogue

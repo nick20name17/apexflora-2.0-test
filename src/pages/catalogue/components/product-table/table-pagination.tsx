@@ -46,6 +46,15 @@ export const TablePagination = ({
         typeof window !== 'undefined' ? window.innerWidth : 0
     )
 
+    const scrollToTop = () => {
+        setTimeout(() => {
+            document?.getElementById('catalogue')?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            })
+        }, 0)
+    }
+
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth)
         window.addEventListener('resize', handleResize)
@@ -56,18 +65,22 @@ export const TablePagination = ({
     const currentPage = Math.floor(offset / limit) + 1
 
     const handleNextPage = () => {
+        scrollToTop()
+
         if (currentPage < totalPages) {
             setOffset(currentPage * limit)
         }
     }
 
     const handlePreviousPage = () => {
+        scrollToTop()
         if (currentPage > 1) {
             setOffset((currentPage - 2) * limit)
         }
     }
 
     const handleGoToPage = (page: number) => {
+        scrollToTop()
         setOffset((page - 1) * limit)
     }
 

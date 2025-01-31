@@ -1,5 +1,5 @@
 import type { VariantProps } from 'class-variance-authority'
-import { AlignJustify } from 'lucide-react'
+import { HambergerMenu } from 'iconsax-react'
 import { forwardRef } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
@@ -48,7 +48,7 @@ export const HeaderCatalogue = ({
                     className='font-book max-md:h-10 max-md:px-2'
                     variant={open ? 'accent' : 'outline'}
                 >
-                    <AlignJustify className='hidden sm:inline' />
+                    <HambergerMenu className='hidden !size-5 sm:inline' />
                     <span> Каталог</span>
                 </Button>
             </SheetTrigger>

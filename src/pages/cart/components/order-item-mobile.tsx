@@ -1,6 +1,10 @@
+import { Check, X } from 'lucide-react'
+import { useState } from 'react'
+
 import { CartActionsCell } from './cart-table/cell/cart-action-cell'
 import type { Cart } from '@/api/carts/carts.types'
 import { DiametrIcon, WeightIcon } from '@/components/icons'
+import { Button } from '@/components/ui/button'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { NumberStepper } from '@/components/ui/number-stepper'
 import { useCartOperations } from '@/hooks/use-cart-operations'
@@ -11,19 +15,31 @@ interface OrderItemMobileProps {
 }
 
 export const OrderItemMobile = ({ cart }: OrderItemMobileProps) => {
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
     const { handleCartOperation, calculateItemPrices } = useCartOperations()
     const isPreorder = cart.stock_product?.status?.id === 3
-
-    const {} = useCartOperations()
 
     const { stockMaxDiscountPercentage, totalPriceWithDiscount, totalPrice } =
         calculateItemPrices(cart)
 
     const priceWithDiscount = stockMaxDiscountPercentage
         ? +formatPrice(
-              cart?.stock_product?.retail_price! * (1 - stockMaxDiscountPercentage / 100)
+              +cart?.stock_product?.retail_price * (1 - stockMaxDiscountPercentage / 100)
           )
         : 0
+
+    const handleChange = (amount: number) => {
+        if (amount === 0) {
+            setShowDeleteConfirm(true)
+            return
+        }
+        handleCartOperation(cart?.stock_product?.id!, amount)
+    }
+
+    const handleDelete = () => {
+        handleCartOperation(cart?.stock_product?.id!, 0)
+        setShowDeleteConfirm(false)
+    }
 
     return (
         <div className='rounded-xs border'>
@@ -99,15 +115,37 @@ export const OrderItemMobile = ({ cart }: OrderItemMobileProps) => {
                             {cart?.stock_product?.retail_price}₴
                         </span>
                     )}
-                    <NumberStepper
-                        onChange={(amount) =>
-                            handleCartOperation(cart?.stock_product?.id!, amount)
-                        }
-                        className='mx-auto w-24 shrink-0 md:w-28'
-                        max={isPreorder ? 99_999 : cart?.stock_product?.quantity || 0}
-                        value={cart?.amount}
-                        step={cart?.stock_product?.shop_product.packaging_of || 1}
-                    />
+                    {showDeleteConfirm ? (
+                        <div className='mx-auto flex h-10 w-24 shrink-0 flex-col items-center gap-1 md:w-28'>
+                            <span className='text-xs'>Видалити?</span>
+                            <div className='flex items-center gap-x-2'>
+                                <Button
+                                    variant='ghost'
+                                    size='icon'
+                                    onClick={() => setShowDeleteConfirm(false)}
+                                    className='!size-6'
+                                >
+                                    <X className='!size-3' />
+                                </Button>
+                                <Button
+                                    variant='ghost'
+                                    size='icon'
+                                    onClick={handleDelete}
+                                    className='!size-6 hover:bg-destructive hover:text-destructive-foreground'
+                                >
+                                    <Check className='!size-3' />
+                                </Button>
+                            </div>
+                        </div>
+                    ) : (
+                        <NumberStepper
+                            onChange={handleChange}
+                            className='mx-auto w-24 shrink-0 md:w-28'
+                            max={isPreorder ? 99_999 : cart?.stock_product?.quantity || 0}
+                            value={cart?.amount}
+                            step={cart?.stock_product?.shop_product.packaging_of || 1}
+                        />
+                    )}
                     {stockMaxDiscountPercentage && +totalPriceWithDiscount! > 0 ? (
                         <div className='flex flex-col text-right'>
                             <span className='text-muted line-through'>{totalPrice}₴</span>

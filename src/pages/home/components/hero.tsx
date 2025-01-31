@@ -43,7 +43,7 @@ const HeroCarousel = () => {
 
     return (
         <section
-            className='container mt-12'
+            className='container mt-5'
             id='hero'
         >
             <Carousel

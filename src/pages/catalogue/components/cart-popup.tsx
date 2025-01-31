@@ -4,6 +4,7 @@ import { ShoppingCartIcon } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { routes } from '@/config/routes'
 import { useCartOperations } from '@/hooks/use-cart-operations'
+import { useQueryState } from 'nuqs'
 
 export const getProductLabel = (count: number) => {
     const lastDigit = count % 10
@@ -26,13 +27,18 @@ export const CartPopup = () => {
 
     const productLabel = getProductLabel(cartCount)
 
+    const [view] = useQueryState('view', {
+        defaultValue: 'lines'
+    })
+
+    if (view !== 'lines') return null
+
     return (
         <div
-            className={`fixed bottom-4 left-0 right-0 z-20 mx-auto flex h-14 w-[calc(100%-2rem)] max-w-md items-center justify-between gap-x-4 rounded-md bg-background/70 px-5 py-3 text-sm leading-tight shadow-md backdrop-blur-lg transition-all duration-300 ease-in-out md:max-w-2xl xl:left-48 ${
-                cartCount > 0
-                    ? 'translate-y-0 opacity-100'
-                    : 'pointer-events-none translate-y-full opacity-0'
-            }`}
+            className={`fixed bottom-2 left-0 right-0 z-40 mx-auto flex h-14 w-[calc(100%-2rem)] max-w-md items-center justify-between gap-x-4 rounded-md bg-background/70 px-5 py-3 text-sm leading-tight shadow-md backdrop-blur-lg transition-all duration-300 ease-in-out sm:bottom-4 max-xl:hidden md:max-w-2xl xl:left-48 ${cartCount > 0
+                ? 'translate-y-0 opacity-100'
+                : 'pointer-events-none translate-y-full opacity-0'
+                }`}
         >
             <div className='flex items-center gap-x-3 md:gap-x-5'>
                 <div className='flex items-center gap-x-1.5'>

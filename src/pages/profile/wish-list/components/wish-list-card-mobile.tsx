@@ -1,7 +1,8 @@
+import { Heart } from 'iconsax-react'
 import { useEffect, useState } from 'react'
 
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { DiametrIcon, HeartIcon, HeightIcon, WeightIcon } from '@/components/icons'
+import { DiametrIcon, HeightIcon, WeightIcon } from '@/components/icons'
 import { DiscountLabel } from '@/components/product-card'
 import { Button } from '@/components/ui/button'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
@@ -93,7 +94,7 @@ export const WishListProductCardMobile = ({
                             size='icon'
                             variant={inWishList ? 'accent' : 'ghost'}
                         >
-                            <HeartIcon />
+                            <Heart />
                         </Button>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { SignInForm } from './sign-in-form'
 import { useAuth } from '@/hooks/use-auth'
 
-export const SignInPage = () => {
+const SignInPage = () => {
     const navigate = useNavigate()
 
     const { isAuth } = useAuth()
@@ -28,3 +28,5 @@ export const SignInPage = () => {
         </div>
     )
 }
+
+export default SignInPage

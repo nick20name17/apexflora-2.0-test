@@ -13,7 +13,7 @@ type FilterKey =
     // 'promo'
     'colors' | 'price' | 'height' | 'categories' | 'countries'
 
-export const ActiveFilters = () => {
+export const ActiveFilters = ({ className }: { className?: string }) => {
     const { data: allCategories } = useQuery({
         queryKey: ['categories'],
         queryFn: () => getAllCategories({ only_parent: true })
@@ -142,14 +142,15 @@ export const ActiveFilters = () => {
             id='active-filters'
             className={cn(
                 'mt-4 flex flex-wrap items-center gap-2',
-                isFiltersHidden && 'hidden'
+                isFiltersHidden && 'hidden',
+                className
             )}
         >
             {filters.map((filter) => (
                 <li key={filter.key}>
                     <Button
                         onClick={() => onFilterRemove(filter.key as FilterKey)}
-                        className='h-9 rounded-full bg-secondary/50 px-4 py-3 text-xs text-muted-foreground transition-colors hover:text-background'
+                        className='xl:xl:h-9 h-8 rounded-full bg-secondary/50 xl:px-4 xl:py-3 p-2 text-xs text-muted-foreground transition-colors hover:text-background'
                     >
                         {filter.label}
                         <X className='ml-2 size-4' />
@@ -161,7 +162,7 @@ export const ActiveFilters = () => {
                 <li key={`color-${colorId}`}>
                     <Button
                         onClick={() => onFilterRemove('colors', colorId)}
-                        className='h-9 rounded-full bg-secondary/50 px-4 py-3 text-xs text-muted-foreground transition-colors hover:text-background'
+                        className='xl:h-9 h-8  rounded-full bg-secondary/50 xl:px-4 xl:py-3 p-2 text-xs text-muted-foreground transition-colors hover:text-background'
                     >
                         <div
                             className='size-3 rounded-full border'
@@ -180,7 +181,7 @@ export const ActiveFilters = () => {
                     <li key={`country-${country}`}>
                         <Button
                             onClick={() => onFilterRemove('countries', country)}
-                            className='h-9 rounded-full bg-secondary/50 px-4 py-3 text-xs text-muted-foreground transition-colors hover:text-background'
+                            className='xl:h-9 h-8  rounded-full bg-secondary/50 xl:px-4 xl:py-3 p-2 text-xs text-muted-foreground transition-colors hover:text-background'
                         >
                             <img
                                 src={flag}
@@ -198,7 +199,7 @@ export const ActiveFilters = () => {
                 <li key={`category-${category}`}>
                     <Button
                         onClick={() => onFilterRemove('categories', category)}
-                        className='h-9 rounded-full bg-secondary/50 px-4 py-3 text-xs text-muted-foreground transition-colors hover:text-background'
+                        className='xl:h-9 h-8  rounded-full bg-secondary/50 xl:px-4 xl:py-3 p-2 text-xs text-muted-foreground transition-colors hover:text-background'
                     >
                         {getCategoryName(category)}
                         <X className='ml-2 size-4' />
@@ -207,15 +208,15 @@ export const ActiveFilters = () => {
             ))}
 
             {filters.length ||
-            selectedColors.length ||
-            selectedCountries.length ||
-            selectedCategories.length ? (
+                selectedColors.length ||
+                selectedCountries.length ||
+                selectedCategories.length ? (
                 <li>
                     <Button
                         onClick={onClearAll}
-                        className='h-9 rounded-full bg-highlight/15 px-4 py-3 text-xs text-highlight transition-colors hover:bg-highlight hover:text-background'
+                        className='xl:h-9 h-8  rounded-full bg-highlight/15 xl:px-4 xl:py-3 p-2 text-xs text-highlight transition-colors hover:bg-highlight hover:text-background'
                     >
-                        Скинути все
+                        Скинути <span className='max-lg:hidden'>все</span>
                     </Button>
                 </li>
             ) : null}

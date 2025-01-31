@@ -1,7 +1,7 @@
+import { Heart } from 'iconsax-react'
 import { Trash } from 'lucide-react'
 
 import type { Cart } from '@/api/carts/carts.types'
-import { HeartIcon } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { useCartOperations } from '@/hooks/use-cart-operations'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
@@ -29,7 +29,7 @@ export const CartActionsCell = ({ cart }: CartActionsCellProps) => {
                 className='group size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
                 size='icon'
             >
-                <HeartIcon
+                <Heart
                     className={cn(
                         '!size-5 text-muted-foreground group-hover:fill-accent group-hover:text-accent',
                         cart.in_wish_list

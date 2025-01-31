@@ -45,7 +45,7 @@ export const Feedback = () => {
                 <h2 className='text-center text-2xl font-medium md:text-4xl'>
                     Відгуки наших клієнтів
                 </h2>
-                <p className='mx-auto mt-2 max-w-2xl text-center font-book text-muted'>
+                <p className='mx-auto mt-2 max-w-2xl font-book text-muted'>
                     Ніхто не скаже про тебе краще, ніж задоволений клієнт. Нам довіряють і
                     для нас це найдорожче
                 </p>

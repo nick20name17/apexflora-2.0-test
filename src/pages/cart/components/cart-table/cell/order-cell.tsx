@@ -14,7 +14,7 @@ export const OrderCell = ({ cart }: { cart: Cart }) => {
 
     return stockMaxDiscountPercentage && +currentStockTotalPriceWithDiscount! > 0 ? (
         <div className='flex flex-col'>
-            <span className='text-muted line-through'>{currentStockTotalPrice}₴</span>
+            {/* <span className='text-muted line-through'>{currentStockTotalPrice}₴</span> */}
             <span className='text-primary'>{currentStockTotalPriceWithDiscount}₴</span>
         </div>
     ) : (

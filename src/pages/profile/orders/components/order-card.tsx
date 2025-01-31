@@ -1,11 +1,12 @@
 import { format } from 'date-fns'
+import { Heart } from 'iconsax-react'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
 import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
 import type { OrderItem } from '@/api/order-items/order-items.types'
 import type { Order, Statuses } from '@/api/orders/orders.types'
-import { DiametrIcon, HeartIcon, HeightIcon, WeightIcon } from '@/components/icons'
+import { DiametrIcon, HeightIcon, WeightIcon } from '@/components/icons'
 import { DiscountLabel } from '@/components/product-card'
 import { Button } from '@/components/ui/button'
 import {
@@ -176,7 +177,8 @@ const OrderItemCard = ({ orderItem }: OrderItemCardProps) => {
 
             <div className='flex items-center gap-x-0.5'>
                 <HeightIcon className='size-5' />
-                {orderItem.stock_product.shop_product?.height ?? '-'} см.
+                {orderItem.stock_product.shop_product?.height ??
+                    '-'} см.
             </div>
 
             <div className='flex items-center gap-x-1'>
@@ -234,7 +236,7 @@ const OrderItemCard = ({ orderItem }: OrderItemCardProps) => {
                 size='icon'
                 variant={orderItem.in_wish_list ? 'accent' : 'ghost'}
             >
-                <HeartIcon />
+                <Heart />
             </Button>
         </div>
     )

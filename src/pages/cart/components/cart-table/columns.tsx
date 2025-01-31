@@ -101,7 +101,7 @@ export const columns: ColumnDef<Cart>[] = [
     {
         header: 'Ціна',
         accessorKey: 'price',
-        cell: ({ row }) => <PriceCell stock={row.original?.stock_product} />,
+        cell: ({ row }) => <PriceCell cart={row.original} />,
         size: 75
     },
     {

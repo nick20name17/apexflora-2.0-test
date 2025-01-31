@@ -45,7 +45,6 @@ export const QuantityCell = ({ stocks }: { stocks: Stock[] }) => {
         }
 
         if (existingItemIndex !== -1) {
-            // Update existing item
             const updatedOrderItems = [...currentOrderItems]
             updatedOrderItems[existingItemIndex] = {
                 ...updatedOrderItems[existingItemIndex],

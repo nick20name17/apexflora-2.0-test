@@ -6,7 +6,6 @@ import { AddressSelect } from '../controls/address-select'
 import { OrderStatusSelector } from '../controls/order-status-selector'
 import { ProductsCatalogue } from '../products-catalogue'
 
-import { AddAddressModal } from './add-address'
 import {
     addOrderItem,
     patchOrderItem,
@@ -26,6 +25,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/use-auth'
 import { CreateModal, DeleteModal, EditModal } from '@/pages/admin/components/base-modal'
+import { AddAddressModal } from './add-address'
 
 const orderSchema = z.object({
     // recipient: z.string().min(1, 'Це поле обовязкове'),
@@ -191,7 +191,7 @@ export const AddOrderModal = ({ size = 'sm' }: { size?: 'sm' | 'icon' }) => {
                 }
                 return AddAdminOrders(payload)
             }}
-            queryKey={['orders', 'pre-orders']}
+            queryKey={['orders', 'pre-orders', 'shop-products', 'delivery-address']}
             renderFields={colorFormFields}
             size={size}
         />

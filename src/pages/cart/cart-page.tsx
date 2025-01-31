@@ -19,7 +19,7 @@ import { useCartOperations } from '@/hooks/use-cart-operations'
 import { formatPrice } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 
-export const CartPage = () => {
+const CartPage = () => {
     const { isCartEmpty, totalPrice, totalDiscount, isLoading } = useCartOperations()
 
     return (
@@ -110,3 +110,5 @@ const CartSkeleton = () => {
         </div>
     )
 }
+
+export default CartPage

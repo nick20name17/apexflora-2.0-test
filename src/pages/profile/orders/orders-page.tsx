@@ -20,7 +20,7 @@ import { routes } from '@/config/routes'
 import { defaultLimit } from '@/constants/table'
 import { useMediaQuery } from '@/hooks/use-media-query'
 
-export const OrdersPage = () => {
+const OrdersPage = () => {
     const [status, setStatus] = useState<'orders' | 'pre-orders'>('orders')
 
     const [limit, setLimit] = useState(defaultLimit)
@@ -117,3 +117,5 @@ const OrdersSkeleton = () => {
         )
     })
 }
+
+export default OrdersPage

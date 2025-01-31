@@ -1,12 +1,11 @@
-import { Clock } from 'lucide-react'
+import { CardPos, Clock } from 'iconsax-react'
 import { useQueryState } from 'nuqs'
 import { useQuery } from 'react-query'
 
-import { DeliveryIcon, InStockIcon } from './icons'
+import { DeliveryIcon } from './icons'
 import { getStatusProducts } from '@/api/status-products/status-products'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
 
 export const getStatusProductsDisplay = (status: number) => {
@@ -19,7 +18,7 @@ export const getStatusProductsDisplay = (status: number) => {
         case 2:
             return {
                 name: 'В наявності',
-                icon: <InStockIcon className='size-4' />
+                icon: <CardPos className='size-4' />
             }
         case 3:
             return {
@@ -53,8 +52,6 @@ export const StatusTabs = ({ className }: StatusTabsProps) => {
 
     const [, setOffset] = useQueryState('offset', { defaultValue: 0, parse: Number })
 
-    const isMobile = useMediaQuery('(max-width: 640px)')
-
     const [status, setStatus] = useQueryState('status', {
         defaultValue: '2'
     })
@@ -77,26 +74,18 @@ export const StatusTabs = ({ className }: StatusTabsProps) => {
             defaultValue={status!}
             onValueChange={handleStatusChange}
         >
-            <TabsList className='h-9 w-full bg-transparent py-0 md:h-12'>
+            <TabsList className='h-16 w-full bg-transparent py-0 md:h-12'>
                 {statusProducts?.map((statusProduct) => {
                     const { name, icon } = getStatusProductsDisplay(statusProduct.id)
 
                     return (
                         <TabsTrigger
                             key={statusProduct.id}
-                            className='flex h-full flex-1 items-center gap-x-1 rounded-b-none leading-tight max-sm:px-2 md:gap-x-2'
+                            className='flex h-full flex-1 items-center gap-1 rounded-b-none leading-tight max-sm:flex-col max-sm:px-2 md:gap-x-2'
                             value={statusProduct.id.toString()}
                         >
                             <span> {icon}</span>
-
-                            {name === 'Передзамовлення' && isMobile ? (
-                                <span className='text-left text-xs md:text-sm'>
-                                    Передза <br />
-                                    мовлення
-                                </span>
-                            ) : (
-                                <span className='text-xs md:text-sm'>{name}</span>
-                            )}
+                            <span className='text-xs md:text-sm'>{name}</span>
                         </TabsTrigger>
                     )
                 })}

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { routes } from '@/config/routes'
 
-export const DeliveryPage = () => {
+const DeliveryPage = () => {
     return (
         <section className='container mt-8 max-w-[800px] pb-10'>
             <Breadcrumb className='mx-auto max-w-[700px]'>
@@ -88,3 +88,5 @@ export const DeliveryPage = () => {
         </section>
     )
 }
+
+export default DeliveryPage

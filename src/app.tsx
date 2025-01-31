@@ -3,26 +3,19 @@ import { lazy } from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
-import { AdminLayout } from './components/layout/admin-layout'
-import { Layout } from './components/layout/layout'
 import { AuthLayout } from '@/components/layout/auth-layout'
 import { HomeLayout } from '@/components/layout/home-layout'
 import { ProfileLayout } from '@/components/layout/profile-layout'
 import { adminRoutes, routes } from '@/config/routes'
-import { SignInPage } from '@/pages/auth/sign-in/sign-in-page'
-import { SignUpPage } from '@/pages/auth/sign-up/sign-up-page'
-import { CartPage } from '@/pages/cart/cart-page'
 import { CataloguePage } from '@/pages/catalogue/catalogue-page'
-import { DeliveryPage } from '@/pages/delivery/delivery-page'
 import { HomePage } from '@/pages/home/home-page'
 import { NotFoundPage } from '@/pages/not-found/not-found-page'
 import { AddsPage } from '@/pages/profile/adds/adds-page'
 import { BalancePage } from '@/pages/profile/balance/balance-page'
 import { LoyaltyPage } from '@/pages/profile/loyalty/loyalty-page'
-import { OrdersPage } from '@/pages/profile/orders/orders-page'
-import { SettingsPage } from '@/pages/profile/settings/settings-page'
-import { WishListPage } from '@/pages/profile/wish-list/wish-list'
 import { RequireAuthProvider } from '@/providers/require-auth-provider'
+import { AdminLayout } from './components/layout/admin-layout'
+import { Layout } from './components/layout/layout'
 
 const UsersPage = lazy(() => import('@/pages/admin/users/users-page'))
 const AdminOrdersPage = lazy(() => import('@/pages/admin/orders/orders-page'))
@@ -37,6 +30,16 @@ const ColorsPage = lazy(() => import('@/pages/admin/colors/colors-page'))
 const DiscountsPage = lazy(() => import('@/pages/admin/discounts/discounts-page'))
 const ContactsPage = lazy(() => import('@/pages/admin/contacts/contacts-page'))
 const ProducersPage = lazy(() => import('@/pages/admin/producers/producers-page'))
+
+const SignInPage = lazy(() => import('@/pages/auth/sign-in/sign-in-page'))
+const SignUpPage = lazy(() => import('@/pages/auth/sign-up/sign-up-page'))
+const DeliveryPage = lazy(() => import('@/pages/delivery/delivery-page'))
+
+const OrdersPage = lazy(() => import('@/pages/profile/orders/orders-page'))
+const SettingsPage = lazy(() => import('@/pages/profile/settings/settings-page'))
+const WishListPage = lazy(() => import('@/pages/profile/wish-list/wish-list'))
+
+const CartPage = lazy(() => import('@/pages/cart/cart-page'))
 
 const router = createBrowserRouter([
     {

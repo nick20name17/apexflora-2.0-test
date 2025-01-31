@@ -1,16 +1,34 @@
-import { LayoutDashboard, LogOut, PercentCircle, Settings, UserIcon } from 'lucide-react'
+import {
+    Bezier,
+    DiscountShape,
+    EmojiSad,
+    Heart,
+    Login,
+    Setting2,
+    SidebarRight,
+    User,
+    Wallet
+} from 'iconsax-react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 
-import { DeliveryIcon, HeartIcon } from '../icons'
-import { ScrollArea } from '../ui/scroll-area'
-import { Skeleton } from '../ui/skeleton'
+import { Button } from '@/components//ui/button'
+import { ScrollArea } from '@/components//ui/scroll-area'
+import { Skeleton } from '@/components//ui/skeleton'
+import { DeliveryIcon } from '@/components/icons'
 
-import { Header } from './header'
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger
+} from '@/components/ui/sheet'
 import { adminRoutes, routes } from '@/config/routes'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import { ErrorPage } from '@/pages/error/error-page'
+import { Header } from './header'
 
 export const ProfileLayout = () => {
     return (
@@ -21,10 +39,13 @@ export const ProfileLayout = () => {
                     onReset={() => window.location.reload()}
                     FallbackComponent={ErrorPage}
                 >
-                    <div className='flex h-[calc(100vh-70px)]'>
-                        <ProfileSidebar />
+                    <div className='flex h-[calc(100vh-70px)] max-xl:flex-col'>
+                        <ProfileSidebar className='hidden lg:flex-col xl:flex' />
+                        <div className='p-4 xl:hidden'>
+                            <MobileProfileNav />
+                        </div>
                         <ScrollArea className='flex-1'>
-                            <div className='pt-5 lg:p-5'>
+                            <div className='lg:p-5'>
                                 <Outlet />
                             </div>
                         </ScrollArea>
@@ -35,15 +56,39 @@ export const ProfileLayout = () => {
     )
 }
 
-const ProfileSidebar = () => {
+const MobileProfileNav = () => {
+    return (
+        <Sheet>
+            <SheetTrigger asChild>
+                <Button
+                    size='sm'
+                    variant='outline'
+                >
+                    <SidebarRight /> <span>Меню</span>
+                </Button>
+            </SheetTrigger>
+            <SheetContent
+                className='w-fit p-0 text-background'
+                side='left'
+            >
+                <SheetHeader className='sr-only'>
+                    <SheetTitle>ProfilesSidebar</SheetTitle>
+                </SheetHeader>
+                <ProfileSidebar />
+            </SheetContent>
+        </Sheet>
+    )
+}
+
+const ProfileSidebar = ({ className }: { className?: string }) => {
     const { getCurrentUserRole, logOut, currentUser, isLoadingUser } = useAuth()
     const isUser = getCurrentUserRole('client')
     const { pathname } = useLocation()
 
     return (
-        <aside className='hidden w-[300px] flex-shrink-0 bg-background lg:flex-col xl:flex'>
+        <aside className={cn('w-[300px] flex-shrink-0 bg-background', className)}>
             <div className='flex h-24 items-center gap-x-2.5 bg-primary p-4 text-background'>
-                <UserIcon className='size-8 flex-shrink-0' />
+                <User className='size-6 flex-shrink-0' />
                 {isLoadingUser ? (
                     <Skeleton className='h-8 w-full bg-muted/50' />
                 ) : (
@@ -63,14 +108,14 @@ const ProfileSidebar = () => {
                             className={cn(
                                 'cursor-pointer rounded-md text-muted transition-colors hover:bg-primary/10 hover:text-primary',
                                 pathname === adminRoutes.orders &&
-                                    'bg-primary text-background'
+                                'bg-primary text-background'
                             )}
                         >
                             <NavLink
                                 className='flex items-center gap-x-2 p-3 text-sm'
                                 to={adminRoutes.orders}
                             >
-                                <LayoutDashboard className='size-5' />
+                                <Bezier className='size-5' />
                                 Адмін
                             </NavLink>
                         </li>
@@ -85,7 +130,7 @@ const ProfileSidebar = () => {
                             className='flex items-center gap-x-2 p-3 text-sm'
                             to={routes.wishList}
                         >
-                            <HeartIcon className='size-5' />
+                            <Heart className='size-5' />
                             Збережені
                         </NavLink>
                     </li>
@@ -113,7 +158,7 @@ const ProfileSidebar = () => {
                             className='flex items-center gap-x-2 p-3 text-sm'
                             to={routes.settings}
                         >
-                            <Settings className='size-5' />
+                            <Setting2 className='size-5' />
                             Налаштування
                         </NavLink>
                     </li>
@@ -127,7 +172,7 @@ const ProfileSidebar = () => {
                             className='flex items-center gap-x-2 p-3 text-sm'
                             to={routes.loyalty}
                         >
-                            <PercentCircle className='size-5' />
+                            <DiscountShape className='size-5' />
                             Програма лояльності
                         </NavLink>
                     </li>
@@ -141,6 +186,7 @@ const ProfileSidebar = () => {
                             className='flex items-center gap-x-2 p-3 text-sm'
                             to={routes.balance}
                         >
+                            <Wallet className='size-5' />
                             Баланс
                         </NavLink>
                     </li>
@@ -154,6 +200,7 @@ const ProfileSidebar = () => {
                             className='flex items-center gap-x-2 p-3 text-sm'
                             to={routes.adds}
                         >
+                            <EmojiSad className='size-5' />
                             Рекламація
                         </NavLink>
                     </li>
@@ -163,7 +210,7 @@ const ProfileSidebar = () => {
                             onClick={logOut}
                             className='flex w-full items-center gap-x-2 rounded-md p-3 text-sm text-muted transition-colors hover:bg-primary/10 hover:text-primary'
                         >
-                            <LogOut className='size-5' />
+                            <Login className='size-5 rotate-180' />
                             Вийти
                         </button>
                     </li>

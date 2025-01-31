@@ -6,14 +6,6 @@ import { useMutation, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import type {
-    BaseModalProps,
-    CreateModalProps,
-    DeleteModalProps,
-    EditModalProps,
-    Entity,
-    FormModalProps
-} from './base-modal.types'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
@@ -23,6 +15,14 @@ import {
     DialogTrigger
 } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
+import type {
+    BaseModalProps,
+    CreateModalProps,
+    DeleteModalProps,
+    EditModalProps,
+    Entity,
+    FormModalProps
+} from './base-modal.types'
 
 const BaseModal = ({
     open,
@@ -69,6 +69,22 @@ const FormModal = <TData extends Entity, TSchema extends z.ZodType>({
         resolver: zodResolver(schema)
     })
 
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        if (event) {
+            if (typeof event.preventDefault === 'function') {
+                event.preventDefault();
+            }
+            if (typeof event.stopPropagation === 'function') {
+                event.stopPropagation();
+            }
+        }
+
+        return form.handleSubmit((data) => {
+            onSubmit(data)
+            isSuccess ? form.reset() : null
+        })(event);
+    };
+
     return (
         <BaseModal
             className='max-w-2xl'
@@ -83,13 +99,13 @@ const FormModal = <TData extends Entity, TSchema extends z.ZodType>({
                         e.stopPropagation()
                     }}
                     className='space-y-4 [&_input]:h-10'
-                    onSubmit={form.handleSubmit((data) => {
-                        onSubmit(data)
-                        isSuccess ? form.reset() : null
-                    })}
+                    onSubmit={handleSubmit}
                 >
                     {renderFields(form)}
                     <Button
+                        onClick={(e) => {
+                            e.stopPropagation()
+                        }}
                         disabled={isLoading}
                         type='submit'
                         size='sm'
@@ -121,8 +137,8 @@ export function CreateModal<TData extends Entity, TSchema extends z.ZodType>({
         onSuccess: () => {
             Array.isArray(queryKey)
                 ? queryKey.forEach((key) =>
-                      queryClient.invalidateQueries({ queryKey: key })
-                  )
+                    queryClient.invalidateQueries({ queryKey: key })
+                )
                 : queryClient.invalidateQueries({ queryKey })
 
             toast.success(`${title} успішно додано`)
@@ -142,6 +158,8 @@ export function CreateModal<TData extends Entity, TSchema extends z.ZodType>({
             {size === 'icon' ? '' : buttonText || `Додати ${title.toLowerCase()}`}
         </Button>
     )
+
+
 
     return (
         <FormModal<TData, TSchema>
@@ -181,8 +199,8 @@ export function EditModal<TData extends Entity, TSchema extends z.ZodType>({
         onSuccess: () => {
             Array.isArray(queryKey)
                 ? queryKey.forEach((key) =>
-                      queryClient.invalidateQueries({ queryKey: key })
-                  )
+                    queryClient.invalidateQueries({ queryKey: key })
+                )
                 : queryClient.invalidateQueries({ queryKey })
             toast.success(`${title} успішно відредаговано`)
             setOpen(false)
@@ -232,8 +250,8 @@ export function DeleteModal<TData extends Entity>({
         onSuccess: () => {
             Array.isArray(queryKey)
                 ? queryKey.forEach((key) =>
-                      queryClient.invalidateQueries({ queryKey: key })
-                  )
+                    queryClient.invalidateQueries({ queryKey: key })
+                )
                 : queryClient.invalidateQueries({ queryKey })
             toast.success(`${title} успішно видалено`)
             setOpen(false)

@@ -4,7 +4,7 @@ export const Advantages = () => {
     return (
         <section className='container mt-15'>
             <h2 className='text-center text-2xl md:text-4xl'>Наші переваги</h2>
-            <p className='mt-1 text-center font-book text-muted-foreground'>
+            <p className='mt-1 font-book text-muted-foreground'>
                 Кращий спосіб оцінити наші переваги, це оформити перше замовлення, нижче
                 виділимо, чому це варто зробити вже зараз
             </p>

@@ -1,4 +1,5 @@
-import { Search, X } from 'lucide-react'
+import { SearchNormal1 } from 'iconsax-react'
+import { X } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 import { useDebouncedCallback } from 'use-debounce'
 
@@ -23,7 +24,7 @@ export const SearchBar = ({ className }: { className?: string }) => {
 
     return (
         <div className={cn('relative h-10 overflow-hidden', className)}>
-            <Search className='absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
+            <SearchNormal1 className='absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
             <Input
                 className='h-full bg-background pl-9 placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0'
                 placeholder='Пошук'

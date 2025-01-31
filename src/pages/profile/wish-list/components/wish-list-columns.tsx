@@ -1,9 +1,10 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import { Heart } from 'iconsax-react'
 import { useQueryState } from 'nuqs'
 import { useMemo } from 'react'
 
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { DiametrIcon, HeartIcon, WeightIcon } from '@/components/icons'
+import { DiametrIcon, WeightIcon } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
@@ -167,7 +168,7 @@ export const wishListColumns: ColumnDef<ShopProduct>[] = [
                         className='group size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
                         size='icon'
                     >
-                        <HeartIcon
+                        <Heart
                             className={cn(
                                 '!size-5 text-card group-hover:fill-accent group-hover:text-accent',
                                 inWishList

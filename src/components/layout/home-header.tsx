@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { Calendar, Call, Heart, Sms } from 'iconsax-react'
+import { useLayoutEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { ReactSVG } from 'react-svg'
 
 import { HeaderCatalogue } from '../header-catalogue'
-import { CallIcon, HeartIcon, ShoppingCartIcon } from '../icons'
+import { CallIcon, ShoppingCartIcon } from '../icons'
 
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import { Button } from '@/components/ui/button'
@@ -37,7 +38,7 @@ export const HomeHeader = () => {
 
     const [isScrolled, setIsScrolled] = useState(false)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 0)
         }
@@ -52,11 +53,11 @@ export const HomeHeader = () => {
     const { cartCount } = useCartOperations()
 
     return (
-        <header className='container sticky left-0 right-0 top-4 z-50'>
+        <header className='container sticky left-0 right-0 top-0 z-50'>
             <div
                 className={cn(
-                    'relative flex items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-10 md:py-4',
-                    isScrolled ? 'h-[70px]' : 'h-20',
+                    'relative mt-4 flex items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-10 md:py-4',
+                    isScrolled ? 'h-[70px] before:!rounded-t-none' : 'h-20',
                     catalogueOpen || contactOpen ? 'before:rounded-b-none' : ''
                 )}
             >
@@ -96,7 +97,7 @@ export const HomeHeader = () => {
                     >
                         <Link to={routes.wishList}>
                             <div className='relative'>
-                                <HeartIcon />
+                                <Heart />
                                 <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
                                     {wishList?.count ?? 0}
                                 </div>
@@ -149,7 +150,7 @@ const HeaderContact = () => {
                 <div className='mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2'>
                     <div className='rounded-lg border p-3'>
                         <div className='flex size-8 items-center justify-center rounded-full bg-foreground/10'>
-                            <ReactSVG src='/icons/call.svg' />
+                            <Call className='size-4' />
                         </div>
                         <h4 className='mt-1'>Номер телефону</h4>
                         <div className='flex flex-col space-y-0.5'>
@@ -175,7 +176,7 @@ const HeaderContact = () => {
                     </div>
                     <div className='rounded-lg border p-3'>
                         <div className='flex size-8 items-center justify-center rounded-full bg-foreground/10'>
-                            <ReactSVG src='/icons/calendar.svg' />
+                            <Calendar className='size-4' />
                         </div>
                         <h4 className='mt-1'>Графік роботи</h4>
                         <div className='text-muted'>пн - сб 09:00 - 18:00 </div>
@@ -183,7 +184,7 @@ const HeaderContact = () => {
                     </div>
                     <div className='rounded-lg border p-3 sm:col-span-2'>
                         <div className='flex size-8 items-center justify-center rounded-full bg-foreground/10'>
-                            <ReactSVG src='/icons/sms.svg' />
+                            <Sms className='size-4' />
                         </div>
                         <h4 className='mt-1'>Наша пошта</h4>
                         <Link

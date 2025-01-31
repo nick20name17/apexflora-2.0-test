@@ -1,10 +1,10 @@
+import { Heart, User } from 'iconsax-react'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
-import { ReactSVG } from 'react-svg'
 
 import { HeaderCatalogue } from '../header-catalogue'
-import { HeartIcon, ShoppingCartIcon } from '../icons'
+import { ShoppingCartIcon } from '../icons'
 
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import { Button } from '@/components/ui/button'
@@ -27,7 +27,7 @@ export const Header = () => {
     const { cartCount } = useCartOperations()
 
     return (
-        <header className='sticky top-0 z-50 h-[70px] border-b bg-card'>
+        <header className='sticky top-0 z-40 h-[70px] border-b bg-card'>
             <div className='container relative z-50 flex h-full items-center justify-between gap-x-1 px-10'>
                 <div className='flex items-center gap-x-2 md:gap-x-6'>
                     <Logo className='max-md:w-10' />
@@ -47,10 +47,7 @@ export const Header = () => {
                         asChild
                     >
                         <Link to={routes.settings}>
-                            <ReactSVG
-                                src='/icons/user.svg'
-                                className='size-5 stroke-foreground'
-                            />
+                            <User />
                             <span>Кабінет</span>
                         </Link>
                     </Button>
@@ -63,7 +60,7 @@ export const Header = () => {
                     >
                         <Link to={routes.wishList}>
                             <div className='relative'>
-                                <HeartIcon />
+                                <Heart />
                                 <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
                                     {wishListQuery.data?.count || 0}
                                 </div>

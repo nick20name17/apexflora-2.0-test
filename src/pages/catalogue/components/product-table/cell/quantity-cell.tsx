@@ -22,7 +22,7 @@ export const QuantityCell = ({ stocks }: { stocks: Stock[] }) => {
 
     return (
         <div
-            className='flex w-full items-center justify-between gap-x-1.5'
+            className='flex w-full items-center justify-between gap-x-1'
             id='quantity-cell'
         >
             <span className='text-xs text-[#14B758]'>

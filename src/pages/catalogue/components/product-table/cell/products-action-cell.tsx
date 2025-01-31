@@ -1,7 +1,7 @@
+import { Heart } from 'iconsax-react'
 import { useEffect, useState } from 'react'
 
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { HeartIcon } from '@/components/icons'
 import { ProductPopup } from '@/components/product-popup'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
@@ -37,7 +37,7 @@ export const ProductsActionsCell = ({ shopProduct }: ProductsActionsCellProps) =
                     className='group size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
                     size='icon'
                 >
-                    <HeartIcon
+                    <Heart
                         className={cn(
                             '!size-5 text-muted-foreground group-hover:fill-accent group-hover:text-accent',
                             inWishList ? 'fill-accent text-accent hover:text-primary' : ''

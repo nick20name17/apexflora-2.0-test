@@ -3,15 +3,6 @@ import { useQueryState } from 'nuqs'
 
 import { OrderingFilter } from '../../../components/ordering-filter'
 
-import { ActiveFilters } from './active-filters'
-import { CartPopup } from './cart-popup'
-import { FiltersPopup } from './filters-popup'
-import { MobileFiltersSidebar } from './filters-sidebar'
-import { PromoFilter } from './filters/promo-filters'
-import { columns } from './product-table/columns'
-import { ProductTable } from './product-table/table'
-import { TablePagination } from './product-table/table-pagination'
-import { ProductsList } from './products-list'
 import type {
     MinMaxValues,
     ShopProductsResponse
@@ -28,6 +19,15 @@ import {
 } from '@/components/ui/breadcrumb'
 import { ViewFilter } from '@/components/view-filter'
 import { routes } from '@/config/routes'
+import { ActiveFilters } from './active-filters'
+import { CartPopup } from './cart-popup'
+import { FiltersPopup } from './filters-popup'
+import { MobileFiltersSidebar } from './filters-sidebar'
+import { PromoFilter } from './filters/promo-filters'
+import { columns } from './product-table/columns'
+import { ProductTable } from './product-table/table'
+import { TablePagination } from './product-table/table-pagination'
+import { ProductsList } from './products-list'
 
 interface CatalogueProps {
     shopProducts: ShopProductsResponse
@@ -108,6 +108,7 @@ export const Catalogue = ({
                 />
             )}
             <TablePagination
+                className='pb-0'
                 count={shopProducts?.count || 0}
                 isLoading={isLoading}
             />

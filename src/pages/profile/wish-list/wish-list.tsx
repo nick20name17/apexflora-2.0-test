@@ -18,19 +18,19 @@ import {
 } from '@/components/ui/breadcrumb'
 import { ViewFilter } from '@/components/view-filter'
 import { routes } from '@/config/routes'
+import { defaultComboboxLimit } from '@/constants/table'
 import { ProductTable } from '@/pages/catalogue/components/product-table/table'
 import { TablePagination } from '@/pages/catalogue/components/product-table/table-pagination'
 
 const inWishList = true
-const limit = 200
 
-export const WishListPage = () => {
+const WishListPage = () => {
     const { data: shopProducts, isLoading } = useQuery({
         queryKey: ['shopProducts'],
         queryFn: () =>
             getShopProducts({
                 in_wish_list: inWishList,
-                limit
+                limit: defaultComboboxLimit
             })
     })
 
@@ -91,3 +91,5 @@ export const WishListPage = () => {
         </section>
     )
 }
+
+export default WishListPage

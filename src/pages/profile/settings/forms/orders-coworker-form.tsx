@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input'
 import { emailSchema } from '@/config/schemas'
 import { useAuth } from '@/hooks/use-auth'
 
-const ordersCoworkerSchema = z.object({
+export const ordersCoworkerSchema = z.object({
     ...emailSchema.shape,
     first_name: z
         .string({
@@ -68,7 +68,7 @@ export const OrdersCoworkerForm = ({ setOpen, coworker }: OrdersCoworkerFormProp
         onSuccess: () => {
             setOpen(false)
             queryClient.invalidateQueries(['currentUser'])
-            queryClient.invalidateQueries(['coworkers', currentUser?.id])
+            queryClient.invalidateQueries(['coworkers'])
         }
     })
 
@@ -77,7 +77,7 @@ export const OrdersCoworkerForm = ({ setOpen, coworker }: OrdersCoworkerFormProp
         onSuccess: () => {
             setOpen(false)
             queryClient.invalidateQueries(['currentUser'])
-            queryClient.invalidateQueries(['coworkers', currentUser?.id])
+            queryClient.invalidateQueries(['coworkers'])
         }
     })
 

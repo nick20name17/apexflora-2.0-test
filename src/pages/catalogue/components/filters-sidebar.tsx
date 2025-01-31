@@ -1,10 +1,5 @@
 import { useQuery } from 'react-query'
 
-import { CategoryFilter } from './filters/category-filter'
-import { ColorsFilter } from './filters/color-filter'
-import { CountriesFilter } from './filters/country-filter'
-import { HeightFilter } from './filters/height-filter'
-import { PriceFilter } from './filters/price-filter'
 import { getAllCategories } from '@/api/categories/categories'
 import { getAllColors } from '@/api/colors/colors'
 import { getAllProducers } from '@/api/producers/producers'
@@ -26,6 +21,12 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
+import { ActiveFilters } from './active-filters'
+import { CategoryFilter } from './filters/category-filter'
+import { ColorsFilter } from './filters/color-filter'
+import { CountriesFilter } from './filters/country-filter'
+import { HeightFilter } from './filters/height-filter'
+import { PriceFilter } from './filters/price-filter'
 
 interface FiltersSidebarProps {
     minMaxValues: MinMaxValues
@@ -53,10 +54,13 @@ export const FiltersSidebar = ({ minMaxValues, className }: FiltersSidebarProps)
 
     return (
         <ScrollArea
-            className={cn('h-full w-72 bg-background px-5 py-10', className)}
+            className={cn('h-full w-64 bg-background px-5 py-10', className)}
             id='filters'
         >
-            <Accordion type='multiple'>
+            <Accordion
+                type='multiple'
+                defaultValue={['price', 'height']}
+            >
                 <AccordionItem
                     className='border-b-0'
                     value='category'
@@ -107,6 +111,7 @@ export const FiltersSidebar = ({ minMaxValues, className }: FiltersSidebarProps)
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
+
         </ScrollArea>
     )
 }
@@ -161,11 +166,18 @@ export const MobileFiltersSidebar = ({
                 <SheetHeader className='sr-only'>
                     <SheetTitle>Фільтри</SheetTitle>
                 </SheetHeader>
+                <div className='max-h-40 overflow-y-auto'>
+                    <ActiveFilters className='w-72' />
+                </div>
+
                 <ScrollArea
-                    className='h-[calc(100vh-60px)] w-72 bg-background'
+                    className='h-[calc(100vh-60px)] w-72 bg-background mt-2'
                     id='filters'
                 >
-                    <Accordion type='multiple'>
+                    <Accordion
+                        type='multiple'
+                        defaultValue={['price', 'height']}
+                    >
                         <AccordionItem
                             className='border-b-0'
                             value='category'
