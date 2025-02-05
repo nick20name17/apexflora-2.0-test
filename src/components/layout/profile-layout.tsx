@@ -12,11 +12,11 @@ import {
 import { ErrorBoundary } from 'react-error-boundary'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 
+import { Header } from './header'
 import { Button } from '@/components//ui/button'
 import { ScrollArea } from '@/components//ui/scroll-area'
 import { Skeleton } from '@/components//ui/skeleton'
 import { DeliveryIcon } from '@/components/icons'
-
 import {
     Sheet,
     SheetContent,
@@ -28,7 +28,6 @@ import { adminRoutes, routes } from '@/config/routes'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import { ErrorPage } from '@/pages/error/error-page'
-import { Header } from './header'
 
 export const ProfileLayout = () => {
     return (
@@ -108,7 +107,7 @@ const ProfileSidebar = ({ className }: { className?: string }) => {
                             className={cn(
                                 'cursor-pointer rounded-md text-muted transition-colors hover:bg-primary/10 hover:text-primary',
                                 pathname === adminRoutes.orders &&
-                                'bg-primary text-background'
+                                    'bg-primary text-background'
                             )}
                         >
                             <NavLink

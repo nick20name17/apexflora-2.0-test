@@ -111,7 +111,6 @@ export const FiltersSidebar = ({ minMaxValues, className }: FiltersSidebarProps)
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
-
         </ScrollArea>
     )
 }
@@ -171,7 +170,7 @@ export const MobileFiltersSidebar = ({
                 </div>
 
                 <ScrollArea
-                    className='h-[calc(100vh-60px)] w-72 bg-background mt-2'
+                    className='mt-2 h-[calc(100vh-60px)] w-72 bg-background'
                     id='filters'
                 >
                     <Accordion

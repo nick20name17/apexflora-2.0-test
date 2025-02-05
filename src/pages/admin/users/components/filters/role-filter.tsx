@@ -8,8 +8,11 @@ import {
     SelectValue
 } from '@/components/ui/select'
 import { roles } from '@/constants/user'
+import { cn } from '@/lib/utils'
 
-export const RoleFilter = () => {
+
+
+export const RoleFilter = ({ className }: { className?: string }) => {
     const [role, setRole] = useQueryState('role', {
         defaultValue: 'all'
     })
@@ -19,7 +22,7 @@ export const RoleFilter = () => {
             defaultValue={role!}
             onValueChange={setRole}
         >
-            <SelectTrigger className='w-60'>
+            <SelectTrigger className={cn('w-60', className)}>
                 <SelectValue placeholder='Оберіть роль' />
             </SelectTrigger>
             <SelectContent>
@@ -33,6 +36,6 @@ export const RoleFilter = () => {
                     </SelectItem>
                 ))}
             </SelectContent>
-        </Select>
+        </Select >
     )
 }

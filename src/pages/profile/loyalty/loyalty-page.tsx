@@ -8,6 +8,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
+
 import { routes } from '@/config/routes'
 
 export const LoyaltyPage = () => {
@@ -30,9 +31,9 @@ export const LoyaltyPage = () => {
             <h1 className='py-4 text-2xl'>Програма лояльності</h1>
             <div className='border-t border-t-muted pt-4'>
                 <ul className='flex flex-col gap-y-4'>
-                    <li className='flex items-center justify-between gap-4 rounded-md border border-secondary p-4 max-lg:flex-col-reverse max-lg:items-start bg-[#F9F9F9]'>
+                    <li className='flex items-center justify-between gap-4 rounded-md border border-secondary bg-[#F9F9F9] p-4 max-lg:flex-col-reverse max-lg:items-start'>
                         <div>
-                            <h2 className='text-xl font-bold text-primary'>
+                            <h2 className='text-lg font-medium text-primary'>
                                 Новому користувачеві
                             </h2>
                             <p className='mt-1 text-foreground/60'>
@@ -40,13 +41,13 @@ export const LoyaltyPage = () => {
                                 Обирай кращі пропозиції квітів з додатковою вигодою 7%
                             </p>
                         </div>
-                        <div className='flex size-14 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-bold text-foreground'>
+                        <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
                             7%
                         </div>
                     </li>
-                    <li className='flex items-center justify-between gap-4 rounded-md border border-secondary p-4 max-lg:flex-col-reverse max-lg:items-start bg-[#F9F9F9]'>
+                    <li className='flex items-center justify-between gap-4 rounded-md border border-secondary bg-[#F9F9F9] p-4 max-lg:flex-col-reverse max-lg:items-start'>
                         <div>
-                            <h2 className='text-xl font-bold text-primary'>
+                            <h2 className='text-lg font-medium text-primary'>
                                 При замовлені з веб-шопу
                             </h2>
                             <p className='mt-1 text-foreground/60'>
@@ -54,13 +55,13 @@ export const LoyaltyPage = () => {
                                 нашого веб-шопу. Купуйте квіти, професійно та з економією.
                             </p>
                         </div>
-                        <div className='flex size-14 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-bold text-foreground'>
+                        <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
                             3%
                         </div>
                     </li>
-                    <li className='flex items-center justify-between gap-4 rounded-md border border-secondary p-4 max-lg:flex-col-reverse max-lg:items-start bg-[#F9F9F9]'>
+                    <li className='flex items-center justify-between gap-4 rounded-md border border-secondary bg-[#F9F9F9] p-4 max-lg:flex-col-reverse max-lg:items-start'>
                         <div>
-                            <h2 className='text-xl font-bold text-primary'>
+                            <h2 className='text-lg font-medium text-primary'>
                                 При замовлені з веб-шопу
                             </h2>
                             <p className='mt-1 text-foreground/60'>
@@ -70,13 +71,13 @@ export const LoyaltyPage = () => {
                             </p>
                         </div>
                         <div className='flex items-center gap-x-2'>
-                            <div className='flex size-14 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-bold text-foreground'>
+                            <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
                                 1%
                             </div>
-                            <div className='flex size-14 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-bold text-foreground'>
+                            <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
                                 2%
                             </div>
-                            <div className='flex size-14 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-bold text-foreground'>
+                            <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
                                 3%
                             </div>
                         </div>

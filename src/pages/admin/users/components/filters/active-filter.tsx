@@ -18,7 +18,7 @@ export const ActiveFilter = () => {
             defaultValue={isActive!}
             onValueChange={setIsActive}
         >
-            <SelectTrigger className='w-60'>
+            <SelectTrigger className='w-60 max-md:w-full'>
                 <SelectValue placeholder='Оберіть активність' />
             </SelectTrigger>
             <SelectContent>

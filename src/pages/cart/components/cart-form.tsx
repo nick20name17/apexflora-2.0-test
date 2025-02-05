@@ -46,10 +46,10 @@ const addOrderSchema = z.object({
             required_error: "Це поле є обов'язковим"
         })
         .min(1, "Це поле є обов'язковим"),
-    address: z.number({
+    address: z.coerce.number({
         required_error: "Це поле є обов'язковим"
     }),
-    recepient: z.number({
+    recepient: z.coerce.number({
         required_error: "Це поле є обов'язковим"
     })
 })
@@ -211,7 +211,7 @@ export const CartForm = () => {
                                             <FormControl>
                                                 <SelectTrigger
                                                     ref={field.ref}
-                                                    className='border border-muted-foreground bg-transparent truncate'
+                                                    className='truncate border border-muted-foreground bg-transparent'
                                                 >
                                                     <div className='max-w-44 truncate'>
                                                         <SelectValue placeholder='Оберіть отримувача' />
@@ -287,7 +287,7 @@ export const CartForm = () => {
                                             <FormControl>
                                                 <SelectTrigger
                                                     ref={field.ref}
-                                                    className='border border-muted-foreground bg-transparent truncate'
+                                                    className='truncate border border-muted-foreground bg-transparent'
                                                 >
                                                     <div className='max-w-44 truncate'>
                                                         <SelectValue placeholder='Оберіть адресу доставки' />
@@ -301,7 +301,8 @@ export const CartForm = () => {
                                                         key={deliverAddress.id}
                                                         value={deliverAddress.id?.toString()}
                                                     >
-                                                        {deliverAddress.city}, {deliverAddress.street}
+                                                        {deliverAddress.city},{' '}
+                                                        {deliverAddress.street}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>

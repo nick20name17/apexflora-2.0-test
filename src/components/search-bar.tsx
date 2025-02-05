@@ -3,9 +3,9 @@ import { X } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 import { useDebouncedCallback } from 'use-debounce'
 
+import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import { cn } from '@/lib/utils'
 
 export const SearchBar = ({ className }: { className?: string }) => {
     const [search, setSearch] = useQueryState('search', {
@@ -19,7 +19,7 @@ export const SearchBar = ({ className }: { className?: string }) => {
             setOffset(0)
             setSearch(e.target.value)
         },
-        300
+        250
     )
 
     return (

@@ -17,6 +17,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
+
 import { ViewFilter } from '@/components/view-filter'
 import { routes } from '@/config/routes'
 import { ActiveFilters } from './active-filters'

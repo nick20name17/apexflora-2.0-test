@@ -1,17 +1,19 @@
 import { useRef, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { ApproveCell } from './approve-cell'
 import { patchStock } from '@/api/stock/stock'
 import type { Stock, StocksPayload } from '@/api/stock/stock.types'
 import { Input } from '@/components/ui/input'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
+import { cn } from '@/lib/utils'
+import { ApproveCell } from './approve-cell'
 
 interface PriceCellProps {
     stocks: Stock[]
+    className?: string
 }
 
-export const PriceCell = ({ stocks }: PriceCellProps) => {
+export const PriceCell = ({ stocks, className }: PriceCellProps) => {
     const { currentStock } = useCatalogueOperations({
         stocks
     })
@@ -64,7 +66,7 @@ export const PriceCell = ({ stocks }: PriceCellProps) => {
     return (
         <>
             <div
-                className='relative w-full text-primary'
+                className={cn('relative w-full text-primary', className)}
                 key={currentStock?.retail_price}
             >
                 <span className='text-gray-500 absolute left-2 top-1/2 -translate-y-1/2 transform'>
@@ -73,7 +75,7 @@ export const PriceCell = ({ stocks }: PriceCellProps) => {
                 <Input
                     ref={inputRef}
                     type='text'
-                    className='h-9 pl-5 pr-2'
+                    className='h-10 md:h-9 pl-5 pr-2'
                     value={value}
                     onChange={handleChange}
                     onFocus={() => setIsFocused(true)}

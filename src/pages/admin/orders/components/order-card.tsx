@@ -6,14 +6,11 @@ import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { toast } from 'sonner'
 
-import { OrderStatusSelect } from './controls/order-status-select'
-import { SupplierToggle } from './controls/supplier-cell'
-import { EditOrderModal, RemoveOrderModal } from './modals/modals'
-import { RemoveOrderItemModal } from './modals/remove-order-item'
-import { UserInfo } from './user-info'
 import { patchOrderItem } from '@/api/order-items/order-items'
 import type { OrderItem, OrderItemsPayload } from '@/api/order-items/order-items.types'
 import type { Order } from '@/api/orders/orders.types'
+import { DiscountLabel } from '@/components/product-card'
+import { HeightInfo, WeighDiameterInfo } from '@/components/product-info'
 import { getStatusProductsDisplay } from '@/components/status-tabs'
 import { Button } from '@/components/ui/button'
 import {
@@ -28,6 +25,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { DownloadOrdersPdfBtn } from '@/pages/profile/orders/components/download-orders-pdf-btn'
+import { OrderStatusSelect } from './controls/order-status-select'
+import { SupplierToggle } from './controls/supplier-cell'
+import { EditOrderModal, RemoveOrderModal } from './modals/modals'
+import { RemoveOrderItemModal } from './modals/remove-order-item'
+import { UserInfo } from './user-info'
 
 interface OrderCardProps {
     order: Order
@@ -54,12 +56,7 @@ export const AdminOrderCard = ({ order }: OrderCardProps) => {
         >
             <CollapsibleTrigger className='flex w-full items-center justify-between gap-x-8'>
                 <div
-                    className={cn(
-                        'grid flex-1 grid-cols-[1fr,2fr,1fr,1.2fr,1fr,2fr] gap-x-4',
-                        status === 'supplier'
-                            ? 'grid-cols-[1fr,2fr,1fr,1.2fr,1fr,2.5fr]'
-                            : 'grid-cols-[1fr,2fr,1fr,1.2fr,1fr,2fr]'
-                    )}
+                    className='grid flex-1 gap-x-4 grid-cols-[1fr,2fr,1fr,1.2fr,1fr,100px]'
                 >
                     <div className='flex flex-col items-start gap-y-0.5'>
                         <span className='text-xs'># Замовлення</span>
@@ -67,7 +64,7 @@ export const AdminOrderCard = ({ order }: OrderCardProps) => {
                     </div>
                     <UserInfo order={order} />
                     <div className='flex flex-col items-start gap-y-0.5'>
-                        <span className='text-xs'>Дата оформлення</span>
+                        <span className='text-xs'>Дата</span>
                         <span className='text-primary'>
                             {format(order.created_at, 'dd.MM.yyyy')}
                         </span>
@@ -90,11 +87,6 @@ export const AdminOrderCard = ({ order }: OrderCardProps) => {
                                 order.discount > 0 ? 'flex items-center gap-x-1' : ''
                             )}
                         >
-                            {order.discount > 0 ? (
-                                <span className='text-sm text-foreground/80 line-through'>
-                                    {totalPrice} ₴
-                                </span>
-                            ) : null}
                             <span className='text-primary'>
                                 {totalPriceWithDiscount} ₴
                             </span>
@@ -114,9 +106,17 @@ export const AdminOrderCard = ({ order }: OrderCardProps) => {
                         </Tooltip>
                     ) : null}
 
-                    <RemoveOrderModal order={order} />
-                    <EditOrderModal order={order} />
-                    <DownloadOrdersPdfBtn order={order} />
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild><Button size='icon' variant='outline'><More /></Button></DropdownMenuTrigger>
+                        <DropdownMenuContent className='min-w-10'>
+                            <DropdownMenuItem className='hover:!bg-transparent'>                    <RemoveOrderModal order={order} />
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className='hover:!bg-transparent'>                    <EditOrderModal order={order} />
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className='hover:!bg-transparent'>                    <DownloadOrdersPdfBtn order={order} />
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     <Button
                         size='icon'
                         variant='outline'
@@ -241,6 +241,14 @@ const PriceInput = ({ orderItem }: { orderItem: OrderItem }) => {
         </Form>
     )
 }
+
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import { More } from 'iconsax-react'
 
 const AmountInput = ({ orderItem }: { orderItem: OrderItem }) => {
     const form = useForm({
@@ -369,16 +377,26 @@ const AdminOrderItemCard = ({ orderItem, order }: OrderItemCardProps) => {
                         <Skeleton className='h-full w-full rounded-sm object-cover' />
                     )}
                 </div>
-                <div className='flex flex-col gap-y-0.5 truncate text-sm'>
-                    <h1 className='truncate font-bold text-primary'>
-                        {orderItem.stock_product.shop_product.product.ukr_name}
-                    </h1>
-                    <span className='text-foreground/60'>
-                        Артикул: {orderItem.stock_product.shop_product.origin_id}
+                <div className='flex w-36 flex-col lg:w-60 truncate'>
+                    <span className='truncate text-foreground'>
+                        {orderItem.stock_product.shop_product.product?.ukr_name}
                     </span>
+                    <div className='flex items-center gap-x-1'>
+                        <img
+                            src={
+                                orderItem.stock_product.shop_product.producer?.country
+                                    ?.flag
+                            }
+                            alt={orderItem.stock_product.shop_product.producer?.name}
+                            className='size-4'
+                        />
+                        <span className='truncate text-xs'>
+                            {orderItem.stock_product.shop_product.producer?.name}
+                        </span>
+                    </div>
                 </div>
             </div>
-            <div className='grid h-full flex-1 grid-cols-[0.3fr,130px,130px,0.5fr,1fr] items-center gap-x-4 pr-4'>
+            <div className='grid h-full flex-1 grid-cols-[0.7fr,80px,120px,130px,125px,40px,1fr,1fr] items-center gap-x-4 pr-4'>
                 <div className='flex flex-col items-start gap-y-0.5'>
                     <span className='text-xs'>Статус</span>
                     <span className='flex items-center gap-1 text-sm text-primary [&_svg]:size-4 [&_svg]:shrink-0'>
@@ -387,11 +405,19 @@ const AdminOrderItemCard = ({ orderItem, order }: OrderItemCardProps) => {
                     </span>
                 </div>
                 <div className='flex flex-col items-start gap-y-0.5'>
+                    <span className='text-xs'>Висота</span>
+                    <HeightInfo height={orderItem.stock_product.shop_product?.height} />
+                </div>
+                <div className='flex flex-col items-start gap-y-0.5'>
+                    <span className='text-xs'>Ваг./діам.</span>
+                    <WeighDiameterInfo weight={orderItem.stock_product.shop_product?.weight_size} diameter={orderItem.stock_product.shop_product?.diameter} />
+                </div>
+                <div className='flex flex-col items-start gap-y-0.5'>
                     <span className='text-xs'>Ціна</span>
                     <PriceInput orderItem={orderItem} />
                 </div>
                 <div className='flex flex-col items-start gap-y-0.5'>
-                    <Tooltip delayDuration={500}>
+                    <Tooltip delayDuration={300}>
                         <TooltipTrigger className='flex items-center gap-x-1 text-xs'>
                             <Info className='size-3' /> Кількість{' '}
                             {orderItem.stock_product.quantity} /{' '}
@@ -403,20 +429,10 @@ const AdminOrderItemCard = ({ orderItem, order }: OrderItemCardProps) => {
                     </Tooltip>
                     <AmountInput orderItem={orderItem} />
                 </div>
+                <DiscountLabel discount={orderItem?.percentage ?? 0} />
                 <div className='flex flex-col items-start gap-y-0.5'>
                     <span className='text-xs'>Сума</span>
-                    <span
-                        className={cn(
-                            orderItem.discount > 0 ? 'flex items-center gap-x-1' : ''
-                        )}
-                    >
-                        {orderItem.discount > 0 ? (
-                            <span className='text-sm text-foreground/80 line-through'>
-                                {totalPrice} ₴
-                            </span>
-                        ) : null}
-                        <span className='text-primary'>{totalPriceWithDiscount} ₴</span>
-                    </span>
+                    <span className='text-primary'>{totalPriceWithDiscount} ₴</span>
                 </div>
                 <div className='flex justify-end'>
                     <RemoveOrderItemModal

@@ -150,7 +150,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
                 <li key={filter.key}>
                     <Button
                         onClick={() => onFilterRemove(filter.key as FilterKey)}
-                        className='xl:xl:h-9 h-8 rounded-full bg-secondary/50 xl:px-4 xl:py-3 p-2 text-xs text-muted-foreground transition-colors hover:text-background'
+                        className='h-8 rounded-full bg-secondary/50 p-2 text-xs text-muted-foreground transition-colors hover:text-background xl:xl:h-9 xl:px-4 xl:py-3'
                     >
                         {filter.label}
                         <X className='ml-2 size-4' />
@@ -162,7 +162,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
                 <li key={`color-${colorId}`}>
                     <Button
                         onClick={() => onFilterRemove('colors', colorId)}
-                        className='xl:h-9 h-8  rounded-full bg-secondary/50 xl:px-4 xl:py-3 p-2 text-xs text-muted-foreground transition-colors hover:text-background'
+                        className='h-8 rounded-full bg-secondary/50 p-2 text-xs text-muted-foreground transition-colors hover:text-background xl:h-9 xl:px-4 xl:py-3'
                     >
                         <div
                             className='size-3 rounded-full border'
@@ -181,7 +181,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
                     <li key={`country-${country}`}>
                         <Button
                             onClick={() => onFilterRemove('countries', country)}
-                            className='xl:h-9 h-8  rounded-full bg-secondary/50 xl:px-4 xl:py-3 p-2 text-xs text-muted-foreground transition-colors hover:text-background'
+                            className='h-8 rounded-full bg-secondary/50 p-2 text-xs text-muted-foreground transition-colors hover:text-background xl:h-9 xl:px-4 xl:py-3'
                         >
                             <img
                                 src={flag}
@@ -199,7 +199,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
                 <li key={`category-${category}`}>
                     <Button
                         onClick={() => onFilterRemove('categories', category)}
-                        className='xl:h-9 h-8  rounded-full bg-secondary/50 xl:px-4 xl:py-3 p-2 text-xs text-muted-foreground transition-colors hover:text-background'
+                        className='h-8 rounded-full bg-secondary/50 p-2 text-xs text-muted-foreground transition-colors hover:text-background xl:h-9 xl:px-4 xl:py-3'
                     >
                         {getCategoryName(category)}
                         <X className='ml-2 size-4' />
@@ -208,13 +208,13 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
             ))}
 
             {filters.length ||
-                selectedColors.length ||
-                selectedCountries.length ||
-                selectedCategories.length ? (
+            selectedColors.length ||
+            selectedCountries.length ||
+            selectedCategories.length ? (
                 <li>
                     <Button
                         onClick={onClearAll}
-                        className='xl:h-9 h-8  rounded-full bg-highlight/15 xl:px-4 xl:py-3 p-2 text-xs text-highlight transition-colors hover:bg-highlight hover:text-background'
+                        className='h-8 rounded-full bg-highlight/15 p-2 text-xs text-highlight transition-colors hover:bg-highlight hover:text-background xl:h-9 xl:px-4 xl:py-3'
                     >
                         Скинути <span className='max-lg:hidden'>все</span>
                     </Button>

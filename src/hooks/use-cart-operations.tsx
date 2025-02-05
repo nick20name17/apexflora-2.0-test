@@ -75,7 +75,8 @@ export const useCartOperations = () => {
 
         const priceWithDiscount = stockMaxDiscountPercentage
             ? +formatPrice(
-                +cart.stock_product.retail_price * (1 - stockMaxDiscountPercentage / 100)
+                // @ts-ignore
+                cart.stock_product.retail_price * (1 - stockMaxDiscountPercentage / 100)
             )
             : null
 
@@ -186,7 +187,6 @@ export const useCartOperations = () => {
                         stock_product: {
                             ...stockProduct,
                             // @ts-ignore
-
                             in_basket: newAmount
                         },
                         in_wish_list: stockProduct.shop_product.in_wish_list,

@@ -14,7 +14,7 @@ export interface Cart {
     in_wish_list: boolean
 }
 
-interface StockProduct {
+export interface StockProduct {
     id: number
     shop_product: ShopProduct
     status: StatusProduct
@@ -23,7 +23,7 @@ interface StockProduct {
     stock_price: string
     promotion: boolean
     discounts: Discount[]
-}
+  }
 
 export interface CartAddPayload {
     stock_product: number

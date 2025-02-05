@@ -146,7 +146,7 @@ export const useCatalogueOperations = ({
                             stock_product: {
                                 ...currentStock!,
                                 in_basket: newAmount
-                            },
+                            }
                         } as Cart
                     ]
                     newCount++

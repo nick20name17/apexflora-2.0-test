@@ -7,17 +7,19 @@ import type { BonusLimit } from '@/api/bonuses/bonuses.types'
 export const columns: ColumnDef<BonusLimit>[] = [
     {
         accessorKey: 'name',
-        header: () => <div className='w-40'>Ліміт</div>,
+        header: 'Ліміт',
         cell: ({ row }) => {
-            return <div className='w-40'>{row.original.accumulation_limit}</div>
-        }
+            return row?.original?.accumulation_limit
+        },
+        size: 140
     },
     {
         accessorKey: 'hex',
-        header: () => <div className='w-40'>Знижка</div>,
+        header: 'Знижка',
         cell: ({ row }) => {
-            return <div className='w-40'>{row.original.discount}%</div>
-        }
+            return <> {row.original.discount} %</>
+        },
+        size: 120
     },
     {
         accessorKey: 'actions',

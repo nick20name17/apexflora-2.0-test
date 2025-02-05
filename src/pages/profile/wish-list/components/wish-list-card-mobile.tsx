@@ -2,8 +2,8 @@ import { Heart } from 'iconsax-react'
 import { useEffect, useState } from 'react'
 
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { DiametrIcon, HeightIcon, WeightIcon } from '@/components/icons'
 import { DiscountLabel } from '@/components/product-card'
+import { HeightInfo, WeighDiameterInfo } from '@/components/product-info'
 import { Button } from '@/components/ui/button'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
@@ -105,27 +105,11 @@ export const WishListProductCardMobile = ({
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Висота</h2>
-                        <div className='flex items-center gap-x-0.5'>
-                            <HeightIcon className='size-4 text-muted' />
-                            <span className='text-sm'>{shopProduct.height}см</span>
-                        </div>
+                        <HeightInfo height={shopProduct.height} />
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Ваг./діам.</h2>
-                        <div className='flex items-center gap-x-1'>
-                            <div className='flex items-center gap-x-0.5'>
-                                <WeightIcon className='size-4 text-muted' />
-                                <span className='text-sm'>
-                                    {shopProduct.weight_size ?? '-'}
-                                </span>
-                            </div>
-                            <div className='flex items-center gap-x-0.5'>
-                                <DiametrIcon className='size-4 text-muted' />
-                                <span className='text-sm'>
-                                    {shopProduct.diameter ?? '-'}
-                                </span>
-                            </div>
-                        </div>
+                        <WeighDiameterInfo weight={shopProduct.weight_size} diameter={shopProduct.diameter} />
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Ціна</h2>

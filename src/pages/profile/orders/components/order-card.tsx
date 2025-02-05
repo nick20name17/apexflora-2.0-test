@@ -3,11 +3,10 @@ import { Heart } from 'iconsax-react'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
-import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
 import type { OrderItem } from '@/api/order-items/order-items.types'
 import type { Order, Statuses } from '@/api/orders/orders.types'
-import { DiametrIcon, HeightIcon, WeightIcon } from '@/components/icons'
 import { DiscountLabel } from '@/components/product-card'
+import { HeightInfo, WeighDiameterInfo } from '@/components/product-info'
 import { Button } from '@/components/ui/button'
 import {
     Collapsible,
@@ -18,6 +17,7 @@ import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { DATE_FORMATS } from '@/constants/app'
 import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
+import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
 
 export const getStatusName = (statusName: Statuses) => {
     const statuses = {
@@ -84,19 +84,8 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                     <OrderCardStatus statusName={order.status as Statuses} />
                     <div className='flex flex-col items-start gap-y-0.5'>
                         <span className='text-xs'>Сума</span>
-                        <span
-                            className={cn(
-                                +order.discount > 0 ? 'flex items-center gap-x-1' : ''
-                            )}
-                        >
-                            {+order.discount > 0 ? (
-                                <span className='whitespace-nowrap text-foreground/80 line-through'>
-                                    {formatPrice(totalPrice)}₴
-                                </span>
-                            ) : null}
-                            <span className='whitespace-nowrap text-primary'>
-                                {formatPrice(totalPriceWithDiscount)}₴
-                            </span>
+                        <span className='whitespace-nowrap text-primary'>
+                            {formatPrice(totalPriceWithDiscount)}₴
                         </span>
                     </div>
                 </div>
@@ -175,22 +164,9 @@ const OrderItemCard = ({ orderItem }: OrderItemCardProps) => {
             </div>
             <div>{orderItem.stock_product.shop_product?.origin_id}</div>
 
-            <div className='flex items-center gap-x-0.5'>
-                <HeightIcon className='size-5' />
-                {orderItem.stock_product.shop_product?.height ??
-                    '-'} см.
-            </div>
+            <HeightInfo height={orderItem.stock_product.shop_product?.height} />
 
-            <div className='flex items-center gap-x-1'>
-                <div className='flex items-center gap-x-0.5'>
-                    <WeightIcon className='size-5' />
-                    {orderItem?.stock_product.shop_product.weight_size ?? '-'}
-                </div>
-                <div className='flex items-center gap-x-0.5'>
-                    <DiametrIcon className='size-5' />
-                    {orderItem?.stock_product.shop_product.diameter ?? '-'}
-                </div>
-            </div>
+            <WeighDiameterInfo weight={orderItem.stock_product.shop_product?.weight_size} diameter={orderItem.stock_product.shop_product?.diameter} />
 
             <div className='flex items-center gap-x-1'>
                 {orderItem?.stock_product?.promotion ? (
@@ -215,16 +191,9 @@ const OrderItemCard = ({ orderItem }: OrderItemCardProps) => {
             <div>{orderItem.amount}шт.</div>
 
             <div
-                className={cn(
-                    'flex w-full gap-1 leading-none',
-                    +orderItem.discount && 'flex-col items-start'
-                )}
+                className='flex w-full gap-1 leading-none'
             >
-                {orderItem.discount ? (
-                    <span className='whitespace-nowrap text-foreground/80 line-through'>
-                        {formatPrice(totalPrice)} ₴
-                    </span>
-                ) : null}
+
                 <span className='whitespace-nowrap text-primary'>
                     {formatPrice(totalPriceWithDiscount)} ₴
                 </span>

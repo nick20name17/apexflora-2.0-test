@@ -1,15 +1,15 @@
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
 import { ProductCard } from '@/components/product-card'
+import { ProductPopup } from '@/components/product-popup'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
 import { defaultLimit } from '@/constants/table'
-import { AdminProductPopup } from '@/pages/admin/orders/components/admin-product-popup'
 
 interface ProductsListProps {
-    shopProducts: ShopProductsResponse | undefined
+    shopProducts: ShopProductsResponse
     isLoading: boolean
 }
-export const ProductsList = ({ shopProducts, isLoading }: ProductsListProps) => {
+export const AdminProductsList = ({ shopProducts, isLoading }: ProductsListProps) => {
     if (shopProducts?.count === 0) {
         return (
             <div className='my-10 pb-1 text-center text-lg text-muted'>
@@ -25,13 +25,13 @@ export const ProductsList = ({ shopProducts, isLoading }: ProductsListProps) => 
             ) : (
                 <div className='grid grid-cols-1 gap-2.5 sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))]'>
                     {shopProducts?.results?.map((shopProduct) => (
-                        <AdminProductPopup shopProduct={shopProduct}>
+                        <ProductPopup shopProduct={shopProduct}>
                             <ProductCard
                                 className='w-full'
                                 key={shopProduct.id}
                                 shopProduct={shopProduct}
                             />
-                        </AdminProductPopup>
+                        </ProductPopup>
                     ))}
                 </div>
             )}

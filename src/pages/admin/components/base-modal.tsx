@@ -72,18 +72,18 @@ const FormModal = <TData extends Entity, TSchema extends z.ZodType>({
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         if (event) {
             if (typeof event.preventDefault === 'function') {
-                event.preventDefault();
+                event.preventDefault()
             }
             if (typeof event.stopPropagation === 'function') {
-                event.stopPropagation();
+                event.stopPropagation()
             }
         }
 
         return form.handleSubmit((data) => {
             onSubmit(data)
             isSuccess ? form.reset() : null
-        })(event);
-    };
+        })(event)
+    }
 
     return (
         <BaseModal
@@ -159,8 +159,6 @@ export function CreateModal<TData extends Entity, TSchema extends z.ZodType>({
         </Button>
     )
 
-
-
     return (
         <FormModal<TData, TSchema>
             open={open}
@@ -213,7 +211,7 @@ export function EditModal<TData extends Entity, TSchema extends z.ZodType>({
                 e.stopPropagation()
             }}
             size='icon'
-            variant='ghost'
+            variant='outline'
         >
             <Pencil />
         </Button>
@@ -263,8 +261,8 @@ export function DeleteModal<TData extends Entity>({
             onClick={(e) => {
                 e.stopPropagation()
             }}
-            className='hover:bg-destructive hover:text-destructive-foreground'
-            variant='ghost'
+            className='hover:bg-destructive hover:text-destructive-foreground hover:border-destructive'
+            variant='outline'
             size='icon'
         >
             <Trash2 />

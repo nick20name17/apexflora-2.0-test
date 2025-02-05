@@ -54,9 +54,9 @@ export const DataTable = <TData, TValue>({
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
-                                                      header.column.columnDef.header,
-                                                      header.getContext()
-                                                  )}
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
                                         </TableHead>
                                     )
                                 })}
@@ -74,7 +74,7 @@ export const DataTable = <TData, TValue>({
                                         // @ts-ignore
                                         row.original.stocks
                                             ? // @ts-ignore
-                                              row.original.stocks[0].id
+                                            row.original.stocks[0].id
                                             : row.original?.id
                                     }
                                     data-state={row.getIsSelected() && 'selected'}
@@ -111,7 +111,7 @@ export const DataTable = <TData, TValue>({
             {dataCount ? (
                 <TablePagination
                     className='border-none pt-0'
-                    count={dataCount || 0}
+                    count={dataCount ?? 0}
                     isLoading={isLoading}
                 />
             ) : null}

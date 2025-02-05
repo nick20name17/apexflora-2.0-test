@@ -1,35 +1,38 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
-import { EditBonusProgramModal, RemoveBonusProgramModal } from './modals'
 import type { BonusProgram } from '@/api/bonuses/bonuses.types'
+import { EditBonusProgramModal, RemoveBonusProgramModal } from './modals'
 
 export const columns: ColumnDef<BonusProgram>[] = [
     {
         accessorKey: 'title',
-        header: () => <div className='w-40'>Бонусна програма</div>,
+        header: 'Бонусна програма',
         cell: ({ row }) => {
-            return <div className='w-40'>{row.original.title}</div>
-        }
+            return row.original.title
+        },
+        size: 160
     },
     {
         accessorKey: 'limits',
-        header: () => <div className='w-60'>Ліміти</div>,
+        header: 'Ліміти',
         cell: ({ row }) => {
             const concatenatedLimits = row.original.limits
                 ?.map((limit) => limit.accumulation_limit + ' ₴')
                 .join(' | ')
-            return <div className='w-60'>{concatenatedLimits}</div>
-        }
+            return <div className='w-full truncate'>{concatenatedLimits}</div>
+        },
+        size: 240
     },
     {
         accessorKey: 'limits',
-        header: () => <div className='w-60'>Знижки</div>,
+        header: 'Знижки',
         cell: ({ row }) => {
             const concatenatedDiscounts = row.original.limits
                 ?.map((limit) => limit.discount + ' %')
                 .join(' | ')
-            return <div className='w-60'>{concatenatedDiscounts}</div>
-        }
+            return <div className='w-full truncate'>{concatenatedDiscounts}</div>
+        },
+        size: 240
     },
     {
         accessorKey: 'actions',

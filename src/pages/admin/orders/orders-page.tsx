@@ -3,19 +3,21 @@ import { useQuery } from 'react-query'
 
 import DataPageLayout from '../components/data-page-layout'
 
-import { AllPreordersCard } from './components/all-preoder-card'
-import { FiltersBar } from './components/controls/filters-bar'
-import { DownloadCSVBtn } from './components/dowload-csv-btn'
-import { AddOrderModal } from './components/modals/modals'
-import { AdminOrderCard } from './components/order-card'
-import { OrderCardSkeleton } from './components/order-skeleton'
-import { ProductStatusProvider } from './context/product-status'
 import { getOrders } from '@/api/orders/orders'
 import { getPreorderStocks } from '@/api/stock/stock'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { defaultLimit } from '@/constants/table'
+import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
 import { TablePagination } from '@/pages/catalogue/components/product-table/table-pagination'
+import { AllPreordersCard } from './components/all-preoder-card'
+import { FiltersBar } from './components/controls/filters-bar'
+import { DownloadCSVBtn } from './components/dowload-csv-btn'
+import { MobileAdminOrderCard } from './components/mobile-order-card'
+import { AddOrderModal } from './components/modals/modals'
+import { AdminOrderCard } from './components/order-card'
+import { OrderCardSkeleton } from './components/order-skeleton'
+import { ProductStatusProvider } from './context/product-status'
 
 const AdminOrdersContent = () => {
     const [limit] = useQueryState('limit', {
@@ -86,6 +88,8 @@ const AdminOrdersContent = () => {
 
     const isPaginationLoading = ordersQuery?.isLoading || preOrdersQuery?.isLoading
 
+    const isLg = useMediaQuery('(max-width: 1024px)')
+
     return (
         <>
             <DataPageLayout
@@ -94,7 +98,7 @@ const AdminOrdersContent = () => {
                 isLoading={ordersQuery.isLoading}
                 filterComponent={<FiltersBar />}
                 actionComponent={
-                    <div className='flex items-center gap-x-2'>
+                    <div className='flex md:items-center gap-2 max-md:[&>*]:w-full max-md:flex-col'>
                         <DownloadCSVBtn />
                         <AddOrderModal />
                     </div>
@@ -120,7 +124,7 @@ const AdminOrdersContent = () => {
                         ))
                     ) : ordersQuery?.data?.count ? (
                         ordersQuery?.data?.results?.map((order) => (
-                            <AdminOrderCard
+                            isLg ? <MobileAdminOrderCard order={order} key={order.id} /> : <AdminOrderCard
                                 order={order}
                                 key={order.id}
                             />

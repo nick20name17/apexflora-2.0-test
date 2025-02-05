@@ -1,17 +1,17 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
-import { EditUserModal, RemoveUserModal } from './modals'
 import type { User } from '@/api/users/users.types'
 import { getRoleBadgeInfo } from '@/constants/user'
 import { cn } from '@/lib/utils'
+import { EditUserModal, RemoveUserModal } from './modals'
 
 export const usersColumns: ColumnDef<User>[] = [
     {
         accessorKey: 'first_name',
-        header: () => <div className='w-40'>Імя та прізвище</div>,
+        header: 'Імя та прізвище',
         cell: ({ row }) => {
             return (
-                <div className='w-40'>
+                <div className='truncate max-w-full'>
                     {row.original.first_name + ' ' + row.original.last_name}
                 </div>
             )
@@ -19,49 +19,55 @@ export const usersColumns: ColumnDef<User>[] = [
     },
     {
         accessorKey: 'email',
-        header: () => <div className='w-60'>Пошта</div>,
+        header: 'Пошта',
         cell: ({ row }) => {
-            return <div className='w-60'>{row.original.email}</div>
-        }
+            return <div className='truncate max-w-full'>{row.original.email}</div>
+        },
+        size: 240
     },
     {
         accessorKey: 'phone_number',
-        header: () => <div className='w-48'>Номер телефон</div>,
+        header: '>Номер телефон',
         cell: ({ row }) => {
-            return <div className='w-48'>{row.original.phone_number}</div>
-        }
+            return <div className='truncate max-w-full'>{row.original.phone_number}</div>
+        },
+        size: 192
     },
     {
         accessorKey: 'company',
-        header: () => <div className='w-24'>Компанія</div>,
+        header: 'Компанія',
         cell: ({ row }) => {
-            return <div className='w-24'>{row.original.company || '-'}</div>
-        }
+            return row.original.company || '-'
+        },
+        size: 96
     },
     {
         accessorKey: 'city',
-        header: () => <div className='w-36'>Місто</div>,
+        header: 'Місто',
         cell: ({ row }) => {
-            return <div className='w-36'>{row.original.city || '-'}</div>
-        }
+            return row.original.city || '-'
+        },
+        size: 144
     },
     {
-        accessorKey: 'city',
-        header: () => <div className='w-14'>Код 1C</div>,
+        accessorKey: 'code_1c',
+        header: 'Код 1C',
         cell: ({ row }) => {
-            return <div className='w-14'>{row.original.code_1c || '-'}</div>
-        }
+            return row.original.code_1c || '-'
+        },
+        size: 66
     },
     {
         accessorKey: 'bonus_program',
-        header: () => <div className='w-20'>Бонус</div>,
+        header: 'Бонус',
         cell: ({ row }) => {
-            return <div className='w-20'>{row.original?.bonus_program?.title || '-'}</div>
-        }
+            return row.original?.bonus_program?.title || '-'
+        },
+        size: 80
     },
     {
         accessorKey: 'role',
-        header: () => <div className='w-24'>Роль</div>,
+        header: 'Роль',
         cell: ({ row }) => {
             const { className, displayName } = getRoleBadgeInfo(row.original.role)
             return (
@@ -74,22 +80,22 @@ export const usersColumns: ColumnDef<User>[] = [
                     {displayName}
                 </div>
             )
-        }
+        },
+        size: 120
     },
     {
         accessorKey: 'bonus_program',
-        header: () => <div className='w-32'>Менеджер</div>,
+        header: 'Менеджер',
         cell: ({ row }) => {
             return (
-                <div className='w-32'>
-                    {row.original?.service_manager?.id
-                        ? row.original?.service_manager?.first_name +
-                          ' ' +
-                          row.original?.service_manager?.last_name
-                        : '-'}
-                </div>
+                row.original?.service_manager?.id
+                    ? row.original?.service_manager?.first_name +
+                    ' ' +
+                    row.original?.service_manager?.last_name
+                    : '-'
             )
-        }
+        },
+        size: 128
     },
 
     {

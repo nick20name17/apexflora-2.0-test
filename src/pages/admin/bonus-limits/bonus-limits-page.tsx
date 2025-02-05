@@ -3,10 +3,10 @@ import { useQuery } from 'react-query'
 import { DataPageLayout } from '../components/data-page-layout'
 import { DataTable } from '../components/table'
 
-import { columns } from './components/columns'
-import { AddBonusLimitModal } from './components/modals'
 import { getBonusLimits } from '@/api/bonuses/bonuses'
 import { defaultLimit } from '@/constants/table'
+import { columns } from './components/columns'
+import { AddBonusLimitModal } from './components/modals'
 
 const BonusLimitsPage = () => {
     const { data: bonusesLimits, isLoading } = useQuery({
@@ -21,7 +21,7 @@ const BonusLimitsPage = () => {
 
     return (
         <DataPageLayout
-            title='Бонусні програми'
+            title='Бонусні ліміти'
             count={bonusesLimits?.count}
             isLoading={isLoading}
             actionComponent={<AddBonusLimitModal />}

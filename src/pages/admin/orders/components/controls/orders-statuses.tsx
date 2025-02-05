@@ -1,24 +1,25 @@
-import { useQueryState } from 'nuqs'
+"use client"
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useQueryState } from "nuqs"
 
 export const OrderStatuses = () => {
-    const [status, setStatus] = useQueryState('status', {
-        defaultValue: 'orders'
+    const [status, setStatus] = useQueryState("status", {
+        defaultValue: "orders",
     })
 
-    const [, setOffset] = useQueryState('offset', {
+    const [, setOffset] = useQueryState("offset", {
         parse: Number,
-        defaultValue: 0
+        defaultValue: 0,
     })
 
-    const [, setAllPreorders] = useQueryState('all-preorders', {
+    const [, setAllPreorders] = useQueryState("all-preorders", {
         parse: Boolean,
-        defaultValue: false
+        defaultValue: false,
     })
 
     const handleStatusChange = (status: string) => {
-        if (status !== 'pre-orders') {
+        if (status !== "pre-orders") {
             setAllPreorders(null)
         }
         setStatus(status)
@@ -26,27 +27,23 @@ export const OrderStatuses = () => {
     }
 
     return (
-        <Tabs
-            className='w-full'
-            defaultValue={status}
-            onValueChange={handleStatusChange}
-        >
-            <TabsList className='h-12 w-full bg-secondary'>
+        <Tabs className="w-full" defaultValue={status} onValueChange={handleStatusChange}>
+            <TabsList className="max-md:flex-col max-md:h-auto h-10 md:h-12 w-full md:bg-secondary bg-transparent max-md:border">
                 <TabsTrigger
-                    className='h-full flex-1 text-primary data-[state=active]:bg-primary data-[state=active]:text-background'
-                    value='orders'
+                    className="max-md:w-full md:h-full h-10 md:flex-1 max-md:justify-start text-primary data-[state=active]:bg-primary data-[state=active]:text-background"
+                    value="orders"
                 >
                     Замовлення
                 </TabsTrigger>
                 <TabsTrigger
-                    className='h-full flex-1 text-primary data-[state=active]:bg-primary data-[state=active]:text-background'
-                    value='pre-orders'
+                    className="max-md:w-full md:h-full h-10 md:flex-1 max-md:justify-start text-primary data-[state=active]:bg-primary data-[state=active]:text-background"
+                    value="pre-orders"
                 >
                     Передзамовлення
                 </TabsTrigger>
                 <TabsTrigger
-                    className='h-full flex-1 text-primary data-[state=active]:bg-primary data-[state=active]:text-background'
-                    value='supplier'
+                    className="max-md:w-full md:h-full h-10 md:flex-1 max-md:justify-start text-primary data-[state=active]:bg-primary data-[state=active]:text-background"
+                    value="supplier"
                 >
                     Надхоження
                 </TabsTrigger>
@@ -54,3 +51,4 @@ export const OrderStatuses = () => {
         </Tabs>
     )
 }
+

@@ -1,4 +1,5 @@
 import type { UseFormReturn } from 'react-hook-form'
+import { withMask } from 'use-mask-input'
 import { z } from 'zod'
 
 import { addCoworker } from '@/api/coworkers/coworkers'
@@ -13,13 +14,13 @@ import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/use-auth'
 import { CreateModal } from '@/pages/admin/components/base-modal'
 import { ordersCoworkerSchema } from '@/pages/profile/settings/forms/orders-coworker-form'
-import { withMask } from 'use-mask-input'
 
-const coworkerFormFields = (form: UseFormReturn<z.infer<typeof ordersCoworkerSchema>>) => {
+const coworkerFormFields = (
+    form: UseFormReturn<z.infer<typeof ordersCoworkerSchema>>
+) => {
     return (
         <>
             <FormField
-
                 control={form.control}
                 name='first_name'
                 render={({ field }) => (
@@ -37,7 +38,6 @@ const coworkerFormFields = (form: UseFormReturn<z.infer<typeof ordersCoworkerSch
                 )}
             />
             <FormField
-
                 control={form.control}
                 name='last_name'
                 render={({ field }) => (
@@ -55,7 +55,6 @@ const coworkerFormFields = (form: UseFormReturn<z.infer<typeof ordersCoworkerSch
                 )}
             />
             <FormField
-
                 control={form.control}
                 name='email'
                 render={({ field }) => (
@@ -103,11 +102,16 @@ export const AddCoworkerModal = ({ size = 'sm' }: { size?: 'sm' | 'icon' }) => {
                 email: '',
                 first_name: '',
                 last_name: '',
-                phone_number: '',
+                phone_number: ''
             }}
             buttonText=''
-            mutation={(payload) => addCoworker({ ...payload, phone_number: payload.phone_number.replace(/\s/g, ''), creator: currentUser?.id! })}
-
+            mutation={(payload) =>
+                addCoworker({
+                    ...payload,
+                    phone_number: payload.phone_number.replace(/\s/g, ''),
+                    creator: currentUser?.id!
+                })
+            }
             schema={ordersCoworkerSchema}
             queryKey={['coworkers', 'currentUser']}
             renderFields={coworkerFormFields}

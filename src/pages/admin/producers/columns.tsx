@@ -1,33 +1,36 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
-import { EditProducerModal, RemoveProducerModal } from './modals'
 import type { Producer } from '@/api/producers/producers.types'
+import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
+import { EditProducerModal, RemoveProducerModal } from './modals'
 
 export const columns: ColumnDef<Producer>[] = [
     {
         accessorKey: 'name',
         header: 'Назва',
-
+        cell: ({ row }) => {
+            return <div className='w-full truncate'>{row.original.name}</div>
+        },
         size: 160
     },
     {
-        accessorKey: 'hex',
+        accessorKey: 'country',
         header: 'Країна',
         cell: ({ row }) => {
             return (
-                <div className='flex items-center gap-x-2'>
+                <div className='flex items-center gap-x-2 truncate'>
                     <div>
-                        <img
+                        <ImageWithSkeleton
                             src={row.original.country.flag}
                             alt={row.original.country.name}
                             className='size-3.5'
                         />
                     </div>
-                    {row.original.country.name}({row.original.country.code})
+                    <span className='truncate'>   {row.original.country.name}({row.original.country.code})</span>
                 </div>
             )
         },
-        size: 160
+        size: 80
     },
     {
         accessorKey: 'actions',

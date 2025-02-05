@@ -4,12 +4,17 @@ import { useQuery } from 'react-query'
 import DataPageLayout from '../components/data-page-layout'
 import { DataTable } from '../components/table'
 
+import { getShopProducts } from '@/api/shop-products/shop-products'
+import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
+import { Skeleton } from '@/components/ui/skeleton'
+import { defaultLimit } from '@/constants/table'
+import { useMediaQuery } from '@/hooks/use-media-query'
+import { TablePagination } from '@/pages/catalogue/components/product-table/table-pagination'
 import { FiltersBar } from './components/filters/filters-bar'
+import { MobileProductCard } from './components/mobile-product-card'
 import { AddFileModal } from './components/modals/add-file'
 import { AddShopProductModal } from './components/modals/modals'
 import { columns } from './components/table/columns'
-import { getShopProducts } from '@/api/shop-products/shop-products'
-import { defaultLimit } from '@/constants/table'
 
 const ProductsPage = () => {
     const [limit] = useQueryState('limit', {
@@ -73,6 +78,8 @@ const ProductsPage = () => {
             return res
         }
     })
+
+    const isTablet = useMediaQuery('(max-width: 768px)')
     return (
         <>
             <DataPageLayout
@@ -81,20 +88,54 @@ const ProductsPage = () => {
                 isLoading={isLoading}
                 filterComponent={<FiltersBar />}
                 actionComponent={
-                    <div className='flex items-center gap-x-2'>
+                    <div className='flex items-center gap-2 max-md:[&>*]:flex-1'>
                         <AddFileModal />
                         <AddShopProductModal />
                     </div>
                 }
             >
-                <DataTable
-                    columns={columns}
-                    data={data?.results || []}
-                    isLoading={isLoading}
-                />
+                {isTablet ? (
+                    <MobileProductsList shopProducts={data} isLoading={isLoading} />
+                ) : (
+                    <DataTable
+                        dataCount={data?.count}
+                        columns={columns}
+                        data={data?.results || []}
+                        isLoading={isLoading}
+                    />
+                )}
             </DataPageLayout>
         </>
     )
 }
 
 export default ProductsPage
+
+
+const MobileProductsList = ({ shopProducts, isLoading }: { shopProducts: ShopProductsResponse | undefined, isLoading: boolean }) => {
+
+    return <>
+        {
+            isLoading ? <MobileProductsListSkeleton /> : <div className='space-y-4'>
+                {shopProducts?.results?.map((shopProduct) => (
+                    <MobileProductCard shopProduct={shopProduct} />
+                ))}
+            </div>
+        }
+        <TablePagination
+            className='border-none pt-0'
+            count={shopProducts?.count || 0}
+            isLoading={isLoading}
+        />
+    </>
+
+}
+
+const MobileProductsListSkeleton = () => {
+    return <div className='space-y-4'>
+        {Array.from({ length: 20 }).map((_, index) => (
+            <Skeleton key={index} className='h-40 w-full rounded-sm' />
+        ))}
+    </div>
+
+}

@@ -1,22 +1,23 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
-import { EditColorModal, RemoveColorModal } from './modals'
 import type { Color } from '@/api/colors/colors.types'
+import { EditColorModal, RemoveColorModal } from './modals'
 
 export const columns: ColumnDef<Color>[] = [
     {
         accessorKey: 'name',
-        header: () => <div className='w-40'>Назва кольору</div>,
+        header: 'Назва',
         cell: ({ row }) => {
-            return <div className='w-40'>{row.original.name}</div>
-        }
+            return <div className='w-full truncate'>{row.original.name}</div>
+        },
+        size: 160
     },
     {
         accessorKey: 'hex',
-        header: () => <div className='w-40'>Код кольору</div>,
+        header: 'Код кольору',
         cell: ({ row }) => {
             return (
-                <div className='flex w-40 items-center gap-x-2'>
+                <div className='flex w-full items-center gap-x-2'>
                     <div
                         style={{ backgroundColor: row.original.hex }}
                         className='size-5 rounded-full border'
@@ -24,7 +25,8 @@ export const columns: ColumnDef<Color>[] = [
                     <div className='text-xs'>{row.original.hex}</div>
                 </div>
             )
-        }
+        },
+        size: 160
     },
     {
         accessorKey: 'actions',
@@ -36,6 +38,7 @@ export const columns: ColumnDef<Color>[] = [
                     <RemoveColorModal color={row.original} />
                 </div>
             )
-        }
+        },
+        size: 100
     }
 ]

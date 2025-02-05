@@ -5,10 +5,10 @@ import { DataPageLayout } from '../components/data-page-layout'
 import { DataTable } from '../components/table'
 import { RoleFilter } from '../users/components/filters/role-filter'
 
-import { columns } from './components/columns'
 import { getDeletedUsers } from '@/api/users/users'
 import { SearchBar } from '@/components/search-bar'
 import { defaultLimit } from '@/constants/table'
+import { columns } from './components/columns'
 
 const ArchivePage = () => {
     const [search] = useQueryState('search', {
@@ -54,9 +54,9 @@ const ArchivePage = () => {
                 count={data?.count}
                 isLoading={isLoading}
                 filterComponent={
-                    <div className='flex items-center gap-x-2'>
-                        <SearchBar className='flex-1' />
-                        <RoleFilter />
+                    <div className='flex items-center gap-2 max-md:flex-col'>
+                        <SearchBar className='max-md:w-full md:flex-1' />
+                        <RoleFilter className='max-md:w-full' />
                     </div>
                 }
             >

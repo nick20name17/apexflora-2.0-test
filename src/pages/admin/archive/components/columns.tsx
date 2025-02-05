@@ -2,8 +2,8 @@ import { type ColumnDef } from '@tanstack/react-table'
 
 import { usersColumns } from '../../users/components/columns'
 
-import { RestoreUserCell } from './restore-user'
 import type { User } from '@/api/users/users.types'
+import { RestoreUserCell } from './restore-user'
 
 export const columns: ColumnDef<User>[] = [
     {
@@ -16,7 +16,7 @@ export const columns: ColumnDef<User>[] = [
             />
         ),
         id: 'is_deleted',
-        size: 80
+        size: 120
     },
     ...usersColumns
 ]

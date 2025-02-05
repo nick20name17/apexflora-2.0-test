@@ -4,8 +4,6 @@ import { useQuery } from 'react-query'
 
 import { OrderingFilter } from '../../../components/ordering-filter'
 
-import { wishListColumns } from './components/wish-list-columns'
-import { WishListTiles } from './components/wish-list-tiles'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import { SearchBar } from '@/components/search-bar'
 import {
@@ -18,19 +16,38 @@ import {
 } from '@/components/ui/breadcrumb'
 import { ViewFilter } from '@/components/view-filter'
 import { routes } from '@/config/routes'
-import { defaultComboboxLimit } from '@/constants/table'
+import { defaultLimit } from '@/constants/table'
 import { ProductTable } from '@/pages/catalogue/components/product-table/table'
-import { TablePagination } from '@/pages/catalogue/components/product-table/table-pagination'
+import { useState } from 'react'
+import { OrdersPagination } from '../orders/components/orders-pagination'
+import { wishListColumns } from './components/wish-list-columns'
+import { WishListTiles } from './components/wish-list-tiles'
 
 const inWishList = true
 
 const WishListPage = () => {
+    const [search] = useQueryState('search', {
+        defaultValue: ''
+    })
+
+    const [limit, setLimit] = useState(defaultLimit)
+
+    const [offset, setOffset] = useState(0)
+
+    const [ordering] = useQueryState('ordering', {
+        defaultValue: 'name'
+    })
+
+
     const { data: shopProducts, isLoading } = useQuery({
-        queryKey: ['shopProducts'],
+        queryKey: ['shopProducts', search, limit, offset, ordering],
         queryFn: () =>
             getShopProducts({
                 in_wish_list: inWishList,
-                limit: defaultComboboxLimit
+                limit,
+                search,
+                offset,
+                ordering
             })
     })
 
@@ -84,7 +101,11 @@ const WishListPage = () => {
                     isLoading={isLoading}
                 />
             )}
-            <TablePagination
+            <OrdersPagination
+                offset={offset}
+                limit={limit}
+                setLimit={setLimit}
+                setOffset={setOffset}
                 count={shopProducts?.count || 0}
                 isLoading={isLoading}
             />

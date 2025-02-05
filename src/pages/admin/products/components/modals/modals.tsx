@@ -1,6 +1,6 @@
 import { Separator } from '@radix-ui/react-separator'
 import type { UseFormReturn } from 'react-hook-form'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { z } from 'zod'
 
 import { CategorySelect } from '../controls/category-select'
@@ -9,7 +9,6 @@ import { DiscountsSelect } from '../controls/discount-select'
 import { ProducerSelect } from '../controls/producer-select'
 import { ProductSelect } from '../controls/product-select'
 
-import { addProductSchema } from './add-product'
 import { patchProduct } from '@/api/products/products'
 import type { ProductPayload } from '@/api/products/products.types'
 import {
@@ -32,6 +31,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { CreateModal, EditModal } from '@/pages/admin/components/base-modal'
+import { addProductSchema } from './add-product'
 
 const addShopProductSchema = z.object({
     height: z
@@ -53,12 +53,12 @@ const addShopProductSchema = z.object({
         .string({
             required_error: "Це поле є обов'яковим"
         })
-        .min(1, "Це поле є обов'яковим"),
+        .optional(),
     diameter: z
         .string({
             required_error: "Це поле є обов'яковим"
         })
-        .min(1, "Це поле є обов'яковим"),
+        .optional(),
     packaging_of: z
         .string({
             required_error: "Це поле є обов'яковим"
@@ -90,9 +90,7 @@ const editShopProductSchema = z.object({
     }).shape,
     image: z
         .array(
-            z.object({
-                url: z.string()
-            })
+            z.any()
         )
         .min(1, 'Необхідно додати зображення'),
     discounts: z.array(z.string()).optional(),
@@ -103,7 +101,7 @@ const productFormFields = (
     form: UseFormReturn<z.infer<typeof addShopProductSchema>>,
     shopProduct?: ShopProduct
 ) => (
-    <>
+    <div className='max-h-[calc(100vh-200px)] overflow-y-auto'>
         <FormField
             control={form.control}
             name='image'
@@ -123,7 +121,7 @@ const productFormFields = (
                 </FormItem>
             )}
         />
-        <div className='flex items-center gap-4'>
+        <div className='flex md:items-center max-md:flex-col gap-2'>
             <FormField
                 control={form.control}
                 name='height'
@@ -176,7 +174,7 @@ const productFormFields = (
             />
         </div>
 
-        <div className='flex items-center gap-4'>
+        <div className='flex md:items-center max-md:flex-col gap-2'>
             <FormField
                 control={form.control}
                 name='stage'
@@ -226,7 +224,7 @@ const productFormFields = (
                 )}
             />
         </div>
-        <div className='flex items-center gap-2'>
+        <div className='flex md:items-center max-md:flex-col gap-2'>
             <FormField
                 control={form.control}
                 name='producer'
@@ -262,7 +260,7 @@ const productFormFields = (
                 )}
             />
         </div>
-        <div className='flex items-center gap-2'>
+        <div className='flex md:items-center max-md:flex-col gap-2'>
             <FormField
                 control={form.control}
                 name='diameter'
@@ -297,15 +295,15 @@ const productFormFields = (
                 )}
             />
         </div>
-    </>
+    </div>
 )
 
 const editProductFormFields = (
     form: UseFormReturn<z.infer<typeof editShopProductSchema>>,
     shopProduct?: ShopProduct
 ) => (
-    <>
-        <div className='grid grid-cols-3 gap-4'>
+    <div className='max-h-[calc(100vh-200px)] overflow-y-auto'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4'>
             <FormField
                 control={form.control}
                 name='name'
@@ -356,7 +354,7 @@ const editProductFormFields = (
             />
         </div>
 
-        <div className='mt-4 grid grid-cols-2 gap-4'>
+        <div className='mt-2 md:mt-4 grid  grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
             <div className='flex h-full flex-col justify-between'>
                 <FormField
                     control={form.control}
@@ -401,8 +399,8 @@ const editProductFormFields = (
                             <FilePicker
                                 accept={['.png', '.jpg', '.jpeg', '.webp']}
                                 multiple={false}
-                                onChange={field.onChange}
-                                value={field.value}
+                                onChange={field?.onChange}
+                                value={field?.value}
                             />
                         </FormControl>
                         <FormMessage />
@@ -413,7 +411,7 @@ const editProductFormFields = (
 
         <Separator className='my-4' />
 
-        <div className='grid grid-cols-6 gap-4'>
+        <div className='grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-4'>
             <FormField
                 control={form.control}
                 name='height'
@@ -518,7 +516,7 @@ const editProductFormFields = (
             />
         </div>
 
-        <div className='mt-4 grid grid-cols-2 gap-4'>
+        <div className='mt-2 md:mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
             <FormField
                 control={form.control}
                 name='producer'
@@ -555,7 +553,7 @@ const editProductFormFields = (
             />
         </div>
 
-        <div className='mt-4 flex items-center gap-2'>
+        <div className='mt-2 md:mt-4 flex md:items-center gap-2 max-md:flex-col'>
             <FormField
                 control={form.control}
                 name='discounts'
@@ -589,7 +587,7 @@ const editProductFormFields = (
                 )}
             />
         </div>
-    </>
+    </div>
 )
 
 export const AddShopProductModal = ({
@@ -617,12 +615,12 @@ export const AddShopProductModal = ({
                 height: '',
                 origin_id: '',
                 stage: '',
-                weight_size: '',
+                weight_size: undefined,
                 packaging_of: '',
                 quality: '',
                 producer: '',
                 product: '',
-                diameter: ''
+                diameter: undefined
             }}
             schema={addShopProductSchema}
             mutation={(payload) => {
@@ -632,7 +630,7 @@ export const AddShopProductModal = ({
                     producer: +payload.producer,
                     product: +payload.product,
                     height: +payload.height,
-                    weight_size: +payload.weight_size,
+                    weight_size: payload?.weight_size ? +payload?.weight_size : undefined,
                     packaging_of: +payload.packaging_of,
                     stage: +payload.stage,
                     image: null
@@ -651,14 +649,21 @@ export const AddShopProductModal = ({
 }
 
 export const EditShopProductModal = ({ shopProduct }: { shopProduct: ShopProduct }) => {
+    const queryClient = useQueryClient()
     const editProductMutation = useMutation({
         mutationFn: ({ id, payload }: { id: number; payload: ProductPayload }) =>
-            patchProduct(id, payload)
+            patchProduct(id, payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries('shop-products')
+        }
     })
 
     const editStockMutation = useMutation({
         mutationFn: ({ id, payload }: { id: number; payload: Partial<StocksPayload> }) =>
-            patchStock(id, payload)
+            patchStock(id, payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries('shop-products')
+        }
     })
 
     const addShopProductImageMutation = useMutation({
@@ -668,6 +673,9 @@ export const EditShopProductModal = ({ shopProduct }: { shopProduct: ShopProduct
                     image
                 }
             })
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries('shop-products')
         }
     })
 
@@ -683,7 +691,7 @@ export const EditShopProductModal = ({ shopProduct }: { shopProduct: ShopProduct
                 return {
                     image: [
                         {
-                            url: values.image || ''
+                            url: values?.image ?? ''
                         }
                     ],
                     discounts:
@@ -732,7 +740,7 @@ export const EditShopProductModal = ({ shopProduct }: { shopProduct: ShopProduct
                     height: +payload.height,
                     origin_id: payload.origin_id,
                     stage: +payload.stage,
-                    weight_size: +payload.weight_size,
+                    weight_size: payload?.weight_size ? +payload?.weight_size : undefined,
                     packaging_of: +payload.packaging_of,
                     quality: payload.quality
                 }).then((res) => {
@@ -742,7 +750,7 @@ export const EditShopProductModal = ({ shopProduct }: { shopProduct: ShopProduct
                     })
                 }) as any
             }}
-            queryKey='products'
+            queryKey='shop-products'
             renderFields={(form) => editProductFormFields(form, shopProduct)}
         />
     )

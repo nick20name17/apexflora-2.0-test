@@ -46,12 +46,12 @@ const orderSchema = z.object({
     is_supplier: z.boolean().default(false)
 })
 
-const colorFormFields = (
+const orderFormFields = (
     form: UseFormReturn<z.infer<typeof orderSchema>>,
     order?: Order
 ) => (
     <>
-        <div className='grid grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
             {/* <FormField
                 control={form.control}
                 name='recipient'
@@ -111,7 +111,7 @@ const colorFormFields = (
                 )}
             />
         </div>
-        <div className='grid grid-cols-2 items-end gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 items-end gap-2 md:gap-4'>
             <FormField
                 control={form.control}
                 name='order_items'
@@ -153,7 +153,7 @@ const colorFormFields = (
             control={form.control}
             name='is_supplier'
             render={({ field }) => (
-                <FormItem className='flex h-10 w-[calc(50%-8px)] flex-row items-start space-x-3 space-y-0 rounded-md border p-2'>
+                <FormItem className='flex h-10 sm:w-[calc(50%-8px)] flex-row items-start space-x-3 space-y-0 rounded-md border p-2'>
                     <FormControl>
                         <Checkbox
                             checked={field.value}
@@ -164,6 +164,7 @@ const colorFormFields = (
                 </FormItem>
             )}
         />
+
     </>
 )
 
@@ -192,7 +193,7 @@ export const AddOrderModal = ({ size = 'sm' }: { size?: 'sm' | 'icon' }) => {
                 return AddAdminOrders(payload)
             }}
             queryKey={['orders', 'pre-orders', 'shop-products', 'delivery-address']}
-            renderFields={colorFormFields}
+            renderFields={orderFormFields}
             size={size}
         />
     )
@@ -335,7 +336,7 @@ export const EditOrderModal = ({ order }: { order: Order }) => {
             }}
             data={order}
             queryKey={['orders', 'pre-orders']}
-            renderFields={(form) => colorFormFields(form, order)}
+            renderFields={(form) => orderFormFields(form, order)}
         />
     )
 }

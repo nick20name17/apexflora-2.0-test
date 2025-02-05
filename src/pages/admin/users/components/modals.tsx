@@ -4,9 +4,6 @@ import { z } from 'zod'
 
 import { CreateModal, DeleteModal, EditModal } from '../../components/base-modal'
 
-import { BonusSelect } from './bonus-select'
-import { ManagerSelect } from './manager-select'
-import { RoleSelect } from './role-select'
 import { getBonusPrograms } from '@/api/bonuses/bonuses'
 import { createUser, getUsers, removeUser, updateUser } from '@/api/users/users'
 import type { User } from '@/api/users/users.types'
@@ -21,6 +18,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordWithReveal } from '@/components/ui/password-with-reveal'
 import { emailSchema, passwordShape } from '@/config/schemas'
+import { BonusSelect } from './bonus-select'
+import { ManagerSelect } from './manager-select'
+import { RoleSelect } from './role-select'
 
 const userSchema = z.object({
     ...emailSchema.shape,
@@ -55,12 +55,12 @@ const userSchema = z.object({
         .number({
             required_error: "Це поле є обов'язковим"
         })
-        .min(1, "Це поле є обов'язковим"),
+        .min(1, "Це поле є обов'язковим").optional(),
     service_manager: z.coerce
         .number({
             required_error: "Це поле є обов'язковим"
         })
-        .min(1, "Це поле є обов'язковим"),
+        .min(1, "Це поле є обов'язковим").optional(),
     city: z
         .string({
             required_error: "Це поле є обов'язковим"
@@ -69,9 +69,24 @@ const userSchema = z.object({
     password: passwordShape.password
 })
 
-const userFormFields = (form: UseFormReturn<z.infer<typeof userSchema>>) => (
-    <>
-        <div className='grid grid-cols-1 gap-4 border-b border-b-primary pb-4 sm:grid-cols-2 lg:grid-cols-3'>
+const editUserSchema = userSchema.omit({
+    password: true
+})
+
+
+type EditUserModalProps =
+    | {
+        form: UseFormReturn<z.infer<any>>;
+        isEditForm: false;
+    }
+    | {
+        form: UseFormReturn<z.infer<typeof editUserSchema>>;
+        isEditForm: true;
+    };
+
+const userFormFields = ({ form, isEditForm }: EditUserModalProps) => (
+    <div className='max-h-[calc(100vh-200px)] overflow-y-auto'>
+        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:py-4 md:grid-cols-2 lg:grid-cols-3'>
             <FormField
                 control={form.control}
                 name='first_name'
@@ -122,7 +137,7 @@ const userFormFields = (form: UseFormReturn<z.infer<typeof userSchema>>) => (
             />
         </div>
 
-        <div className='grid grid-cols-1 gap-4 border-b border-b-primary pb-4 sm:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:py-4 md:grid-cols-2 lg:grid-cols-3'>
             <FormField
                 control={form.control}
                 name='phone_number'
@@ -167,7 +182,7 @@ const userFormFields = (form: UseFormReturn<z.infer<typeof userSchema>>) => (
                         <FormLabel>Місто</FormLabel>
                         <FormControl>
                             <CitySelect
-                                className='w-full'
+                                className='w-full h-10'
                                 city={field.value}
                                 setCity={field.onChange}
                             />
@@ -178,7 +193,7 @@ const userFormFields = (form: UseFormReturn<z.infer<typeof userSchema>>) => (
             />
         </div>
 
-        <div className='grid grid-cols-1 gap-4 border-b border-b-primary pb-4 sm:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:py-4 md:grid-cols-2 lg:grid-cols-3'>
             <FormField
                 control={form.control}
                 name='company'
@@ -229,8 +244,7 @@ const userFormFields = (form: UseFormReturn<z.infer<typeof userSchema>>) => (
             />
         </div>
 
-        {/* Program and Management */}
-        <div className='grid grid-cols-1 gap-4 border-b border-b-primary pb-4 sm:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:py-4 md:grid-cols-2 lg:grid-cols-3'>
             <FormField
                 control={form.control}
                 name='bonus_program'
@@ -263,7 +277,7 @@ const userFormFields = (form: UseFormReturn<z.infer<typeof userSchema>>) => (
                     </FormItem>
                 )}
             />
-            <FormField
+            {isEditForm ? null : <FormField
                 control={form.control}
                 name='password'
                 render={({ field }) => (
@@ -275,10 +289,12 @@ const userFormFields = (form: UseFormReturn<z.infer<typeof userSchema>>) => (
                         <FormMessage />
                     </FormItem>
                 )}
-            />
+            />}
         </div>
-    </>
+    </div>
 )
+
+
 
 export const AddUserModal = ({ size = 'sm' }: { size?: 'sm' | 'icon' }) => {
     const { data: bonusPrograms } = useQuery({
@@ -321,7 +337,7 @@ export const AddUserModal = ({ size = 'sm' }: { size?: 'sm' | 'icon' }) => {
             }}
             mutation={createUser}
             queryKey='users'
-            renderFields={userFormFields}
+            renderFields={(form) => userFormFields({ form, isEditForm: false })}
             size={size}
         />
     )
@@ -337,20 +353,19 @@ export const EditUserModal = ({ user }: { user: User }) => (
                 last_name: user?.last_name,
                 email: user?.email,
                 phone_number: user?.phone_number,
-                company: user?.company,
-                position: user?.position,
+                company: user?.company || '',
+                position: user?.position || '',
                 role: user?.role,
-                bonus_program: user?.bonus_program?.id,
-                service_manager: user?.service_manager?.id,
-                code_1c: user?.code_1c,
+                bonus_program: user?.bonus_program?.id || undefined,
+                service_manager: user?.service_manager?.id || undefined,
+                code_1c: user?.code_1c || '',
                 city: user?.city,
-                password: ''
             }
         }}
-        schema={userSchema}
+        schema={editUserSchema}
         mutation={updateUser}
         queryKey='users'
-        renderFields={userFormFields}
+        renderFields={(form) => userFormFields({ form, isEditForm: true })}
     />
 )
 

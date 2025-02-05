@@ -1,14 +1,14 @@
 import { Check, X } from 'lucide-react'
 import { useState } from 'react'
 
-import { CartActionsCell } from './cart-table/cell/cart-action-cell'
 import type { Cart } from '@/api/carts/carts.types'
-import { DiametrIcon, WeightIcon } from '@/components/icons'
+import { WeighDiameterInfo } from '@/components/product-info'
 import { Button } from '@/components/ui/button'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { NumberStepper } from '@/components/ui/number-stepper'
 import { useCartOperations } from '@/hooks/use-cart-operations'
 import { formatPrice } from '@/hooks/use-catalogue-operations'
+import { CartActionsCell } from './cart-table/cell/cart-action-cell'
 
 interface OrderItemMobileProps {
     cart: Cart
@@ -24,8 +24,8 @@ export const OrderItemMobile = ({ cart }: OrderItemMobileProps) => {
 
     const priceWithDiscount = stockMaxDiscountPercentage
         ? +formatPrice(
-              +cart?.stock_product?.retail_price * (1 - stockMaxDiscountPercentage / 100)
-          )
+            +cart?.stock_product?.retail_price * (1 - stockMaxDiscountPercentage / 100)
+        )
         : 0
 
     const handleChange = (amount: number) => {
@@ -82,16 +82,7 @@ export const OrderItemMobile = ({ cart }: OrderItemMobileProps) => {
                 </div>
                 <div className='flex flex-col items-end gap-y-0.5 text-right'>
                     <h3 className='text-xs text-muted'>Ваг./діам.</h3>
-                    <div className='flex items-center gap-x-1'>
-                        <div className='flex items-center gap-x-0.5'>
-                            <WeightIcon className='size-5' />
-                            {cart?.stock_product.shop_product.weight_size ?? '-'}
-                        </div>
-                        <div className='flex items-center gap-x-0.5'>
-                            <DiametrIcon className='size-5' />
-                            {cart?.stock_product.shop_product.diameter ?? '-'}
-                        </div>
-                    </div>
+                    <WeighDiameterInfo diameter={cart?.stock_product?.shop_product.diameter} weight={cart?.stock_product?.shop_product.weight_size} />
                 </div>
             </div>
             <div className='mb-3 flex flex-col gap-y-2'>

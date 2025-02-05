@@ -1,8 +1,8 @@
+import { MobileFiltersSidebar } from './filters-sidebar'
 import type { MinMaxValues } from '@/api/shop-products/shop-products.types'
 import { useCartOperations } from '@/hooks/use-cart-operations'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
-import { MobileFiltersSidebar } from './filters-sidebar'
 
 interface FiltersPopupProps {
     minMaxValues: MinMaxValues

@@ -3,8 +3,10 @@ import { lazy } from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
+import { AdminLayout } from '@/components/layout/admin-layout'
 import { AuthLayout } from '@/components/layout/auth-layout'
 import { HomeLayout } from '@/components/layout/home-layout'
+import { Layout } from '@/components/layout/layout'
 import { ProfileLayout } from '@/components/layout/profile-layout'
 import { adminRoutes, routes } from '@/config/routes'
 import { CataloguePage } from '@/pages/catalogue/catalogue-page'
@@ -14,8 +16,7 @@ import { AddsPage } from '@/pages/profile/adds/adds-page'
 import { BalancePage } from '@/pages/profile/balance/balance-page'
 import { LoyaltyPage } from '@/pages/profile/loyalty/loyalty-page'
 import { RequireAuthProvider } from '@/providers/require-auth-provider'
-import { AdminLayout } from './components/layout/admin-layout'
-import { Layout } from './components/layout/layout'
+
 
 const UsersPage = lazy(() => import('@/pages/admin/users/users-page'))
 const AdminOrdersPage = lazy(() => import('@/pages/admin/orders/orders-page'))

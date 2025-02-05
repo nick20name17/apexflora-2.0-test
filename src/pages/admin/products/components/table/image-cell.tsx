@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/file-picker'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface ImageCellProps {
     shopProduct: ShopProduct
@@ -61,11 +62,13 @@ export const ImageCell = ({ shopProduct }: ImageCellProps) => {
                 <HoverCard>
                     <HoverCardTrigger asChild>
                         <div className='h-[32px] w-[46px]'>
-                            <ImageWithSkeleton
-                                src={shopProduct?.image}
-                                alt={shopProduct?.product.ukr_name}
-                                className='size-full object-cover'
-                            />
+                            {
+                                patchShopProductMutation?.isLoading || !shopProduct?.image ? <Skeleton className='size-full' /> : <ImageWithSkeleton
+                                    src={shopProduct?.image}
+                                    alt={shopProduct?.product.ukr_name}
+                                    className='size-full object-cover'
+                                />
+                            }
                         </div>
                     </HoverCardTrigger>
                     <HoverCardContent

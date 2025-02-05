@@ -4,7 +4,7 @@ import { useQueryState } from 'nuqs'
 import { useMemo } from 'react'
 
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { DiametrIcon, WeightIcon } from '@/components/icons'
+import { HeightInfo, WeighDiameterInfo } from '@/components/product-info'
 import { Button } from '@/components/ui/button'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
@@ -73,23 +73,14 @@ export const wishListColumns: ColumnDef<ShopProduct>[] = [
     {
         accessorKey: 'height',
         header: 'Висота',
-        cell: ({ row }) => <>{row.original?.height}см</>,
+        cell: ({ row }) => <HeightInfo height={row.original?.height} />,
         size: 80
     },
     {
         accessorKey: 'diameter',
         header: 'Ваг./діам.',
         cell: ({ row }) => (
-            <div className='flex items-center gap-x-1'>
-                <div className='flex items-center gap-x-0.5'>
-                    <DiametrIcon className='size-5' />
-                    {row.original?.diameter ?? '-'}
-                </div>
-                <div className='flex items-center gap-x-0.5'>
-                    <WeightIcon className='size-5' />
-                    {row.original?.weight_size ?? '-'}
-                </div>
-            </div>
+            <WeighDiameterInfo weight={row.original?.weight_size} diameter={row.original?.diameter} />
         ),
         size: 110
     },

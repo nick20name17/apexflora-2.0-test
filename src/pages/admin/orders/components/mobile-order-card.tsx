@@ -1,10 +1,10 @@
 import { format } from 'date-fns'
-import { Heart } from 'iconsax-react'
+import { More } from 'iconsax-react'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
 import type { OrderItem } from '@/api/order-items/order-items.types'
-import type { Order, Statuses } from '@/api/orders/orders.types'
+import type { Order } from '@/api/orders/orders.types'
 import { DiscountLabel } from '@/components/product-card'
 import { HeightInfo, WeighDiameterInfo } from '@/components/product-info'
 import { Button } from '@/components/ui/button'
@@ -14,17 +14,33 @@ import {
     CollapsibleTrigger
 } from '@/components/ui/collapsible'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger
+} from "@/components/ui/tooltip"
 import { DATE_FORMATS } from '@/constants/app'
-import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
+import { formatPrice } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
-import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
-import { OrderCardStatus } from './order-card'
+import { DownloadOrdersPdfBtn } from '@/pages/profile/orders/components/download-orders-pdf-btn'
 
+import { getStatusProductsDisplay } from '@/components/status-tabs'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import { useQueryState } from 'nuqs'
+import { OrderStatusSelect } from './controls/order-status-select'
+import { SupplierToggle } from './controls/supplier-cell'
+import { EditOrderModal, RemoveOrderModal } from './modals/modals'
+import { UserInfo } from './user-info'
 interface OrderCardProps {
     order: Order
 }
 
-export const MobileOrderCard = ({ order }: OrderCardProps) => {
+export const MobileAdminOrderCard = ({ order }: OrderCardProps) => {
     const [open, setOpen] = useState(false)
 
     const totalPrice = order.order_items.reduce((acc, item) => {
@@ -33,6 +49,10 @@ export const MobileOrderCard = ({ order }: OrderCardProps) => {
 
     const totalPriceWithDiscount = totalPrice - +order.discount
 
+    const [status] = useQueryState('status', {
+        defaultValue: 'orders'
+    })
+
     return (
         <Collapsible
             open={open}
@@ -40,15 +60,17 @@ export const MobileOrderCard = ({ order }: OrderCardProps) => {
             className='rounded-xs border-2 border-secondary transition-colors data-[state=open]:border-primary'
         >
             <CollapsibleTrigger className='flex w-full flex-col text-sm'>
-                <div className='grid w-full grid-cols-3 items-start gap-x-2 border-b p-2'>
+                <div className='grid w-full grid-cols-[50px,1fr,85px,110px] items-start gap-x-2 border-b p-2'>
                     <div className='flex flex-col items-start gap-y-0.5'>
                         <span className='text-xs'>
                             № <span className='max-lg:hidden'>Замовлення</span>
                         </span>
                         <span>{order.id}</span>
                     </div>
+                    <UserInfo order={order} short />
+
                     <div className='flex flex-col items-start gap-y-0.5 text-left'>
-                        <span className='text-xs'>Дата оформлення</span>
+                        <span className='text-xs'>Дата</span>
                         <span>{format(order.created_at, DATE_FORMATS.date)}</span>
                     </div>
                     <div className='ml-auto flex flex-col gap-y-0.5 text-left'>
@@ -57,28 +79,43 @@ export const MobileOrderCard = ({ order }: OrderCardProps) => {
                     </div>
                 </div>
                 <div className='grid w-full grid-cols-3 items-center gap-x-2 p-2'>
-                    <OrderCardStatus statusName={order.status as Statuses} />
-                    <div className='flex flex-col items-start gap-y-0.5 text-left'>
+                    <OrderStatusSelect
+                        className='h-7 p-2 max-w-44'
+                        order={order}
+                    />
+
+
+                    <div className='flex flex-col items-start gap-y-0.5 text-right justify-end'>
                         <span className='text-xs'>Сума</span>
-                        <span
-                            className={cn(
-                                order.discount > 0 ? 'flex items-center gap-x-1' : ''
-                            )}
-                        >
-                            {order.discount > 0 ? (
-                                <span className='whitespace-nowrap text-foreground/80 line-through'>
-                                    {formatPrice(totalPrice)}₴
-                                </span>
-                            ) : null}
-                            <span className='whitespace-nowrap text-primary'>
-                                {formatPrice(totalPriceWithDiscount)}₴
-                            </span>
+                        <span className='whitespace-nowrap text-primary'>
+                            {formatPrice(totalPriceWithDiscount)}₴
                         </span>
                     </div>
-                    <div className='flex items-center justify-end gap-x-2'>
-                        <DownloadOrdersPdfBtn order={order} />
+                    <div className='flex items-center gap-x-2 justify-end'>
+                        {status === 'supplier' ? (
+                            <Tooltip delayDuration={300}>
+                                <TooltipTrigger>
+                                    <SupplierToggle order={order} />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Зробити доступним для продажу</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        ) : null}
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild><Button className='shrink-0' size='icon' variant='outline'><More /></Button></DropdownMenuTrigger>
+                            <DropdownMenuContent className='min-w-10'>
+                                <DropdownMenuItem className='hover:!bg-transparent'>                    <RemoveOrderModal order={order} />
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className='hover:!bg-transparent'>                    <EditOrderModal order={order} />
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className='hover:!bg-transparent'>                    <DownloadOrdersPdfBtn order={order} />
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         <Button
-                            className='text-muted-foreground'
+                            className='shrink-0'
                             size='icon'
                             variant='outline'
                         >
@@ -107,6 +144,7 @@ export const MobileOrderCard = ({ order }: OrderCardProps) => {
     )
 }
 
+
 interface OrderItemCardProps {
     orderItem: OrderItem
 }
@@ -115,22 +153,17 @@ const MobileOrderItemCard = ({ orderItem }: OrderItemCardProps) => {
     const totalPrice = orderItem.amount * orderItem.price
     const totalPriceWithDiscount = totalPrice - orderItem.discount
 
-    const { handleAddToWishList } = useCatalogueOperations({
-        initialCurrentStock: orderItem.stock_product,
-        inWishList: orderItem.in_wish_list
-    })
-
     return (
         <article className='overflow-hidden rounded-sm border bg-background max-sm:flex max-sm:items-center'>
             <div className='flex flex-col max-sm:w-full'>
-                <div className='flex items-center justify-between gap-x-2 border-b px-2 pb-2 pt-4'>
+                <div className='flex items-center justify-between gap-x-2 border-b p-2'>
                     <div className='flex items-center gap-x-2'>
                         <ImageWithSkeleton
                             src={orderItem.stock_product.shop_product?.image}
                             alt={orderItem.stock_product.shop_product?.product.ukr_name}
                             className='h-[38px] w-[54px] rounded-[2px] object-cover'
                         />
-                        <div className='flex w-32 flex-col sm:max-w-40'>
+                        <div className='flex w-30 flex-col sm:max-w-40'>
                             <span className='truncate text-sm text-foreground'>
                                 {orderItem.stock_product.shop_product?.product?.ukr_name}
                             </span>
@@ -152,7 +185,7 @@ const MobileOrderItemCard = ({ orderItem }: OrderItemCardProps) => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex items-center gap-x-1'>
+                    <div className='flex items-center gap-x-2'>
                         {orderItem.stock_product.promotion ? (
                             <svg
                                 width='16'
@@ -182,47 +215,47 @@ const MobileOrderItemCard = ({ orderItem }: OrderItemCardProps) => {
                         {orderItem.percentage ? (
                             <DiscountLabel discount={orderItem.percentage} />
                         ) : null}
-                        <Button
-                            onClick={handleAddToWishList}
-                            className='shrink-0 hover:bg-accent'
-                            size='icon'
-                            variant={orderItem.in_wish_list ? 'accent' : 'ghost'}
-                        >
-                            <Heart />
-                        </Button>
+                        <div className='flex flex-col items-start gap-y-0.5'>
+                            <span className='text-xs'>Статус</span>
+                            <span className='text-xs text-primary'>
+                                {getStatusProductsDisplay(orderItem?.stock_product?.status?.id).name}
+                            </span>
+                        </div>
                     </div>
+
                 </div>
-                <div className='grid grid-cols-[0.75fr,0.9fr,1fr,1fr] items-start px-2 py-1.5 leading-none max-sm:w-full'>
-                    <div className='flex flex-col gap-y-0.5'>
+                <div className='grid grid-cols-[0.75fr,0.9fr,1fr,1fr,50px] items-start gap-1 p-1.5 leading-none max-sm:w-full'>
+                    <div className='flex flex-col gap-y-0.5 items-start'>
                         <h2 className='text-xs text-muted'>Артикул</h2>
                         <span className='text-sm'>
                             {orderItem.stock_product.shop_product?.origin_id}
                         </span>
                     </div>
-                    <div className='flex flex-col gap-y-0.5'>
+                    <div className='flex flex-col gap-y-0.5 items-start'>
                         <h2 className='text-xs text-muted'>Висота</h2>
                         <HeightInfo height={orderItem.stock_product.shop_product?.height} />
                     </div>
-                    <div className='flex w-16 flex-col gap-y-0.5 truncate'>
+                    <div className='flex w-16 flex-col gap-y-0.5 truncate items-center'>
                         <h2 className='text-xs text-muted'>Ваг./діам.</h2>
                         <WeighDiameterInfo weight={orderItem.stock_product.shop_product?.weight_size} diameter={orderItem.stock_product.shop_product?.diameter} />
                     </div>
-                    <div className='flex flex-col gap-y-0.5'>
+                    <div className='flex flex-col gap-y-0.5 items-end'>
                         <h2 className='text-xs text-muted'>Ціна</h2>
                         {orderItem.discount > 0 ? (
-                            <div className='flex items-center gap-1 leading-none'>
-                                <span className='text-xs text-muted line-through'>
-                                    {formatPrice(totalPrice)}₴
-                                </span>
-                                <span className='text-sm font-medium text-primary'>
-                                    {totalPriceWithDiscount}₴
-                                </span>
-                            </div>
+                            <span className='text-sm font-medium text-primary'>
+                                {totalPriceWithDiscount}₴
+                            </span>
                         ) : (
                             <span className='text-sm text-primary'>
                                 {formatPrice(totalPrice)}₴
                             </span>
                         )}
+                    </div>
+                    <div className='flex flex-col gap-y-0.5 items-end'>
+                        <h2 className='text-xs text-muted'>К-сть</h2>
+                        <span className='text-sm'>
+                            {orderItem.amount}шт.
+                        </span>
                     </div>
                 </div>
             </div>

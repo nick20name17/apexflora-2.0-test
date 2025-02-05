@@ -3,6 +3,10 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { EditShopProductModal } from '../modals/modals'
 import { RemoveStockModal } from '../modals/remove-stock'
 
+import type { ShopProduct } from '@/api/shop-products/shop-products.types'
+import { WeighDiameterInfo } from '@/components/product-info'
+import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
+import { DiscountCell } from '@/pages/catalogue/components/product-table/cell/discount-cell'
 import { HeightCell } from './height-cell'
 import { ImageCell } from './image-cell'
 import { OriginIdCell } from './origin-id-cell'
@@ -10,16 +14,12 @@ import { PriceCell } from './price-cell'
 import { PromoCell } from './promo-cell'
 import { QuantityCell } from './quantity-cell'
 import { StatusCell } from './status-cell'
-import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { DiametrIcon, WeightIcon } from '@/components/icons'
-import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
-import { DiscountCell } from '@/pages/catalogue/components/product-table/cell/discount-cell'
 
 export const columns: ColumnDef<ShopProduct>[] = [
     {
         accessorKey: 'image',
         header: '',
-        cell: ({ row }) => <ImageCell shopProduct={row.original} />,
+        cell: ({ row }) => <ImageCell shopProduct={row?.original} />,
         size: 56
     },
     {
@@ -48,7 +48,7 @@ export const columns: ColumnDef<ShopProduct>[] = [
         accessorKey: 'origin_id',
         header: 'Артикул',
         cell: ({ row }) => <OriginIdCell shopProduct={row.original} />,
-        size: 72
+        size: 76
     },
     {
         accessorKey: 'color',
@@ -64,22 +64,13 @@ export const columns: ColumnDef<ShopProduct>[] = [
         accessorKey: 'height',
         header: 'Висота',
         cell: ({ row }) => <HeightCell shopProduct={row.original} />,
-        size: 77
+        size: 82
     },
     {
         accessorKey: 'diameter',
         header: 'Ваг./діам.',
         cell: ({ row }) => (
-            <div className='flex items-center gap-x-1'>
-                <div className='flex items-center gap-x-0.5'>
-                    <WeightIcon className='size-5' />
-                    {row.original?.weight_size ?? '-'}
-                </div>
-                <div className='flex items-center gap-x-0.5'>
-                    <DiametrIcon className='size-5' />
-                    {row.original?.diameter ?? '-'}
-                </div>
-            </div>
+            <WeighDiameterInfo weight={row.original?.weight_size} diameter={row.original?.diameter} />
         ),
         size: 100
     },
@@ -87,7 +78,7 @@ export const columns: ColumnDef<ShopProduct>[] = [
         header: 'Ціна',
         accessorKey: 'price',
         cell: ({ row }) => <PriceCell stocks={row.original?.stocks} />,
-        size: 65
+        size: 70
     },
     {
         accessorKey: 'discounts',
@@ -98,19 +89,19 @@ export const columns: ColumnDef<ShopProduct>[] = [
     {
         accessorKey: 'promo',
         header: 'Промо',
-        size: 60,
+        size: 70,
         cell: ({ row }) => <PromoCell stocks={row.original?.stocks} />
     },
     {
-        accessorKey: 'promo',
+        accessorKey: 'is_visible',
         header: 'Видимість',
-        size: 66,
+        size: 92,
         cell: ({ row }) => <StatusCell stocks={row.original?.stocks} />
     },
     {
         accessorKey: 'quantity',
         header: 'Кількість',
-        size: 66,
+        size: 92,
         cell: ({ row }) => <QuantityCell stocks={row.original?.stocks} />
     },
     {

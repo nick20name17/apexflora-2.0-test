@@ -18,11 +18,11 @@ export const AllPreordersCard = ({ preorderStock }: { preorderStock: PreorderSto
                         <Skeleton className='h-full w-full rounded-sm object-cover' />
                     )}
                 </div>
-                <div className='flex flex-col gap-y-0.5 text-sm'>
-                    <h1 className='font-bold text-primary'>
-                        {preorderStock.shop_product.product.name}
+                <div className='flex flex-col gap-y-0.5 text-sm max-w-48 truncate'>
+                    <h1 className='font-bold text-primary truncate'>
+                        {preorderStock.shop_product.product.ukr_name}
                     </h1>
-                    <span className='text-foreground/60'>
+                    <span className='text-foreground/60 truncate'>
                         Артикул: {preorderStock.shop_product.origin_id}
                     </span>
                 </div>

@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Pencil } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { z } from 'zod'
 
 import { getStockFullData, patchStock } from '@/api/stock/stock'
@@ -46,9 +46,13 @@ export const EditQuantity = ({ stock }: EditQuantityModalProps) => {
     const [isMinus, setIsMinus] = useState(false)
     const [error, setError] = useState('')
 
+    const queryClient = useQueryClient()
+
+    const [open, setOpen] = useState(false)
+
     const form = useForm({
         values: {
-            quantity: stock.quantity
+            quantity: stock?.quantity
         },
         resolver: zodResolver(editQuantity)
     })
@@ -65,15 +69,17 @@ export const EditQuantity = ({ stock }: EditQuantityModalProps) => {
         mutationFn: ({ quantity, id }: { quantity: number; id: number }) =>
             patchStock(id, { quantity }),
         onSuccess: () => {
+            setOpen(false)
             form.reset()
+            queryClient.invalidateQueries('shop-products')
         }
     })
 
     const onSubmit = (data: EditQuantityFormData) => {
         if (!stock) return
 
-        const currentQuantity = stock.quantity
-        const adjustment = +data.quantity
+        const currentQuantity = stock?.quantity
+        const adjustment = +data?.quantity
         const newQuantity = isMinus
             ? currentQuantity - adjustment
             : currentQuantity + adjustment
@@ -85,14 +91,14 @@ export const EditQuantity = ({ stock }: EditQuantityModalProps) => {
 
         patchStockMutation.mutate({
             quantity: newQuantity,
-            id: stock.id
+            id: stock?.id
         })
     }
 
-    const { name, icon } = getStatusProductsDisplay(stock.status.id)
+    const { name, icon } = getStatusProductsDisplay(stock?.status?.id)
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button
                     className='!size-6 shrink-0'
@@ -111,7 +117,7 @@ export const EditQuantity = ({ stock }: EditQuantityModalProps) => {
                     </DialogDescription>
                     <div className='flex items-center gap-x-2'>
                         <span>Надходження:</span>
-                        <span className='font-medium text-primary'>{stock.quantity}</span>
+                        <span className='font-medium text-primary'>{stock?.quantity}</span>
                     </div>
                     <div className='flex items-center gap-x-2'>
                         <span>Продано:</span>
@@ -157,8 +163,8 @@ export const EditQuantity = ({ stock }: EditQuantityModalProps) => {
                                 className='w-24'
                                 type='submit'
                             >
-                                {false ? (
-                                    <Loader2 className='size-4 animate-spin' />
+                                {patchStockMutation?.isLoading ? (
+                                    <Loader2 className='animate-spin' />
                                 ) : (
                                     'Додати'
                                 )}

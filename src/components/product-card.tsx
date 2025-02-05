@@ -4,7 +4,7 @@ import type { ShopProduct } from '@/api/shop-products/shop-products.types'
 import { useAuth } from '@/hooks/use-auth'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
-import { DiametrIcon, HeightIcon, WeightIcon } from './icons'
+import { HeightInfo, WeighDiameterInfo } from './product-info'
 import { Button } from './ui/button'
 
 interface ProductCardProps {
@@ -47,7 +47,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
     return (
         <article
             className={cn(
-                'h-32 overflow-hidden rounded-sm border bg-background max-sm:flex sm:h-[272px] shadow-sm',
+                'h-32 overflow-hidden rounded-sm border bg-background shadow-sm max-sm:flex sm:h-[272px]',
                 className
             )}
         >
@@ -83,16 +83,16 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                         <DiscountLabel discount={currentStockMaxDiscountPercentage} />
                     ) : null}
                 </div>
-
             </div>
-            <div className='flex flex-col max-sm:w-full justify-between'>
-                <div className='h-6 truncate bg-[#F9F9F9] text-muted-foreground px-1.5 flex items-center justify-center text-xs max-sm:hidden'>
+            <div className='flex flex-col justify-between max-sm:w-full'>
+                <div className='flex h-6 items-center justify-center truncate bg-[#F9F9F9] px-1.5 text-xs text-muted-foreground max-sm:hidden'>
                     Доступно:{'  '}
-                    {currentStock?.quantity} {getProductLabel(currentStock?.quantity ?? 0)}
+                    {currentStock?.quantity}{' '}
+                    {getProductLabel(currentStock?.quantity ?? 0)}
                 </div>
-                <div className='flex flex-1 items-start justify-between gap-1 border-b border-b-secondary p-1.5 md:p-2 leading-none max-sm:w-full'>
-                    <div className='flex h-full sm:max-w-30 min-[480px]:max-w-52 max-[480px]:max-w-36 flex-col gap-1 items-start '>
-                        <h1 className='truncate text-sm max-w-full'>
+                <div className='flex flex-1 items-start justify-between gap-1 border-b border-b-secondary p-1.5 leading-none max-sm:w-full md:p-2'>
+                    <div className='flex h-full flex-col items-start gap-1 max-[480px]:max-w-36 min-[480px]:max-w-52 sm:max-w-30'>
+                        <h1 className='max-w-full truncate text-sm'>
                             {shopProduct?.product?.ukr_name}
                         </h1>
                         <div className='flex items-center gap-x-1'>
@@ -102,7 +102,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                                 alt={shopProduct?.producer?.name}
                             />
 
-                            <span className='truncate text-[11px] text-muted max-w-full'>
+                            <span className='max-w-full truncate text-[11px] text-muted'>
                                 {shopProduct?.producer?.name}
                             </span>
                         </div>
@@ -122,35 +122,20 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                         </span>
                     )}
                 </div>
-                <div className='flex flex-1 items-center justify-between p-1.5 md:p-2 leading-none max-sm:w-full'>
+                <div className='flex flex-1 items-center justify-between p-1.5 leading-none max-sm:w-full md:p-2'>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Висота</h2>
-                        <div className='flex items-center gap-x-0.5'>
-                            <HeightIcon className='size-4 text-muted' />
-                            <span className='text-sm'>{shopProduct.height}см</span>
-                        </div>
+                        <HeightInfo height={shopProduct.height} />
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Ваг./діам.</h2>
-                        <div className='flex items-center gap-x-1'>
-                            <div className='flex items-center gap-x-0.5'>
-                                <WeightIcon className='size-4 text-muted' />
-                                <span className='text-sm'>
-                                    {shopProduct.weight_size ?? '-'}
-                                </span>
-                            </div>
-                            <div className='flex items-center gap-x-0.5'>
-                                <DiametrIcon className='size-4 text-muted' />
-                                <span className='text-sm'>
-                                    {shopProduct.diameter ?? '-'}
-                                </span>
-                            </div>
-                        </div>
+                        <WeighDiameterInfo weight={shopProduct.weight_size} diameter={shopProduct.diameter} />
                     </div>
                 </div>
-                <div className='h-6 truncate bg-[#F9F9F9] text-muted-foreground px-1.5 md:px-2 flex items-center justify-center text-xs sm:hidden'>
+                <div className='flex h-6 items-center justify-center truncate bg-[#F9F9F9] px-1.5 text-xs text-muted-foreground sm:hidden md:px-2'>
                     Доступно:{'  '}
-                    {currentStock?.quantity} {getProductLabel(currentStock?.quantity ?? 0)}
+                    {currentStock?.quantity}{' '}
+                    {getProductLabel(currentStock?.quantity ?? 0)}
                 </div>
             </div>
         </article>

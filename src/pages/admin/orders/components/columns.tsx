@@ -2,15 +2,15 @@ import { type ColumnDef } from '@tanstack/react-table'
 
 import { useProductStatus } from '../context/product-status'
 
+import type { ShopProduct } from '@/api/shop-products/shop-products.types'
+import { WeighDiameterInfo } from '@/components/product-info'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
+import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
+import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { DiscountCell } from './cells//discount-cell'
 import { OrderCell } from './cells//order-cell'
 import { PriceCell } from './cells/price-cell'
 import { QuantityCell } from './cells/quantity-cell'
-import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { DiametrIcon, WeightIcon } from '@/components/icons'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
-import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
-import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 
 export const columns: ColumnDef<ShopProduct>[] = [
     {
@@ -79,16 +79,7 @@ export const columns: ColumnDef<ShopProduct>[] = [
         accessorKey: 'diameter',
         header: 'Ваг./діам.',
         cell: ({ row }) => (
-            <div className='flex items-center gap-x-1'>
-                <div className='flex items-center gap-x-0.5'>
-                    <WeightIcon className='size-5' />
-                    {row.original?.weight_size ?? '-'}
-                </div>
-                <div className='flex items-center gap-x-0.5'>
-                    <DiametrIcon className='size-5' />
-                    {row.original?.diameter ?? '-'}
-                </div>
-            </div>
+            <WeighDiameterInfo weight={row.original?.weight_size} diameter={row.original?.diameter} />
         ),
         size: 110
     },

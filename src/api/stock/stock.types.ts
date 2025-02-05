@@ -17,6 +17,17 @@ export interface Stock {
     discounts: Discount[]
 }
 
+export interface StockProduct {
+    id: number
+    shop_product: ShopProduct
+    status: StatusProduct
+    quantity: number
+    retail_price: string
+    stock_price: string
+    promotion: boolean
+    discounts: Discount[]
+  }
+
 export interface PreorderStock {
     id: number
     price: number

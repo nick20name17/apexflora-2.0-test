@@ -1,14 +1,14 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
+import type { Cart } from '@/api/carts/carts.types'
+import { HeightInfo, WeighDiameterInfo } from '@/components/product-info'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
+import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { CartActionsCell } from './cell/cart-action-cell'
 import { DiscountCell } from './cell/discount-cell'
 import { OrderCell } from './cell/order-cell'
 import { PriceCell } from './cell/price-cell'
 import { QuantityCell } from './cell/quantity-cell'
-import type { Cart } from '@/api/carts/carts.types'
-import { DiametrIcon, WeightIcon } from '@/components/icons'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
-import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 
 export const columns: ColumnDef<Cart>[] = [
     {
@@ -78,23 +78,14 @@ export const columns: ColumnDef<Cart>[] = [
     {
         accessorKey: 'height',
         header: 'Висота',
-        cell: ({ row }) => <>{row.original?.stock_product.shop_product.height}см</>,
+        cell: ({ row }) => <HeightInfo height={row.original?.stock_product?.shop_product?.height} />,
         size: 60
     },
     {
         accessorKey: 'diameter',
         header: 'Ваг./діам.',
         cell: ({ row }) => (
-            <div className='flex items-center gap-x-1'>
-                <div className='flex items-center gap-x-0.5'>
-                    <WeightIcon className='size-5' />
-                    {row.original?.stock_product.shop_product.weight_size ?? '-'}
-                </div>
-                <div className='flex items-center gap-x-0.5'>
-                    <DiametrIcon className='size-5' />
-                    {row.original?.stock_product.shop_product.diameter ?? '-'}
-                </div>
-            </div>
+            <WeighDiameterInfo weight={row.original?.stock_product?.shop_product?.weight_size} diameter={row.original?.stock_product?.shop_product?.diameter} />
         ),
         size: 100
     },

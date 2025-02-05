@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom'
 
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { DiametrIcon, HeightIcon, WeightIcon } from '@/components/icons'
+import { HeightIcon } from '@/components/icons'
 import { DiscountLabel, PromoLabel } from '@/components/product-card'
+import { WeighDiameterInfo } from '@/components/product-info'
 import { Button } from '@/components/ui/button'
 import {
     Carousel,
@@ -103,26 +104,26 @@ export const Catalogue = () => {
                         <CarouselContent className='-ml-2.5'>
                             {isLoading
                                 ? Array.from({ length: 20 }).map((_, index) => (
-                                      <CarouselItem
-                                          key={index}
-                                          className='flex-shrink-0 flex-grow-0 basis-[210px] pl-2.5'
-                                      >
-                                          <Skeleton className='h-[270px] w-[200px] rounded-sm' />
-                                      </CarouselItem>
-                                  ))
+                                    <CarouselItem
+                                        key={index}
+                                        className='flex-shrink-0 flex-grow-0 basis-[210px] pl-2.5'
+                                    >
+                                        <Skeleton className='h-[270px] w-[200px] rounded-sm' />
+                                    </CarouselItem>
+                                ))
                                 : shopProducts?.results?.map((shopProduct, index) => (
-                                      <CarouselItem
-                                          key={shopProduct.id}
-                                          className={cn(
-                                              'flex-shrink-0 flex-grow-0 basis-[210px] pl-2.5 transition-[filter]',
-                                              !slidesInView.includes(index)
-                                                  ? 'md:blur-[1.6px]'
-                                                  : 'blur-none'
-                                          )}
-                                      >
-                                          <ProductCard shopProduct={shopProduct} />
-                                      </CarouselItem>
-                                  ))}
+                                    <CarouselItem
+                                        key={shopProduct.id}
+                                        className={cn(
+                                            'flex-shrink-0 flex-grow-0 basis-[210px] pl-2.5 transition-[filter]',
+                                            !slidesInView.includes(index)
+                                                ? 'md:blur-[1.6px]'
+                                                : 'blur-none'
+                                        )}
+                                    >
+                                        <ProductCard shopProduct={shopProduct} />
+                                    </CarouselItem>
+                                ))}
                         </CarouselContent>
                         <CarouselPrevious className='absolute left-12 top-1/2 z-20 hidden -translate-y-1/2 border-none bg-background text-black shadow-md hover:bg-black hover:text-background md:flex' />
                         <CarouselNext className='absolute right-12 top-1/2 z-20 hidden -translate-y-1/2 border-none bg-background text-black shadow-md hover:bg-black hover:text-background md:flex' />
@@ -240,20 +241,7 @@ export const ProductCard = ({ shopProduct }: ProductCardProps) => {
                 </div>
                 <div className='flex flex-col gap-y-0.5'>
                     <h2 className='text-xs text-muted-foreground'>Ваг./діам.</h2>
-                    <div className='flex items-center gap-x-1'>
-                        <div className='flex items-center gap-x-0.5'>
-                            <WeightIcon className='size-4 text-muted-foreground' />
-                            <span className='text-sm'>
-                                {shopProduct.weight_size ?? '-'}
-                            </span>
-                        </div>
-                        <div className='flex items-center gap-x-0.5'>
-                            <DiametrIcon className='size-4 text-muted-foreground' />
-                            <span className='text-sm'>
-                                {shopProduct.weight_size ?? '-'}
-                            </span>
-                        </div>
-                    </div>
+                    <WeighDiameterInfo weight={shopProduct.weight_size} diameter={shopProduct.diameter} />
                 </div>
             </div>
         </article>

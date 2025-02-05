@@ -1,6 +1,6 @@
 import { Loader2, Trash2 } from 'lucide-react'
 import { useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 
 import { removeStock } from '@/api/stock/stock'
@@ -20,19 +20,22 @@ interface RemoveStockModalProps {
 }
 
 export const RemoveStockModal = ({ stock }: RemoveStockModalProps) => {
+    const queryClient = useQueryClient()
+
     const removeStockMutation = useMutation({
         mutationFn: removeStock,
         onSuccess: () => {
             setOpen(false)
             toast.success(
                 <>
-                    Товар {stock.shop_product.product.ukr_name} зі статусом{' '}
+                    Товар {stock?.shop_product?.product?.ukr_name} зі статусом{' '}
                     <span>
-                        {getStatusProductsDisplay(stock.status.id).name.toLowerCase()}
+                        {getStatusProductsDisplay(stock?.status?.id).name.toLowerCase()}
                     </span>{' '}
                     успішно видалено
                 </>
             )
+            queryClient.invalidateQueries('shop-products')
         },
         onError: () => {
             toast.error('Щось пішло не так')
@@ -48,7 +51,8 @@ export const RemoveStockModal = ({ stock }: RemoveStockModalProps) => {
         >
             <DialogTrigger asChild>
                 <Button
-                    variant='destructive'
+                    className='hover:bg-destructive hover:text-destructive-foreground hover:border-destructive'
+                    variant='outline'
                     size='icon'
                 >
                     <Trash2 className='size-4' />
