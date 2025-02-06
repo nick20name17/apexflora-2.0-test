@@ -5,8 +5,9 @@ import { Outlet } from 'react-router-dom'
 import { ScrollArea } from '../ui/scroll-area'
 import { SidebarProvider } from '../ui/sidebar'
 
-import { AdminSidebar } from './admin-sidebar'
+import { ProductStatusProvider } from '@/pages/admin/orders/context/product-status'
 import { ErrorPage } from '@/pages/error/error-page'
+import { AdminSidebar } from './admin-sidebar'
 
 export const AdminLayout = ({ children }: PropsWithChildren) => {
     return (
@@ -15,16 +16,18 @@ export const AdminLayout = ({ children }: PropsWithChildren) => {
                 onReset={() => window.location.reload()}
                 FallbackComponent={ErrorPage}
             >
-                <SidebarProvider>
-                    <AdminSidebar />
-                    <main className='flex-1'>
-                        <div className='flex p-4'>
-                            <ScrollArea className='flex-1'>
-                                {children ?? <Outlet />}
-                            </ScrollArea>
-                        </div>
-                    </main>
-                </SidebarProvider>
+                <ProductStatusProvider>
+                    <SidebarProvider>
+                        <AdminSidebar />
+                        <main className='flex-1'>
+                            <div className='flex p-4'>
+                                <ScrollArea className='flex-1'>
+                                    {children ?? <Outlet />}
+                                </ScrollArea>
+                            </div>
+                        </main>
+                    </SidebarProvider>
+                </ProductStatusProvider>
             </ErrorBoundary>
         </div>
     )

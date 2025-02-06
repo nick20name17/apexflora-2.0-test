@@ -33,8 +33,7 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
 
     const { currentStock } = useCatalogueOperations({
         initialCurrentStockId: productStatus,
-        stocks: shopProduct.stocks,
-        inWishList: shopProduct.in_wish_list
+        stocks: shopProduct?.stocks,
     })
 
     const { activeStockId } = useActiveStockId()
@@ -51,13 +50,11 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
         setOpen(activeStockId === currentStock?.id || stock === currentStock?.id)
     }, [activeStockId, currentStock?.id, stock])
 
-    // Local state for quantity
     const [amount, setAmount] = useState(0)
 
     const isPromo = currentStock?.promotion
     const isPreorder = currentStock?.status?.id === 3
 
-    // Local price calculations
     const basePrice = currentStock?.retail_price || 0
     const discountPercentage = currentStock?.visible_discount || 0
     const priceWithDiscount = discountPercentage > 0
@@ -85,16 +82,16 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
     const handleAddToCart = () => {
 
 
-        const currentOrderItems = (form.watch('order_items') as OrderItem[]) || []
-        const existingItemIndex = currentOrderItems.findIndex(
+        const currentOrderItems = (form?.watch('order_items') as OrderItem[]) || []
+        const existingItemIndex = currentOrderItems?.findIndex(
             (item) => item?.id === currentStock?.id
         )
 
         if (amount === 0) {
-            const updatedOrderItems = currentOrderItems.filter(
+            const updatedOrderItems = currentOrderItems?.filter(
                 (item) => item?.id !== currentStock?.id
             )
-            form.setValue('order_items', updatedOrderItems)
+            form?.setValue('order_items', updatedOrderItems)
             return
         }
 
@@ -104,9 +101,9 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
                 ...updatedOrderItems[existingItemIndex],
                 amount: amount
             }
-            form.setValue('order_items', updatedOrderItems)
+            form?.setValue('order_items', updatedOrderItems)
         } else {
-            form.setValue('order_items', [
+            form?.setValue('order_items', [
                 ...currentOrderItems,
                 {
                     id: currentStock?.id,
@@ -134,15 +131,15 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
                 id='product-popup'
             >
                 <DialogHeader className='sr-only'>
-                    <DialogTitle>{shopProduct.product.ukr_name}</DialogTitle>
+                    <DialogTitle>{shopProduct?.product?.ukr_name}</DialogTitle>
                 </DialogHeader>
                 <article className='w-full p-4'>
                     <div className='relative h-60 max-w-full overflow-hidden rounded-xs bg-muted'>
                         <div className='absolute inset-x-0 top-0 z-10 h-24 max-w-full bg-gradient-to-b from-black/20 to-transparent'></div>
                         <img
                             className='size-full max-h-full max-w-full object-cover'
-                            src={shopProduct.image}
-                            alt={shopProduct.product.ukr_name}
+                            src={shopProduct?.image}
+                            alt={shopProduct?.product?.ukr_name}
                         />
                         <div className='absolute bottom-2 left-2 flex items-center gap-x-1'>
                             {isPromo ? <PromoLabel /> : null}

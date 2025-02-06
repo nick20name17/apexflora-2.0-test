@@ -1,9 +1,9 @@
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
 import { ProductCard } from '@/components/product-card'
-import { ProductPopup } from '@/components/product-popup'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
 import { defaultLimit } from '@/constants/table'
+import { AdminProductPopup } from './admin-product-popup'
 
 interface ProductsListProps {
     shopProducts: ShopProductsResponse
@@ -25,13 +25,13 @@ export const AdminProductsList = ({ shopProducts, isLoading }: ProductsListProps
             ) : (
                 <div className='grid grid-cols-1 gap-2.5 sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))]'>
                     {shopProducts?.results?.map((shopProduct) => (
-                        <ProductPopup shopProduct={shopProduct}>
+                        <AdminProductPopup shopProduct={shopProduct}>
                             <ProductCard
                                 className='w-full'
                                 key={shopProduct.id}
                                 shopProduct={shopProduct}
                             />
-                        </ProductPopup>
+                        </AdminProductPopup>
                     ))}
                 </div>
             )}

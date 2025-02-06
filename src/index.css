@@ -116,7 +116,7 @@
     }
 
     body {
-        @apply overscroll-none bg-background text-foreground;
+        @apply overscroll-none bg-background text-foreground antialiased;
     }
 
     #root {

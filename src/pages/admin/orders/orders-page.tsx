@@ -17,7 +17,6 @@ import { MobileAdminOrderCard } from './components/mobile-order-card'
 import { AddOrderModal } from './components/modals/modals'
 import { AdminOrderCard } from './components/order-card'
 import { OrderCardSkeleton } from './components/order-skeleton'
-import { ProductStatusProvider } from './context/product-status'
 
 const AdminOrdersContent = () => {
     const [limit] = useQueryState('limit', {
@@ -150,9 +149,7 @@ const AdminOrdersContent = () => {
 
 const AdminOrdersPage = () => {
     return (
-        <ProductStatusProvider>
-            <AdminOrdersContent />
-        </ProductStatusProvider>
+        <AdminOrdersContent />
     )
 }
 

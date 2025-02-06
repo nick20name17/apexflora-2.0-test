@@ -28,7 +28,7 @@ interface ProductStatusProviderProps {
 export const ProductStatusProvider: React.FC<ProductStatusProviderProps> = ({
     children
 }) => {
-    const [productStatus, setProductStatus] = useState<string>('2')
+    const [productStatus, setProductStatus] = useState('2')
 
     const [orderItems, setOrderItems] = useState<AdminOrderItem[]>([])
 
