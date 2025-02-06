@@ -97,21 +97,21 @@ export const CatalogueNavigationMenu = ({ setOpen }: CatalogueNavigationMenuProp
         title: flower.name,
         to: `${routes.catalogue}?categories=${flower.id}`
     })) || [
-            {
-                title: 'До каталогу',
-                to: routes.catalogue
-            }
-        ]
+        {
+            title: 'До каталогу',
+            to: routes.catalogue
+        }
+    ]
 
     const furnituresComponents = furnitures?.results?.[0]?.children?.map((flower) => ({
         title: flower.name,
         to: `${routes.catalogue}?categories=${flower.id}`
     })) || [
-            {
-                title: 'До каталогу',
-                to: routes.catalogue
-            }
-        ]
+        {
+            title: 'До каталогу',
+            to: routes.catalogue
+        }
+    ]
 
     return (
         <NavigationMenu
@@ -156,7 +156,7 @@ export const CatalogueNavigationMenu = ({ setOpen }: CatalogueNavigationMenuProp
                         className={cn(
                             'w-full',
                             furnitures?.results[0]?.id === undefined &&
-                            'pointer-events-none opacity-50'
+                                'pointer-events-none opacity-50'
                         )}
                     >
                         <NavigationMenuTrigger
