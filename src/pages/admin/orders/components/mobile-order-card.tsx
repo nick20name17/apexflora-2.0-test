@@ -1,41 +1,37 @@
 import { format } from 'date-fns'
 import { More } from 'iconsax-react'
 import { ChevronDown } from 'lucide-react'
+import { useQueryState } from 'nuqs'
 import { useState } from 'react'
 
+import { OrderStatusSelect } from './controls/order-status-select'
+import { SupplierToggle } from './controls/supplier-cell'
+import { EditOrderModal, RemoveOrderModal } from './modals/modals'
+import { UserInfo } from './user-info'
 import type { OrderItem } from '@/api/order-items/order-items.types'
 import type { Order } from '@/api/orders/orders.types'
 import { DiscountLabel } from '@/components/product-card'
 import { HeightInfo, WeighDiameterInfo } from '@/components/product-info'
+import { getStatusProductsDisplay } from '@/components/status-tabs'
 import { Button } from '@/components/ui/button'
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger
 } from '@/components/ui/collapsible'
-import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger
-} from "@/components/ui/tooltip"
-import { DATE_FORMATS } from '@/constants/app'
-import { formatPrice } from '@/hooks/use-catalogue-operations'
-import { cn } from '@/lib/utils'
-import { DownloadOrdersPdfBtn } from '@/pages/profile/orders/components/download-orders-pdf-btn'
-
-import { getStatusProductsDisplay } from '@/components/status-tabs'
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
-import { useQueryState } from 'nuqs'
-import { OrderStatusSelect } from './controls/order-status-select'
-import { SupplierToggle } from './controls/supplier-cell'
-import { EditOrderModal, RemoveOrderModal } from './modals/modals'
-import { UserInfo } from './user-info'
+} from '@/components/ui/dropdown-menu'
+import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { DATE_FORMATS } from '@/constants/app'
+import { formatPrice } from '@/hooks/use-catalogue-operations'
+import { cn } from '@/lib/utils'
+import { DownloadOrdersPdfBtn } from '@/pages/profile/orders/components/download-orders-pdf-btn'
+
 interface OrderCardProps {
     order: Order
 }
@@ -67,7 +63,10 @@ export const MobileAdminOrderCard = ({ order }: OrderCardProps) => {
                         </span>
                         <span>{order.id}</span>
                     </div>
-                    <UserInfo order={order} short />
+                    <UserInfo
+                        order={order}
+                        short
+                    />
 
                     <div className='flex flex-col items-start gap-y-0.5 text-left'>
                         <span className='text-xs'>Дата</span>
@@ -80,18 +79,17 @@ export const MobileAdminOrderCard = ({ order }: OrderCardProps) => {
                 </div>
                 <div className='grid w-full grid-cols-3 items-center gap-x-2 p-2'>
                     <OrderStatusSelect
-                        className='h-7 p-2 max-w-44'
+                        className='h-7 max-w-44 p-2'
                         order={order}
                     />
 
-
-                    <div className='flex flex-col items-start gap-y-0.5 text-right justify-end'>
+                    <div className='flex flex-col items-start justify-end gap-y-0.5 text-right'>
                         <span className='text-xs'>Сума</span>
                         <span className='whitespace-nowrap text-primary'>
                             {formatPrice(totalPriceWithDiscount)}₴
                         </span>
                     </div>
-                    <div className='flex items-center gap-x-2 justify-end'>
+                    <div className='flex items-center justify-end gap-x-2'>
                         {status === 'supplier' ? (
                             <Tooltip delayDuration={300}>
                                 <TooltipTrigger>
@@ -104,13 +102,27 @@ export const MobileAdminOrderCard = ({ order }: OrderCardProps) => {
                         ) : null}
 
                         <DropdownMenu>
-                            <DropdownMenuTrigger asChild><Button className='shrink-0' size='icon' variant='outline'><More /></Button></DropdownMenuTrigger>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    className='shrink-0'
+                                    size='icon'
+                                    variant='outline'
+                                >
+                                    <More />
+                                </Button>
+                            </DropdownMenuTrigger>
                             <DropdownMenuContent className='min-w-10'>
-                                <DropdownMenuItem className='hover:!bg-transparent'>                    <RemoveOrderModal order={order} />
+                                <DropdownMenuItem className='hover:!bg-transparent'>
+                                    {' '}
+                                    <RemoveOrderModal order={order} />
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className='hover:!bg-transparent'>                    <EditOrderModal order={order} />
+                                <DropdownMenuItem className='hover:!bg-transparent'>
+                                    {' '}
+                                    <EditOrderModal order={order} />
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className='hover:!bg-transparent'>                    <DownloadOrdersPdfBtn order={order} />
+                                <DropdownMenuItem className='hover:!bg-transparent'>
+                                    {' '}
+                                    <DownloadOrdersPdfBtn order={order} />
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
@@ -143,7 +155,6 @@ export const MobileAdminOrderCard = ({ order }: OrderCardProps) => {
         </Collapsible>
     )
 }
-
 
 interface OrderItemCardProps {
     orderItem: OrderItem
@@ -218,28 +229,36 @@ const MobileOrderItemCard = ({ orderItem }: OrderItemCardProps) => {
                         <div className='flex flex-col items-start gap-y-0.5'>
                             <span className='text-xs'>Статус</span>
                             <span className='text-xs text-primary'>
-                                {getStatusProductsDisplay(orderItem?.stock_product?.status?.id).name}
+                                {
+                                    getStatusProductsDisplay(
+                                        orderItem?.stock_product?.status?.id
+                                    ).name
+                                }
                             </span>
                         </div>
                     </div>
-
                 </div>
                 <div className='grid grid-cols-[0.75fr,0.9fr,1fr,1fr,50px] items-start gap-1 p-1.5 leading-none max-sm:w-full'>
-                    <div className='flex flex-col gap-y-0.5 items-start'>
+                    <div className='flex flex-col items-start gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Артикул</h2>
                         <span className='text-sm'>
                             {orderItem.stock_product.shop_product?.origin_id}
                         </span>
                     </div>
-                    <div className='flex flex-col gap-y-0.5 items-start'>
+                    <div className='flex flex-col items-start gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Висота</h2>
-                        <HeightInfo height={orderItem.stock_product.shop_product?.height} />
+                        <HeightInfo
+                            height={orderItem.stock_product.shop_product?.height}
+                        />
                     </div>
-                    <div className='flex w-16 flex-col gap-y-0.5 truncate items-center'>
+                    <div className='flex w-16 flex-col items-center gap-y-0.5 truncate'>
                         <h2 className='text-xs text-muted'>Ваг./діам.</h2>
-                        <WeighDiameterInfo weight={orderItem.stock_product.shop_product?.weight_size} diameter={orderItem.stock_product.shop_product?.diameter} />
+                        <WeighDiameterInfo
+                            weight={orderItem.stock_product.shop_product?.weight_size}
+                            diameter={orderItem.stock_product.shop_product?.diameter}
+                        />
                     </div>
-                    <div className='flex flex-col gap-y-0.5 items-end'>
+                    <div className='flex flex-col items-end gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Ціна</h2>
                         {orderItem.discount > 0 ? (
                             <span className='text-sm font-medium text-primary'>
@@ -251,11 +270,9 @@ const MobileOrderItemCard = ({ orderItem }: OrderItemCardProps) => {
                             </span>
                         )}
                     </div>
-                    <div className='flex flex-col gap-y-0.5 items-end'>
+                    <div className='flex flex-col items-end gap-y-0.5'>
                         <h2 className='text-xs text-muted'>К-сть</h2>
-                        <span className='text-sm'>
-                            {orderItem.amount}шт.
-                        </span>
+                        <span className='text-sm'>{orderItem.amount}шт.</span>
                     </div>
                 </div>
             </div>

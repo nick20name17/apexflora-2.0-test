@@ -23,7 +23,7 @@ export interface StockProduct {
     stock_price: string
     promotion: boolean
     discounts: Discount[]
-  }
+}
 
 export interface CartAddPayload {
     stock_product: number

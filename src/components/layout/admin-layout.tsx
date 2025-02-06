@@ -5,9 +5,9 @@ import { Outlet } from 'react-router-dom'
 import { ScrollArea } from '../ui/scroll-area'
 import { SidebarProvider } from '../ui/sidebar'
 
+import { AdminSidebar } from './admin-sidebar'
 import { ProductStatusProvider } from '@/pages/admin/orders/context/product-status'
 import { ErrorPage } from '@/pages/error/error-page'
-import { AdminSidebar } from './admin-sidebar'
 
 export const AdminLayout = ({ children }: PropsWithChildren) => {
     return (

@@ -1,5 +1,11 @@
 import { useQuery } from 'react-query'
 
+import { ActiveFilters } from './active-filters'
+import { CategoryFilter } from './filters/category-filter'
+import { ColorsFilter } from './filters/color-filter'
+import { CountriesFilter } from './filters/country-filter'
+import { HeightFilter } from './filters/height-filter'
+import { PriceFilter } from './filters/price-filter'
 import { getAllCategories } from '@/api/categories/categories'
 import { getAllColors } from '@/api/colors/colors'
 import { getAllProducers } from '@/api/producers/producers'
@@ -21,12 +27,6 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
-import { ActiveFilters } from './active-filters'
-import { CategoryFilter } from './filters/category-filter'
-import { ColorsFilter } from './filters/color-filter'
-import { CountriesFilter } from './filters/country-filter'
-import { HeightFilter } from './filters/height-filter'
-import { PriceFilter } from './filters/price-filter'
 
 interface FiltersSidebarProps {
     minMaxValues: MinMaxValues

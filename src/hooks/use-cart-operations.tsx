@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
+import { useAuth } from './use-auth'
+import { formatPrice } from './use-catalogue-operations'
 import { addToCart, getCarts, removeFromCart, updateCart } from '@/api/carts/carts'
 import type { Cart, CartsResponse } from '@/api/carts/carts.types'
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
-import { useAuth } from './use-auth'
-import { formatPrice } from './use-catalogue-operations'
 
 type CartOperation = {
     amount: number
@@ -75,9 +75,9 @@ export const useCartOperations = () => {
 
         const priceWithDiscount = stockMaxDiscountPercentage
             ? +formatPrice(
-                // @ts-ignore
-                cart.stock_product.retail_price * (1 - stockMaxDiscountPercentage / 100)
-            )
+                  +cart?.stock_product.retail_price *
+                      (1 - stockMaxDiscountPercentage / 100)
+              )
             : null
 
         const totalPrice = formatPrice(+cart.stock_product.retail_price * cart.amount)

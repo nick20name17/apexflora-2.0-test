@@ -4,6 +4,11 @@ import { useQueryState } from 'nuqs'
 import { type PropsWithChildren, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { HeightIcon, ShoppingCartIcon } from './icons'
+import { DiscountLabel, PromoLabel } from './product-card'
+import { WeighDiameterInfo } from './product-info'
+import { Button } from './ui/button'
+import { NumberStepper } from './ui/number-stepper'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
 import {
     Dialog,
@@ -17,11 +22,6 @@ import { useAuth } from '@/hooks/use-auth'
 import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 import { useActiveStockId } from '@/pages/catalogue/store/active-stock'
-import { HeightIcon, ShoppingCartIcon } from './icons'
-import { DiscountLabel, PromoLabel } from './product-card'
-import { WeighDiameterInfo } from './product-info'
-import { Button } from './ui/button'
-import { NumberStepper } from './ui/number-stepper'
 
 interface ProductPopupProps extends PropsWithChildren {
     shopProduct: ShopProduct
@@ -181,7 +181,10 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                         </div>
                         <div className='flex flex-col gap-y-0.5'>
                             <h3 className='text-xs text-muted'>Ваг./діам.</h3>
-                            <WeighDiameterInfo weight={shopProduct.weight_size} diameter={shopProduct.diameter} />
+                            <WeighDiameterInfo
+                                weight={shopProduct.weight_size}
+                                diameter={shopProduct.diameter}
+                            />
                         </div>
                     </div>
                     <div className='grid grid-cols-3 border-t py-3 text-sm'>
@@ -232,7 +235,7 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
                                 step={currentStock?.shop_product.packaging_of || 1}
                             />
                             {currentStockMaxDiscountPercentage &&
-                                totalPriceWithDiscount > 0 ? (
+                            totalPriceWithDiscount > 0 ? (
                                 <div className='flex flex-col text-right'>
                                     <span className='text-muted line-through'>
                                         {totalPrice}₴

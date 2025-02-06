@@ -56,7 +56,7 @@ export const HomeHeader = () => {
         <header className='container sticky left-0 right-0 top-0 z-50'>
             <div
                 className={cn(
-                    'relative mt-4 flex items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-10 md:py-4',
+                    'relative mt-4 flex items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-8 md:py-4',
                     isScrolled ? 'h-[70px] before:!rounded-t-none' : 'h-20',
                     catalogueOpen || contactOpen ? 'before:rounded-b-none' : ''
                 )}

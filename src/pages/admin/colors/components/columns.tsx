@@ -1,7 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
-import type { Color } from '@/api/colors/colors.types'
 import { EditColorModal, RemoveColorModal } from './modals'
+import type { Color } from '@/api/colors/colors.types'
 
 export const columns: ColumnDef<Color>[] = [
     {

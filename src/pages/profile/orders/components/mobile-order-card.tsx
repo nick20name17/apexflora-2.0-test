@@ -3,6 +3,8 @@ import { Heart } from 'iconsax-react'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
+import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
+import { OrderCardStatus } from './order-card'
 import type { OrderItem } from '@/api/order-items/order-items.types'
 import type { Order, Statuses } from '@/api/orders/orders.types'
 import { DiscountLabel } from '@/components/product-card'
@@ -17,8 +19,6 @@ import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { DATE_FORMATS } from '@/constants/app'
 import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
-import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
-import { OrderCardStatus } from './order-card'
 
 interface OrderCardProps {
     order: Order
@@ -201,11 +201,16 @@ const MobileOrderItemCard = ({ orderItem }: OrderItemCardProps) => {
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Висота</h2>
-                        <HeightInfo height={orderItem.stock_product.shop_product?.height} />
+                        <HeightInfo
+                            height={orderItem.stock_product.shop_product?.height}
+                        />
                     </div>
                     <div className='flex w-16 flex-col gap-y-0.5 truncate'>
                         <h2 className='text-xs text-muted'>Ваг./діам.</h2>
-                        <WeighDiameterInfo weight={orderItem.stock_product.shop_product?.weight_size} diameter={orderItem.stock_product.shop_product?.diameter} />
+                        <WeighDiameterInfo
+                            weight={orderItem.stock_product.shop_product?.weight_size}
+                            diameter={orderItem.stock_product.shop_product?.diameter}
+                        />
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Ціна</h2>

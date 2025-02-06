@@ -44,17 +44,16 @@ export const FilePicker = ({
 }: FilePickerProps) => {
     const maxSize = maxSizeInMB * 1024 * 1024
 
-
-    console.log(value);
+    console.log(value)
 
     const [files, setFiles] = useState<(UploadedFile | UploadedUrl)[]>(
         value?.map((file) =>
             'url' in file
                 ? file
                 : {
-                    ...file,
-                    preview: URL.createObjectURL(file as UploadedFile)
-                }
+                      ...file,
+                      preview: URL.createObjectURL(file as UploadedFile)
+                  }
         )
     )
 
@@ -202,7 +201,7 @@ export const FilePicker = ({
                                                     <FileIcon className='size-6 text-foreground/40' />
                                                 )}
                                                 {caption ? (
-                                                    <div className='mt-3 max-w-32 break-words text-center text-xs text-foreground/60 truncate'>
+                                                    <div className='mt-3 max-w-32 truncate break-words text-center text-xs text-foreground/60'>
                                                         {(file as UploadedFile).name}
                                                     </div>
                                                 ) : null}

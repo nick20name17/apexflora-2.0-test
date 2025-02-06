@@ -80,7 +80,10 @@ export const wishListColumns: ColumnDef<ShopProduct>[] = [
         accessorKey: 'diameter',
         header: 'Ваг./діам.',
         cell: ({ row }) => (
-            <WeighDiameterInfo weight={row.original?.weight_size} diameter={row.original?.diameter} />
+            <WeighDiameterInfo
+                weight={row.original?.weight_size}
+                diameter={row.original?.diameter}
+            />
         ),
         size: 110
     },

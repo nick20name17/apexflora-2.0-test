@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import { More } from 'iconsax-react'
 import { Check, ChevronDown, Info, Loader2 } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 import { useState } from 'react'
@@ -6,6 +7,11 @@ import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { toast } from 'sonner'
 
+import { OrderStatusSelect } from './controls/order-status-select'
+import { SupplierToggle } from './controls/supplier-cell'
+import { EditOrderModal, RemoveOrderModal } from './modals/modals'
+import { RemoveOrderItemModal } from './modals/remove-order-item'
+import { UserInfo } from './user-info'
 import { patchOrderItem } from '@/api/order-items/order-items'
 import type { OrderItem, OrderItemsPayload } from '@/api/order-items/order-items.types'
 import type { Order } from '@/api/orders/orders.types'
@@ -18,6 +24,12 @@ import {
     CollapsibleContent,
     CollapsibleTrigger
 } from '@/components/ui/collapsible'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { Input } from '@/components/ui/input'
@@ -25,11 +37,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { DownloadOrdersPdfBtn } from '@/pages/profile/orders/components/download-orders-pdf-btn'
-import { OrderStatusSelect } from './controls/order-status-select'
-import { SupplierToggle } from './controls/supplier-cell'
-import { EditOrderModal, RemoveOrderModal } from './modals/modals'
-import { RemoveOrderItemModal } from './modals/remove-order-item'
-import { UserInfo } from './user-info'
 
 interface OrderCardProps {
     order: Order
@@ -55,9 +62,7 @@ export const AdminOrderCard = ({ order }: OrderCardProps) => {
             className='rounded-md border-2 border-secondary p-4 transition-colors data-[state=open]:border-primary'
         >
             <CollapsibleTrigger className='flex w-full items-center justify-between gap-x-8'>
-                <div
-                    className='grid flex-1 gap-x-4 grid-cols-[1fr,2fr,1fr,1.2fr,1fr,100px]'
-                >
+                <div className='grid flex-1 grid-cols-[1fr,2fr,1fr,1.2fr,1fr,100px] gap-x-4'>
                     <div className='flex flex-col items-start gap-y-0.5'>
                         <span className='text-xs'># Замовлення</span>
                         <span className='text-primary'>{order.id}</span>
@@ -107,13 +112,26 @@ export const AdminOrderCard = ({ order }: OrderCardProps) => {
                     ) : null}
 
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild><Button size='icon' variant='outline'><More /></Button></DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                size='icon'
+                                variant='outline'
+                            >
+                                <More />
+                            </Button>
+                        </DropdownMenuTrigger>
                         <DropdownMenuContent className='min-w-10'>
-                            <DropdownMenuItem className='hover:!bg-transparent'>                    <RemoveOrderModal order={order} />
+                            <DropdownMenuItem className='hover:!bg-transparent'>
+                                {' '}
+                                <RemoveOrderModal order={order} />
                             </DropdownMenuItem>
-                            <DropdownMenuItem className='hover:!bg-transparent'>                    <EditOrderModal order={order} />
+                            <DropdownMenuItem className='hover:!bg-transparent'>
+                                {' '}
+                                <EditOrderModal order={order} />
                             </DropdownMenuItem>
-                            <DropdownMenuItem className='hover:!bg-transparent'>                    <DownloadOrdersPdfBtn order={order} />
+                            <DropdownMenuItem className='hover:!bg-transparent'>
+                                {' '}
+                                <DownloadOrdersPdfBtn order={order} />
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -242,14 +260,6 @@ const PriceInput = ({ orderItem }: { orderItem: OrderItem }) => {
     )
 }
 
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
-import { More } from 'iconsax-react'
-
 const AmountInput = ({ orderItem }: { orderItem: OrderItem }) => {
     const form = useForm({
         defaultValues: {
@@ -377,7 +387,7 @@ const AdminOrderItemCard = ({ orderItem, order }: OrderItemCardProps) => {
                         <Skeleton className='h-full w-full rounded-sm object-cover' />
                     )}
                 </div>
-                <div className='flex w-36 flex-col lg:w-60 truncate'>
+                <div className='flex w-36 flex-col truncate lg:w-60'>
                     <span className='truncate text-foreground'>
                         {orderItem.stock_product.shop_product.product?.ukr_name}
                     </span>
@@ -410,7 +420,10 @@ const AdminOrderItemCard = ({ orderItem, order }: OrderItemCardProps) => {
                 </div>
                 <div className='flex flex-col items-start gap-y-0.5'>
                     <span className='text-xs'>Ваг./діам.</span>
-                    <WeighDiameterInfo weight={orderItem.stock_product.shop_product?.weight_size} diameter={orderItem.stock_product.shop_product?.diameter} />
+                    <WeighDiameterInfo
+                        weight={orderItem.stock_product.shop_product?.weight_size}
+                        diameter={orderItem.stock_product.shop_product?.diameter}
+                    />
                 </div>
                 <div className='flex flex-col items-start gap-y-0.5'>
                     <span className='text-xs'>Ціна</span>

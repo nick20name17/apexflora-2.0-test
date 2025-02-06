@@ -109,7 +109,10 @@ export const WishListProductCardMobile = ({
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Ваг./діам.</h2>
-                        <WeighDiameterInfo weight={shopProduct.weight_size} diameter={shopProduct.diameter} />
+                        <WeighDiameterInfo
+                            weight={shopProduct.weight_size}
+                            diameter={shopProduct.diameter}
+                        />
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Ціна</h2>

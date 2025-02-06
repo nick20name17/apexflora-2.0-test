@@ -6,6 +6,7 @@ import { AddressSelect } from '../controls/address-select'
 import { OrderStatusSelector } from '../controls/order-status-selector'
 import { ProductsCatalogue } from '../products-catalogue'
 
+import { AddAddressModal } from './add-address'
 import {
     addOrderItem,
     patchOrderItem,
@@ -25,7 +26,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/use-auth'
 import { CreateModal, DeleteModal, EditModal } from '@/pages/admin/components/base-modal'
-import { AddAddressModal } from './add-address'
 
 const orderSchema = z.object({
     // recipient: z.string().min(1, 'Це поле обовязкове'),
@@ -51,7 +51,7 @@ const orderFormFields = (
     order?: Order
 ) => (
     <>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
+        <div className='grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4'>
             {/* <FormField
                 control={form.control}
                 name='recipient'
@@ -111,7 +111,7 @@ const orderFormFields = (
                 )}
             />
         </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 items-end gap-2 md:gap-4'>
+        <div className='grid grid-cols-1 items-end gap-2 md:grid-cols-2 md:gap-4'>
             <FormField
                 control={form.control}
                 name='order_items'
@@ -153,7 +153,7 @@ const orderFormFields = (
             control={form.control}
             name='is_supplier'
             render={({ field }) => (
-                <FormItem className='flex h-10 sm:w-[calc(50%-8px)] flex-row items-start space-x-3 space-y-0 rounded-md border p-2'>
+                <FormItem className='flex h-10 flex-row items-start space-x-3 space-y-0 rounded-md border p-2 sm:w-[calc(50%-8px)]'>
                     <FormControl>
                         <Checkbox
                             checked={field.value}
@@ -164,7 +164,6 @@ const orderFormFields = (
                 </FormItem>
             )}
         />
-
     </>
 )
 

@@ -3,6 +3,7 @@ import { Heart } from 'iconsax-react'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
+import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
 import type { OrderItem } from '@/api/order-items/order-items.types'
 import type { Order, Statuses } from '@/api/orders/orders.types'
 import { DiscountLabel } from '@/components/product-card'
@@ -17,7 +18,6 @@ import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { DATE_FORMATS } from '@/constants/app'
 import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
-import { DownloadOrdersPdfBtn } from './download-orders-pdf-btn'
 
 export const getStatusName = (statusName: Statuses) => {
     const statuses = {
@@ -166,7 +166,10 @@ const OrderItemCard = ({ orderItem }: OrderItemCardProps) => {
 
             <HeightInfo height={orderItem.stock_product.shop_product?.height} />
 
-            <WeighDiameterInfo weight={orderItem.stock_product.shop_product?.weight_size} diameter={orderItem.stock_product.shop_product?.diameter} />
+            <WeighDiameterInfo
+                weight={orderItem.stock_product.shop_product?.weight_size}
+                diameter={orderItem.stock_product.shop_product?.diameter}
+            />
 
             <div className='flex items-center gap-x-1'>
                 {orderItem?.stock_product?.promotion ? (
@@ -190,10 +193,7 @@ const OrderItemCard = ({ orderItem }: OrderItemCardProps) => {
 
             <div>{orderItem.amount}шт.</div>
 
-            <div
-                className='flex w-full gap-1 leading-none'
-            >
-
+            <div className='flex w-full gap-1 leading-none'>
                 <span className='whitespace-nowrap text-primary'>
                     {formatPrice(totalPriceWithDiscount)} ₴
                 </span>

@@ -1,9 +1,9 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
+import { EditUserModal, RemoveUserModal } from './modals'
 import type { User } from '@/api/users/users.types'
 import { getRoleBadgeInfo } from '@/constants/user'
 import { cn } from '@/lib/utils'
-import { EditUserModal, RemoveUserModal } from './modals'
 
 export const usersColumns: ColumnDef<User>[] = [
     {
@@ -11,7 +11,7 @@ export const usersColumns: ColumnDef<User>[] = [
         header: 'Імя та прізвище',
         cell: ({ row }) => {
             return (
-                <div className='truncate max-w-full'>
+                <div className='max-w-full truncate'>
                     {row.original.first_name + ' ' + row.original.last_name}
                 </div>
             )
@@ -21,7 +21,7 @@ export const usersColumns: ColumnDef<User>[] = [
         accessorKey: 'email',
         header: 'Пошта',
         cell: ({ row }) => {
-            return <div className='truncate max-w-full'>{row.original.email}</div>
+            return <div className='max-w-full truncate'>{row.original.email}</div>
         },
         size: 240
     },
@@ -29,7 +29,7 @@ export const usersColumns: ColumnDef<User>[] = [
         accessorKey: 'phone_number',
         header: '>Номер телефон',
         cell: ({ row }) => {
-            return <div className='truncate max-w-full'>{row.original.phone_number}</div>
+            return <div className='max-w-full truncate'>{row.original.phone_number}</div>
         },
         size: 192
     },
@@ -87,13 +87,11 @@ export const usersColumns: ColumnDef<User>[] = [
         accessorKey: 'bonus_program',
         header: 'Менеджер',
         cell: ({ row }) => {
-            return (
-                row.original?.service_manager?.id
-                    ? row.original?.service_manager?.first_name +
-                    ' ' +
-                    row.original?.service_manager?.last_name
-                    : '-'
-            )
+            return row.original?.service_manager?.id
+                ? row.original?.service_manager?.first_name +
+                      ' ' +
+                      row.original?.service_manager?.last_name
+                : '-'
         },
         size: 128
     },

@@ -98,7 +98,10 @@ export const EditQuantity = ({ stock }: EditQuantityModalProps) => {
     const { name, icon } = getStatusProductsDisplay(stock?.status?.id)
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog
+            open={open}
+            onOpenChange={setOpen}
+        >
             <DialogTrigger asChild>
                 <Button
                     className='!size-6 shrink-0'
@@ -117,7 +120,9 @@ export const EditQuantity = ({ stock }: EditQuantityModalProps) => {
                     </DialogDescription>
                     <div className='flex items-center gap-x-2'>
                         <span>Надходження:</span>
-                        <span className='font-medium text-primary'>{stock?.quantity}</span>
+                        <span className='font-medium text-primary'>
+                            {stock?.quantity}
+                        </span>
                     </div>
                     <div className='flex items-center gap-x-2'>
                         <span>Продано:</span>

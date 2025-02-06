@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
+import { EditProducerModal, RemoveProducerModal } from './modals'
 import type { Producer } from '@/api/producers/producers.types'
 import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
-import { EditProducerModal, RemoveProducerModal } from './modals'
 
 export const columns: ColumnDef<Producer>[] = [
     {
@@ -26,7 +26,10 @@ export const columns: ColumnDef<Producer>[] = [
                             className='size-3.5'
                         />
                     </div>
-                    <span className='truncate'>   {row.original.country.name}({row.original.country.code})</span>
+                    <span className='truncate'>
+                        {' '}
+                        {row.original.country.name}({row.original.country.code})
+                    </span>
                 </div>
             )
         },

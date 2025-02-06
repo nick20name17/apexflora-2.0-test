@@ -8,7 +8,6 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
-
 import { routes } from '@/config/routes'
 
 export const LoyaltyPage = () => {
@@ -41,7 +40,7 @@ export const LoyaltyPage = () => {
                                 Обирай кращі пропозиції квітів з додатковою вигодою 7%
                             </p>
                         </div>
-                        <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
+                        <div className='flex size-10 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 text-sm font-medium text-foreground'>
                             7%
                         </div>
                     </li>
@@ -55,7 +54,7 @@ export const LoyaltyPage = () => {
                                 нашого веб-шопу. Купуйте квіти, професійно та з економією.
                             </p>
                         </div>
-                        <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
+                        <div className='flex size-10 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 text-sm font-medium text-foreground'>
                             3%
                         </div>
                     </li>
@@ -71,13 +70,13 @@ export const LoyaltyPage = () => {
                             </p>
                         </div>
                         <div className='flex items-center gap-x-2'>
-                            <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
+                            <div className='flex size-10 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 text-sm font-medium text-foreground'>
                                 1%
                             </div>
-                            <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
+                            <div className='flex size-10 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 text-sm font-medium text-foreground'>
                                 2%
                             </div>
-                            <div className='flex size-10  text-sm flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 font-medium text-foreground'>
+                            <div className='flex size-10 flex-shrink-0 items-center justify-center rounded-md bg-accent p-2 text-sm font-medium text-foreground'>
                                 3%
                             </div>
                         </div>

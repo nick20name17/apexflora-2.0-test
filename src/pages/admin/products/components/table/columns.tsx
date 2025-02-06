@@ -3,10 +3,6 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { EditShopProductModal } from '../modals/modals'
 import { RemoveStockModal } from '../modals/remove-stock'
 
-import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { WeighDiameterInfo } from '@/components/product-info'
-import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
-import { DiscountCell } from '@/pages/catalogue/components/product-table/cell/discount-cell'
 import { HeightCell } from './height-cell'
 import { ImageCell } from './image-cell'
 import { OriginIdCell } from './origin-id-cell'
@@ -14,6 +10,10 @@ import { PriceCell } from './price-cell'
 import { PromoCell } from './promo-cell'
 import { QuantityCell } from './quantity-cell'
 import { StatusCell } from './status-cell'
+import type { ShopProduct } from '@/api/shop-products/shop-products.types'
+import { WeighDiameterInfo } from '@/components/product-info'
+import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
+import { DiscountCell } from '@/pages/catalogue/components/product-table/cell/discount-cell'
 
 export const columns: ColumnDef<ShopProduct>[] = [
     {
@@ -70,7 +70,10 @@ export const columns: ColumnDef<ShopProduct>[] = [
         accessorKey: 'diameter',
         header: 'Ваг./діам.',
         cell: ({ row }) => (
-            <WeighDiameterInfo weight={row.original?.weight_size} diameter={row.original?.diameter} />
+            <WeighDiameterInfo
+                weight={row.original?.weight_size}
+                diameter={row.original?.diameter}
+            />
         ),
         size: 100
     },

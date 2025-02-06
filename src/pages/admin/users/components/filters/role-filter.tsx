@@ -10,8 +10,6 @@ import {
 import { roles } from '@/constants/user'
 import { cn } from '@/lib/utils'
 
-
-
 export const RoleFilter = ({ className }: { className?: string }) => {
     const [role, setRole] = useQueryState('role', {
         defaultValue: 'all'
@@ -36,6 +34,6 @@ export const RoleFilter = ({ className }: { className?: string }) => {
                     </SelectItem>
                 ))}
             </SelectContent>
-        </Select >
+        </Select>
     )
 }

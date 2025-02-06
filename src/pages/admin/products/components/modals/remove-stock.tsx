@@ -51,7 +51,7 @@ export const RemoveStockModal = ({ stock }: RemoveStockModalProps) => {
         >
             <DialogTrigger asChild>
                 <Button
-                    className='hover:bg-destructive hover:text-destructive-foreground hover:border-destructive'
+                    className='hover:border-destructive hover:bg-destructive hover:text-destructive-foreground'
                     variant='outline'
                     size='icon'
                 >

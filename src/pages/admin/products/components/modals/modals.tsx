@@ -9,6 +9,7 @@ import { DiscountsSelect } from '../controls/discount-select'
 import { ProducerSelect } from '../controls/producer-select'
 import { ProductSelect } from '../controls/product-select'
 
+import { addProductSchema } from './add-product'
 import { patchProduct } from '@/api/products/products'
 import type { ProductPayload } from '@/api/products/products.types'
 import {
@@ -31,7 +32,6 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { CreateModal, EditModal } from '@/pages/admin/components/base-modal'
-import { addProductSchema } from './add-product'
 
 const addShopProductSchema = z.object({
     height: z
@@ -88,11 +88,7 @@ const editShopProductSchema = z.object({
     ...addShopProductSchema.omit({
         image: true
     }).shape,
-    image: z
-        .array(
-            z.any()
-        )
-        .min(1, 'Необхідно додати зображення'),
+    image: z.array(z.any()).min(1, 'Необхідно додати зображення'),
     discounts: z.array(z.string()).optional(),
     ...addProductSchema.shape
 })
@@ -121,7 +117,7 @@ const productFormFields = (
                 </FormItem>
             )}
         />
-        <div className='flex md:items-center max-md:flex-col gap-2'>
+        <div className='flex gap-2 max-md:flex-col md:items-center'>
             <FormField
                 control={form.control}
                 name='height'
@@ -174,7 +170,7 @@ const productFormFields = (
             />
         </div>
 
-        <div className='flex md:items-center max-md:flex-col gap-2'>
+        <div className='flex gap-2 max-md:flex-col md:items-center'>
             <FormField
                 control={form.control}
                 name='stage'
@@ -224,7 +220,7 @@ const productFormFields = (
                 )}
             />
         </div>
-        <div className='flex md:items-center max-md:flex-col gap-2'>
+        <div className='flex gap-2 max-md:flex-col md:items-center'>
             <FormField
                 control={form.control}
                 name='producer'
@@ -260,7 +256,7 @@ const productFormFields = (
                 )}
             />
         </div>
-        <div className='flex md:items-center max-md:flex-col gap-2'>
+        <div className='flex gap-2 max-md:flex-col md:items-center'>
             <FormField
                 control={form.control}
                 name='diameter'
@@ -303,7 +299,7 @@ const editProductFormFields = (
     shopProduct?: ShopProduct
 ) => (
     <div className='max-h-[calc(100vh-200px)] overflow-y-auto'>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4'>
+        <div className='grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-4'>
             <FormField
                 control={form.control}
                 name='name'
@@ -354,7 +350,7 @@ const editProductFormFields = (
             />
         </div>
 
-        <div className='mt-2 md:mt-4 grid  grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
+        <div className='mt-2 grid grid-cols-1 gap-2 md:mt-4 md:grid-cols-2 md:gap-4'>
             <div className='flex h-full flex-col justify-between'>
                 <FormField
                     control={form.control}
@@ -411,7 +407,7 @@ const editProductFormFields = (
 
         <Separator className='my-4' />
 
-        <div className='grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-4'>
+        <div className='grid grid-cols-2 gap-2 md:grid-cols-6 md:gap-4'>
             <FormField
                 control={form.control}
                 name='height'
@@ -516,7 +512,7 @@ const editProductFormFields = (
             />
         </div>
 
-        <div className='mt-2 md:mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
+        <div className='mt-2 grid grid-cols-1 gap-2 md:mt-4 md:grid-cols-2 md:gap-4'>
             <FormField
                 control={form.control}
                 name='producer'
@@ -553,7 +549,7 @@ const editProductFormFields = (
             />
         </div>
 
-        <div className='mt-2 md:mt-4 flex md:items-center gap-2 max-md:flex-col'>
+        <div className='mt-2 flex gap-2 max-md:flex-col md:mt-4 md:items-center'>
             <FormField
                 control={form.control}
                 name='discounts'

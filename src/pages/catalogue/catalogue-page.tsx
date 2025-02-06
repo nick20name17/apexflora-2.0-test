@@ -3,17 +3,17 @@ import { useQueryState } from 'nuqs'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
-import { Catalogue } from './components/catalogue'
-import { FiltersSidebar } from './components/filters-sidebar'
-import { OrderSuccess } from './components/order-success'
-import { useActiveStockId } from './store/active-stock'
-import { useFilters } from './store/filters'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import '@/assets/styles/driver-js.css'
 import { MetaHead } from '@/components/meta-head'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { defaultLimit } from '@/constants/table'
 import { useAuth } from '@/hooks/use-auth'
+import { Catalogue } from './components/catalogue'
+import { FiltersSidebar } from './components/filters-sidebar'
+import { OrderSuccess } from './components/order-success'
+import { useActiveStockId } from './store/active-stock'
+import { useFilters } from './store/filters'
 
 import 'driver.js/dist/driver.css'
 
@@ -90,6 +90,7 @@ export const CataloguePage = () => {
         queryKey: ['shopProducts', filters],
         queryFn: () => getShopProducts(filters),
         staleTime: 300 * 1000,
+        refetchInterval: 60 * 1000,
         keepPreviousData: true
     })
 

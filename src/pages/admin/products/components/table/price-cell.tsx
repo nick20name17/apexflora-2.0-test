@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
+import { ApproveCell } from './approve-cell'
 import { patchStock } from '@/api/stock/stock'
 import type { Stock, StocksPayload } from '@/api/stock/stock.types'
 import { Input } from '@/components/ui/input'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
-import { ApproveCell } from './approve-cell'
 
 interface PriceCellProps {
     stocks: Stock[]
@@ -75,7 +75,7 @@ export const PriceCell = ({ stocks, className }: PriceCellProps) => {
                 <Input
                     ref={inputRef}
                     type='text'
-                    className='h-10 md:h-9 pl-5 pr-2'
+                    className='h-10 pl-5 pr-2 md:h-9'
                     value={value}
                     onChange={handleChange}
                     onFocus={() => setIsFocused(true)}

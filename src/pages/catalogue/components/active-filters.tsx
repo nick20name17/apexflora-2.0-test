@@ -9,9 +9,7 @@ import { getAllProducers } from '@/api/producers/producers'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-type FilterKey =
-    // 'promo'
-    'colors' | 'price' | 'height' | 'categories' | 'countries'
+type FilterKey = 'colors' | 'price' | 'height' | 'categories' | 'countries'
 
 export const ActiveFilters = ({ className }: { className?: string }) => {
     const { data: allCategories } = useQuery({
@@ -34,7 +32,6 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
         parse: Number
     })
 
-    // const [promo, setPromo] = useQueryState('promo')
     const [colors, setColors] = useQueryState('colors')
     const [price, setPrice] = useQueryState('price')
     const [height, setHeight] = useQueryState('height')
@@ -59,7 +56,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
             return categories.reduce((acc: Category[], category: Category) => {
                 const { children, ...rest } = category
                 return acc.concat(
-                    rest as any,
+                    rest as Category,
                     children ? flattenCategories(children) : []
                 )
             }, [])
@@ -83,7 +80,6 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
     }
 
     const filters = [
-        // { key: 'promo', label: promo && 'Промо ціна' },
         {
             key: 'price',
             label: price && `Ціна: ${price?.split(',')[0]}₴ - ${price?.split(',')[1]}₴`
@@ -97,8 +93,10 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
     ].filter((filter) => filter.label)
 
     const onFilterRemove = (key: FilterKey, value: string | null = null) => {
-        const setterMap: Record<FilterKey, (value: string | null) => void> = {
-            // promo: setPromo,
+        const setterMap: Record<
+            FilterKey,
+            React.Dispatch<React.SetStateAction<string | null>>
+        > = {
             colors: setColors,
             price: setPrice,
             height: setHeight,
@@ -106,10 +104,10 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
             countries: setCountries
         }
 
-        const setter = setterMap[key] as any
+        const setter = setterMap[key]
 
         if (value) {
-            setter((currentValue: any) => {
+            setter((currentValue: string | null) => {
                 if (!currentValue) return null
                 const values = currentValue.split(',')
                 const newValues = values.filter((v: any) => v !== value)
@@ -122,7 +120,6 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
     }
 
     const onClearAll = () => {
-        // setPromo(null)
         setColors(null)
         setPrice(null)
         setHeight(null)

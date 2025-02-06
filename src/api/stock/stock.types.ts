@@ -26,7 +26,7 @@ export interface StockProduct {
     stock_price: string
     promotion: boolean
     discounts: Discount[]
-  }
+}
 
 export interface PreorderStock {
     id: number

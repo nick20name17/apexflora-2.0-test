@@ -1,8 +1,8 @@
+import { columns } from './columns'
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { ProductTable } from '@/pages/catalogue/components/product-table/table'
 import { ProductsList } from '@/pages/catalogue/components/products-list'
-import { columns } from './columns'
 
 interface AdminCatagloueProps {
     shopProducts: ShopProductsResponse | undefined
@@ -27,4 +27,3 @@ export const AdminCatagloue = ({ shopProducts, isLoading }: AdminCatagloueProps)
         />
     )
 }
-

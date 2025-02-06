@@ -17,7 +17,6 @@ import { BalancePage } from '@/pages/profile/balance/balance-page'
 import { LoyaltyPage } from '@/pages/profile/loyalty/loyalty-page'
 import { RequireAuthProvider } from '@/providers/require-auth-provider'
 
-
 const UsersPage = lazy(() => import('@/pages/admin/users/users-page'))
 const AdminOrdersPage = lazy(() => import('@/pages/admin/orders/orders-page'))
 const ProductsPage = lazy(() => import('@/pages/admin/products/products-page'))

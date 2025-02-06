@@ -28,13 +28,13 @@ export const DataPageLayout = ({
     return (
         <div
             className={cn(
-                'flex flex-col md:gap-4 gap-2',
+                'flex flex-col gap-2 md:gap-4',
                 state === 'collapsed'
-                    ? 'xl:w-[calc(100vw-3rem-32px)] w-[calc(100vw-32px)]'
+                    ? 'w-[calc(100vw-32px)] xl:w-[calc(100vw-3rem-32px)]'
                     : 'xl:w-[calc(100vw-14rem-32px)]'
             )}
         >
-            <div className='flex sm:items-center sm:justify-between max-sm:flex-col gap-4'>
+            <div className='flex gap-4 max-sm:flex-col sm:items-center sm:justify-between'>
                 <div className='flex items-center gap-2'>
                     <SidebarTrigger />
                     <h1 className='text-2xl font-semibold'>{title}</h1>

@@ -21,7 +21,9 @@ export const ApproveCell = <TData, TPayload>({
         <div
             className={cn(
                 'absolute bottom-0 right-0 top-0 z-20 transform items-center gap-x-6 bg-background px-4 transition-all duration-300 ease-in-out',
-                isFocused ? 'translate-x-0 opacity-100 flex' : 'translate-x-full opacity-0 hidden'
+                isFocused
+                    ? 'flex translate-x-0 opacity-100'
+                    : 'hidden translate-x-full opacity-0'
             )}
         >
             <span className='text-xs text-muted-foreground'>Зберегти зміни?</span>

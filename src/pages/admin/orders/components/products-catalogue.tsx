@@ -8,6 +8,11 @@ import { ColorsSelect } from '../../products/components/controls/colors-select'
 import { ProducerSelect } from '../../products/components/controls/producer-select'
 import { useProductStatus } from '../context/product-status'
 
+import { AdminCatagloue } from './admin-catalogue'
+import { AdminStatusTabs } from './controls/admin-status-tabs'
+import { CategoryFilter } from './filters/category-filter'
+import { AdminOrderingFilter } from './filters/ordering-filter'
+import { AdminPromoFilter } from './filters/promo-filters'
 import type { OrderItem } from '@/api/order-items/order-items.types'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import { Badge } from '@/components/ui/badge'
@@ -23,11 +28,6 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { defaultLimit } from '@/constants/table'
 import { OrdersPagination } from '@/pages/profile/orders/components/orders-pagination'
-import { AdminCatagloue } from './admin-catalogue'
-import { AdminStatusTabs } from './controls/admin-status-tabs'
-import { CategoryFilter } from './filters/category-filter'
-import { AdminOrderingFilter } from './filters/ordering-filter'
-import { AdminPromoFilter } from './filters/promo-filters'
 
 export const ProductsCatalogue = () => {
     const { productStatus, setProductStatus } = useProductStatus()
@@ -93,7 +93,7 @@ export const ProductsCatalogue = () => {
                     Каталог <Badge>{orderItems?.length}</Badge>
                 </Button>
             </DialogTrigger>
-            <DialogContent className='max-w-[96%] max-h-[96vh] overflow-y-auto'>
+            <DialogContent className='max-h-[96vh] max-w-[96%] overflow-y-auto'>
                 <DialogHeader className='flex flex-row items-center justify-between gap-4 pt-2'>
                     <DialogTitle className='flex items-center gap-x-2'>
                         <h1 className='text-2xl xl:text-4xl'>Квіти</h1>
@@ -114,7 +114,7 @@ export const ProductsCatalogue = () => {
                         Зберегти
                     </Button>
                 </DialogHeader>
-                <div className='grid md:grid-cols-3  lg:grid-cols-5 gap-2'>
+                <div className='grid gap-2 md:grid-cols-3 lg:grid-cols-5'>
                     <SearchBar
                         search={search}
                         setSearch={setSearch}
@@ -167,10 +167,16 @@ export const ProductsCatalogue = () => {
                             isLoading={isLoading}
                             shopProducts={shopProducts}
                         />
-                        <OrdersPagination count={shopProducts?.count ?? 0} isLoading={isLoading} limit={limit} offset={offset} setOffset={setOffset} setLimit={setLimit} />
+                        <OrdersPagination
+                            count={shopProducts?.count ?? 0}
+                            isLoading={isLoading}
+                            limit={limit}
+                            offset={offset}
+                            setOffset={setOffset}
+                            setLimit={setLimit}
+                        />
                     </>
                 </ScrollArea>
-
             </DialogContent>
         </Dialog>
     )

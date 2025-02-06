@@ -1,9 +1,9 @@
+import { AdminProductPopup } from './admin-product-popup'
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
 import { ProductCard } from '@/components/product-card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
 import { defaultLimit } from '@/constants/table'
-import { AdminProductPopup } from './admin-product-popup'
 
 interface ProductsListProps {
     shopProducts: ShopProductsResponse

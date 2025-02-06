@@ -62,13 +62,16 @@ export const ImageCell = ({ shopProduct }: ImageCellProps) => {
                 <HoverCard>
                     <HoverCardTrigger asChild>
                         <div className='h-[32px] w-[46px]'>
-                            {
-                                patchShopProductMutation?.isLoading || !shopProduct?.image ? <Skeleton className='size-full' /> : <ImageWithSkeleton
+                            {patchShopProductMutation?.isLoading ||
+                            !shopProduct?.image ? (
+                                <Skeleton className='size-full' />
+                            ) : (
+                                <ImageWithSkeleton
                                     src={shopProduct?.image}
                                     alt={shopProduct?.product.ukr_name}
                                     className='size-full object-cover'
                                 />
-                            }
+                            )}
                         </div>
                     </HoverCardTrigger>
                     <HoverCardContent

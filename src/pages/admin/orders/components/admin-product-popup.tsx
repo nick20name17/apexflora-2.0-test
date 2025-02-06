@@ -1,6 +1,9 @@
 import { CheckCircle } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 import { type PropsWithChildren, useEffect, useState } from 'react'
+import { useFormContext } from 'react-hook-form'
+
+import { useProductStatus } from '../context/product-status'
 
 import type { OrderItem } from '@/api/order-items/order-items.types'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
@@ -19,8 +22,6 @@ import { NumberStepper } from '@/components/ui/number-stepper'
 import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 import { useActiveStockId } from '@/pages/catalogue/store/active-stock'
-import { useFormContext } from 'react-hook-form'
-import { useProductStatus } from '../context/product-status'
 
 interface ProductPopupProps extends PropsWithChildren {
     shopProduct: ShopProduct
@@ -30,10 +31,9 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
     const form = useFormContext()
     const { productStatus } = useProductStatus()
 
-
     const { currentStock } = useCatalogueOperations({
         initialCurrentStockId: productStatus,
-        stocks: shopProduct?.stocks,
+        stocks: shopProduct?.stocks
     })
 
     const { activeStockId } = useActiveStockId()
@@ -57,9 +57,10 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
 
     const basePrice = currentStock?.retail_price || 0
     const discountPercentage = currentStock?.visible_discount || 0
-    const priceWithDiscount = discountPercentage > 0
-        ? basePrice - (basePrice * (discountPercentage / 100))
-        : basePrice
+    const priceWithDiscount =
+        discountPercentage > 0
+            ? basePrice - basePrice * (discountPercentage / 100)
+            : basePrice
 
     const totalPrice = formatPrice(amount * basePrice)
     const totalPriceWithDiscount = formatPrice(amount * priceWithDiscount)
@@ -73,15 +74,11 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
         setOpen(!newOpen)
     }
 
-
-
     const handleQuantityChange = (value: number) => {
         setAmount(value)
     }
 
     const handleAddToCart = () => {
-
-
         const currentOrderItems = (form?.watch('order_items') as OrderItem[]) || []
         const existingItemIndex = currentOrderItems?.findIndex(
             (item) => item?.id === currentStock?.id
@@ -144,9 +141,7 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
                         <div className='absolute bottom-2 left-2 flex items-center gap-x-1'>
                             {isPromo ? <PromoLabel /> : null}
                             {discountPercentage > 0 ? (
-                                <DiscountLabel
-                                    discount={discountPercentage}
-                                />
+                                <DiscountLabel discount={discountPercentage} />
                             ) : null}
                         </div>
                     </div>
@@ -179,7 +174,10 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
                         </div>
                         <div className='flex flex-col gap-y-0.5'>
                             <h3 className='text-xs text-muted'>Ваг./діам.</h3>
-                            <WeighDiameterInfo weight={shopProduct.weight_size} diameter={shopProduct.diameter} />
+                            <WeighDiameterInfo
+                                weight={shopProduct.weight_size}
+                                diameter={shopProduct.diameter}
+                            />
                         </div>
                     </div>
                     <div className='grid grid-cols-3 border-t py-3 text-sm'>
@@ -199,7 +197,8 @@ export const AdminProductPopup = ({ shopProduct, children }: ProductPopupProps) 
                         </div>
                     </div>
                     <div className='flex h-6 items-center justify-center bg-accent text-xs text-muted'>
-                        Доступно до замовлення: {isPreorder ? '∞' : currentStock?.quantity}
+                        Доступно до замовлення:{' '}
+                        {isPreorder ? '∞' : currentStock?.quantity}
                     </div>
                     <div className='mb-3 flex flex-col gap-y-2'>
                         <div className='grid h-8 grid-cols-3 items-center bg-muted/10 px-2.5 text-xs'>

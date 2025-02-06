@@ -5,10 +5,10 @@ import { DataPageLayout } from '../components/data-page-layout'
 import { DataTable } from '../components/table'
 import { RoleFilter } from '../users/components/filters/role-filter'
 
+import { columns } from './components/columns'
 import { getDeletedUsers } from '@/api/users/users'
 import { SearchBar } from '@/components/search-bar'
 import { defaultLimit } from '@/constants/table'
-import { columns } from './components/columns'
 
 const ArchivePage = () => {
     const [search] = useQueryState('search', {

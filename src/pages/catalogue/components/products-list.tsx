@@ -25,7 +25,8 @@ export const ProductsList = ({ shopProducts, isLoading }: ProductsListProps) => 
             ) : (
                 <div className='grid grid-cols-1 gap-2.5 sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))]'>
                     {shopProducts?.results?.map((shopProduct) => (
-                        <ProductPopup shopProduct={shopProduct}
+                        <ProductPopup
+                            shopProduct={shopProduct}
                             key={shopProduct.id}
                         >
                             <ProductCard

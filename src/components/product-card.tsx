@@ -1,11 +1,11 @@
 import { Heart } from 'iconsax-react'
 
+import { HeightInfo, WeighDiameterInfo } from './product-info'
+import { Button } from './ui/button'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
 import { useAuth } from '@/hooks/use-auth'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
-import { HeightInfo, WeighDiameterInfo } from './product-info'
-import { Button } from './ui/button'
 
 interface ProductCardProps {
     shopProduct: ShopProduct
@@ -129,7 +129,10 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                     </div>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Ваг./діам.</h2>
-                        <WeighDiameterInfo weight={shopProduct.weight_size} diameter={shopProduct.diameter} />
+                        <WeighDiameterInfo
+                            weight={shopProduct.weight_size}
+                            diameter={shopProduct.diameter}
+                        />
                     </div>
                 </div>
                 <div className='flex h-6 items-center justify-center truncate bg-[#F9F9F9] px-1.5 text-xs text-muted-foreground sm:hidden md:px-2'>

@@ -1,3 +1,4 @@
+import { MetaHead } from '@/components/meta-head'
 import { About } from './components/about'
 import { Advantages } from './components/advantages'
 import { Catalogue } from './components/catalogue'
@@ -9,7 +10,6 @@ import { Flowers } from './components/flowers'
 import { Hero } from './components/hero'
 import { Location } from './components/location'
 import { SignUpSuccess } from './components/sign-up-success'
-import { MetaHead } from '@/components/meta-head'
 
 export const HomePage = () => {
     return (

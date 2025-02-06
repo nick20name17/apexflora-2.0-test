@@ -1,9 +1,13 @@
 import { Loader2 } from 'lucide-react'
 import { useQueryState } from 'nuqs'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { OrderingFilter } from '../../../components/ordering-filter'
+import { OrdersPagination } from '../orders/components/orders-pagination'
 
+import { wishListColumns } from './components/wish-list-columns'
+import { WishListTiles } from './components/wish-list-tiles'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import { SearchBar } from '@/components/search-bar'
 import {
@@ -18,10 +22,6 @@ import { ViewFilter } from '@/components/view-filter'
 import { routes } from '@/config/routes'
 import { defaultLimit } from '@/constants/table'
 import { ProductTable } from '@/pages/catalogue/components/product-table/table'
-import { useState } from 'react'
-import { OrdersPagination } from '../orders/components/orders-pagination'
-import { wishListColumns } from './components/wish-list-columns'
-import { WishListTiles } from './components/wish-list-tiles'
 
 const inWishList = true
 
@@ -37,7 +37,6 @@ const WishListPage = () => {
     const [ordering] = useQueryState('ordering', {
         defaultValue: 'name'
     })
-
 
     const { data: shopProducts, isLoading } = useQuery({
         queryKey: ['shopProducts', search, limit, offset, ordering],

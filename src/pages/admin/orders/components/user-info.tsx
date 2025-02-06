@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 
-
 interface UserInfoProps {
     order: Order
     short?: boolean
@@ -24,7 +23,7 @@ export const UserInfo = ({ order, short = false }: UserInfoProps) => {
 
     return (
         <Popover>
-            <div className='flex gap-x-1 max-w-48 sm:max-w-56 truncate max-sm:text-xs'>
+            <div className='flex max-w-48 gap-x-1 truncate max-sm:text-xs sm:max-w-56'>
                 <PopoverTrigger
                     asChild
                     onClick={(e) => e.stopPropagation()}
@@ -32,18 +31,20 @@ export const UserInfo = ({ order, short = false }: UserInfoProps) => {
                     <Button
                         variant='ghost'
                         size='icon'
-                        className={
-                            cn('rounded-full text-primary shrink-0', short ? 'size-5 [&_svg]:size-3' : 'size-7')
-                        }
+                        className={cn(
+                            'shrink-0 rounded-full text-primary',
+                            short ? 'size-5 [&_svg]:size-3' : 'size-7'
+                        )}
                     >
                         <Info />
                     </Button>
                 </PopoverTrigger>
-                <div className='max-w-full space-y-1 text-left truncate'>
-                    {
-                        short
-                            ? <div className='text-xs'>Ко-вач/От-вач</div> : <div className='text-xs'>Користувач / Отримувач</div>
-                    }
+                <div className='max-w-full space-y-1 truncate text-left'>
+                    {short ? (
+                        <div className='text-xs'>Ко-вач/От-вач</div>
+                    ) : (
+                        <div className='text-xs'>Користувач / Отримувач</div>
+                    )}
                     <div className='truncate text-primary'>
                         {creatorFullName} / {order?.recipient ? recipientFullName : '-'}
                     </div>
@@ -54,20 +55,20 @@ export const UserInfo = ({ order, short = false }: UserInfoProps) => {
                 collisionBoundary={[document.getElementById('scroll-area')]}
                 onClick={(e) => e.stopPropagation()}
                 align='start'
-                className='md:w-[600px] max-h-[500px] overflow-y-auto'
+                className='max-h-[500px] overflow-y-auto md:w-[600px]'
             >
-                <h3 className='text-left md:text-lg font-medium text-primary'>
+                <h3 className='text-left font-medium text-primary md:text-lg'>
                     Інформація про користувача та отримувача
                 </h3>
                 <div className='mt-4 flex flex-col items-start gap-y-0.5'>
                     <span className='text-xs'>Адреса замовлення</span>
-                    <span className='text-primary text-left'>
+                    <span className='text-left text-primary'>
                         {order?.address?.city
                             ? order?.address?.city + ', ' + order?.address?.street
                             : 'Самовивіз'}
                     </span>
                 </div>
-                <div className='mt-4 grid-cols-1 grid md:grid-cols-2 gap-4'>
+                <div className='mt-4 grid grid-cols-1 gap-4 md:grid-cols-2'>
                     <div>
                         <h4 className='text-left font-medium text-primary'>Користувач</h4>
                         <div className='mt-2 grid gap-2'>

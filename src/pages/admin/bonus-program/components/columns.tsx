@@ -1,7 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
-import type { BonusProgram } from '@/api/bonuses/bonuses.types'
 import { EditBonusProgramModal, RemoveBonusProgramModal } from './modals'
+import type { BonusProgram } from '@/api/bonuses/bonuses.types'
 
 export const columns: ColumnDef<BonusProgram>[] = [
     {

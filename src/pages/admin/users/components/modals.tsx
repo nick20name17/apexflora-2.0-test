@@ -4,6 +4,9 @@ import { z } from 'zod'
 
 import { CreateModal, DeleteModal, EditModal } from '../../components/base-modal'
 
+import { BonusSelect } from './bonus-select'
+import { ManagerSelect } from './manager-select'
+import { RoleSelect } from './role-select'
 import { getBonusPrograms } from '@/api/bonuses/bonuses'
 import { createUser, getUsers, removeUser, updateUser } from '@/api/users/users'
 import type { User } from '@/api/users/users.types'
@@ -18,9 +21,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordWithReveal } from '@/components/ui/password-with-reveal'
 import { emailSchema, passwordShape } from '@/config/schemas'
-import { BonusSelect } from './bonus-select'
-import { ManagerSelect } from './manager-select'
-import { RoleSelect } from './role-select'
 
 const userSchema = z.object({
     ...emailSchema.shape,
@@ -55,12 +55,14 @@ const userSchema = z.object({
         .number({
             required_error: "Це поле є обов'язковим"
         })
-        .min(1, "Це поле є обов'язковим").optional(),
+        .min(1, "Це поле є обов'язковим")
+        .optional(),
     service_manager: z.coerce
         .number({
             required_error: "Це поле є обов'язковим"
         })
-        .min(1, "Це поле є обов'язковим").optional(),
+        .min(1, "Це поле є обов'язковим")
+        .optional(),
     city: z
         .string({
             required_error: "Це поле є обов'язковим"
@@ -73,20 +75,19 @@ const editUserSchema = userSchema.omit({
     password: true
 })
 
-
 type EditUserModalProps =
     | {
-        form: UseFormReturn<z.infer<any>>;
-        isEditForm: false;
-    }
+          form: UseFormReturn<z.infer<any>>
+          isEditForm: false
+      }
     | {
-        form: UseFormReturn<z.infer<typeof editUserSchema>>;
-        isEditForm: true;
-    };
+          form: UseFormReturn<z.infer<typeof editUserSchema>>
+          isEditForm: true
+      }
 
 const userFormFields = ({ form, isEditForm }: EditUserModalProps) => (
     <div className='max-h-[calc(100vh-200px)] overflow-y-auto'>
-        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:py-4 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:grid-cols-2 md:py-4 lg:grid-cols-3'>
             <FormField
                 control={form.control}
                 name='first_name'
@@ -137,7 +138,7 @@ const userFormFields = ({ form, isEditForm }: EditUserModalProps) => (
             />
         </div>
 
-        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:py-4 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:grid-cols-2 md:py-4 lg:grid-cols-3'>
             <FormField
                 control={form.control}
                 name='phone_number'
@@ -182,7 +183,7 @@ const userFormFields = ({ form, isEditForm }: EditUserModalProps) => (
                         <FormLabel>Місто</FormLabel>
                         <FormControl>
                             <CitySelect
-                                className='w-full h-10'
+                                className='h-10 w-full'
                                 city={field.value}
                                 setCity={field.onChange}
                             />
@@ -193,7 +194,7 @@ const userFormFields = ({ form, isEditForm }: EditUserModalProps) => (
             />
         </div>
 
-        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:py-4 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:grid-cols-2 md:py-4 lg:grid-cols-3'>
             <FormField
                 control={form.control}
                 name='company'
@@ -244,7 +245,7 @@ const userFormFields = ({ form, isEditForm }: EditUserModalProps) => (
             />
         </div>
 
-        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:py-4 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 border-b border-b-primary py-2 md:grid-cols-2 md:py-4 lg:grid-cols-3'>
             <FormField
                 control={form.control}
                 name='bonus_program'
@@ -277,24 +278,24 @@ const userFormFields = ({ form, isEditForm }: EditUserModalProps) => (
                     </FormItem>
                 )}
             />
-            {isEditForm ? null : <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                    <FormItem className='flex-1'>
-                        <FormLabel>Пароль</FormLabel>
-                        <FormControl>
-                            <PasswordWithReveal {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />}
+            {isEditForm ? null : (
+                <FormField
+                    control={form.control}
+                    name='password'
+                    render={({ field }) => (
+                        <FormItem className='flex-1'>
+                            <FormLabel>Пароль</FormLabel>
+                            <FormControl>
+                                <PasswordWithReveal {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            )}
         </div>
     </div>
 )
-
-
 
 export const AddUserModal = ({ size = 'sm' }: { size?: 'sm' | 'icon' }) => {
     const { data: bonusPrograms } = useQuery({
@@ -359,7 +360,7 @@ export const EditUserModal = ({ user }: { user: User }) => (
                 bonus_program: user?.bonus_program?.id || undefined,
                 service_manager: user?.service_manager?.id || undefined,
                 code_1c: user?.code_1c || '',
-                city: user?.city,
+                city: user?.city
             }
         }}
         schema={editUserSchema}

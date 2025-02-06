@@ -4,17 +4,17 @@ import { useQuery } from 'react-query'
 import DataPageLayout from '../components/data-page-layout'
 import { DataTable } from '../components/table'
 
+import { FiltersBar } from './components/filters/filters-bar'
+import { MobileProductCard } from './components/mobile-product-card'
+import { AddFileModal } from './components/modals/add-file'
+import { AddShopProductModal } from './components/modals/modals'
+import { columns } from './components/table/columns'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
 import { Skeleton } from '@/components/ui/skeleton'
 import { defaultLimit } from '@/constants/table'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { TablePagination } from '@/pages/catalogue/components/product-table/table-pagination'
-import { FiltersBar } from './components/filters/filters-bar'
-import { MobileProductCard } from './components/mobile-product-card'
-import { AddFileModal } from './components/modals/add-file'
-import { AddShopProductModal } from './components/modals/modals'
-import { columns } from './components/table/columns'
 
 const ProductsPage = () => {
     const [limit] = useQueryState('limit', {
@@ -95,7 +95,10 @@ const ProductsPage = () => {
                 }
             >
                 {isTablet ? (
-                    <MobileProductsList shopProducts={data} isLoading={isLoading} />
+                    <MobileProductsList
+                        shopProducts={data}
+                        isLoading={isLoading}
+                    />
                 ) : (
                     <DataTable
                         dataCount={data?.count}
@@ -111,31 +114,42 @@ const ProductsPage = () => {
 
 export default ProductsPage
 
-
-const MobileProductsList = ({ shopProducts, isLoading }: { shopProducts: ShopProductsResponse | undefined, isLoading: boolean }) => {
-
-    return <>
-        {
-            isLoading ? <MobileProductsListSkeleton /> : <div className='space-y-4'>
-                {shopProducts?.results?.map((shopProduct) => (
-                    <MobileProductCard shopProduct={shopProduct} />
-                ))}
-            </div>
-        }
-        <TablePagination
-            className='border-none pt-0'
-            count={shopProducts?.count || 0}
-            isLoading={isLoading}
-        />
-    </>
-
+const MobileProductsList = ({
+    shopProducts,
+    isLoading
+}: {
+    shopProducts: ShopProductsResponse | undefined
+    isLoading: boolean
+}) => {
+    return (
+        <>
+            {isLoading ? (
+                <MobileProductsListSkeleton />
+            ) : (
+                <div className='space-y-4'>
+                    {shopProducts?.results?.map((shopProduct) => (
+                        <MobileProductCard shopProduct={shopProduct} />
+                    ))}
+                </div>
+            )}
+            <TablePagination
+                className='border-none pt-0'
+                count={shopProducts?.count || 0}
+                isLoading={isLoading}
+            />
+        </>
+    )
 }
 
 const MobileProductsListSkeleton = () => {
-    return <div className='space-y-4'>
-        {Array.from({ length: 20 }).map((_, index) => (
-            <Skeleton key={index} className='h-40 w-full rounded-sm' />
-        ))}
-    </div>
-
+    return (
+        <div className='space-y-4'>
+            {Array.from({ length: 20 }).map((_, index) => (
+                <Skeleton
+                    key={index}
+                    className='h-40 w-full rounded-sm'
+                />
+            ))}
+        </div>
+    )
 }

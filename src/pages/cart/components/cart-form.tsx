@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { withMask } from 'use-mask-input'
 import { z, type infer as zodInfer } from 'zod'
 
+import { AddCoworkerModal } from './add-coworker-modal'
 import { getCoworkers } from '@/api/coworkers/coworkers'
 import { getDeliverAddress } from '@/api/deliver-address/deliver-address'
 import { addOrder } from '@/api/orders/orders'
@@ -33,7 +34,6 @@ import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import { AddAddressModal } from '@/pages/admin/orders/components/modals/add-address'
 import { isErrorWithMessage } from '@/utils/is-error-with-message'
-import { AddCoworkerModal } from './add-coworker-modal'
 
 const addOrderSchema = z.object({
     username: z
