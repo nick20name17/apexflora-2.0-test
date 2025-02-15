@@ -53,10 +53,10 @@ export const HeaderCatalogue = ({
                 </Button>
             </SheetTrigger>
             <SheetContent
-                overlayHidden
+                overlayClassName='hidden'
                 closeHidden
                 className={cn(
-                    '!absolute left-0 top-16 !-z-50 max-h-[calc(100vh-8rem)] min-h-[460px] w-full rounded-b-xl bg-background/90 p-3 pt-2 shadow-lg backdrop-blur-lg max-md:h-[calc(100vh-8rem)] md:top-20 md:bg-[#FFFEFC]/90 md:p-6 md:pt-4',
+                    '!absolute left-0 top-16 !-z-50 max-h-[calc(100vh-8rem)] min-h-[460px] w-full rounded-b-xl bg-background/90 p-3 pt-2 shadow-lg backdrop-blur-lg max-md:h-[calc(100vh-8rem)] md:top-[70px] md:bg-[#FFFEFC]/90 md:p-6 md:pt-4',
                     className
                 )}
                 side='top'

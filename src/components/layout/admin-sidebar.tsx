@@ -1,17 +1,5 @@
 import {
-    Infinity,
-    ChartBarStacked,
-    ChevronsUpDown,
-    Contact,
-    Flower,
-    Flower2,
-    LogOut,
-    Palette,
-    Percent,
-    TicketPercent,
-    UserMinus,
-    UserPlus,
-    Users
+    ChevronsUpDown
 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -39,6 +27,8 @@ import {
 import { Sidebar, SidebarContent, SidebarGroup } from '@/components/ui/sidebar'
 import { adminRoutes, routes } from '@/config/routes'
 import { useAuth } from '@/hooks/use-auth'
+import { cn } from '@/lib/utils'
+import { ArchiveBox, BoxAdd, Category, ColorsSquare, Convertshape, Login, MessageQuestion, People, PercentageSquare, ShoppingCart, SliderHorizontal, TicketDiscount, Unlimited } from 'iconsax-react'
 
 export const AdminSidebar = () => {
     const location = useLocation()
@@ -73,6 +63,28 @@ export const AdminSidebar = () => {
             <SidebarContent className='bg-primary text-background'>
                 <SidebarGroup>
                     <SidebarGroupLabel className='text-background/40'>
+                        Лендінг
+                    </SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    isActive={
+                                        location.pathname === adminRoutes.slider
+                                    }
+                                    asChild
+                                >
+                                    <Link to={adminRoutes.slider}>
+                                        <SliderHorizontal />
+                                        <span>Слайдер</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarGroup>
+                    <SidebarGroupLabel className='text-background/40'>
                         Бонусні програми
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
@@ -85,7 +97,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.bonusLimits}>
-                                        <Infinity />
+                                        <Unlimited />
                                         <span>Бонусні ліміти</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -98,7 +110,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.bonusPrograms}>
-                                        <Percent />
+                                        <PercentageSquare />
                                         <span>Бонусні програми</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -119,7 +131,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.archive}>
-                                        <UserMinus />
+                                        <ArchiveBox />
                                         <span>Архів</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -130,7 +142,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.contacts}>
-                                        <Contact />
+                                        <MessageQuestion />
                                         <span>Зворотній звязок</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -142,7 +154,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.users}>
-                                        <Users />
+                                        <People />
                                         <span>Користувачі</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -163,7 +175,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.products}>
-                                        <Flower />
+                                        <BoxAdd />
                                         <span>Товари</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -176,7 +188,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.categories}>
-                                        <ChartBarStacked />
+                                        <Category />
                                         <span>Категорії</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -187,7 +199,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.colors}>
-                                        <Palette />
+                                        <ColorsSquare />
                                         <span>Кольори</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -198,7 +210,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.producers}>
-                                        <UserPlus />
+                                        <Convertshape />
                                         <span>Виробники</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -209,7 +221,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.discounts}>
-                                        <TicketPercent />
+                                        <TicketDiscount />
                                         <span>Знижки</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -230,7 +242,7 @@ export const AdminSidebar = () => {
                                     asChild
                                 >
                                     <Link to={adminRoutes.orders}>
-                                        <Flower2 />
+                                        <ShoppingCart />
                                         <span>Замовлення</span>
                                     </Link>
                                 </SidebarMenuButton>
@@ -247,7 +259,9 @@ export const AdminSidebar = () => {
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton
                                     size='lg'
-                                    className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+                                    className={cn(
+                                        state === 'collapsed' ? 'hover:bg-transparent' : '',
+                                    )}
                                 >
                                     <Avatar className='size-8'>
                                         <AvatarFallback className='bg-accent text-foreground'>
@@ -270,7 +284,7 @@ export const AdminSidebar = () => {
                             <DropdownMenuContent
                                 className='w-[--radix-dropdown-menu-trigger-width] min-w-56'
                                 side='bottom'
-                                align='end'
+                                align='start'
                                 sideOffset={4}
                             >
                                 <DropdownMenuLabel className='p-0 font-normal'>
@@ -295,7 +309,7 @@ export const AdminSidebar = () => {
                                 <DropdownMenuSeparator />
 
                                 <DropdownMenuItem onClick={logOut}>
-                                    <LogOut className='mr-2 size-4' />
+                                    <Login className='mr-2 size-4' />
                                     Вийти з аккаунту
                                 </DropdownMenuItem>
                             </DropdownMenuContent>

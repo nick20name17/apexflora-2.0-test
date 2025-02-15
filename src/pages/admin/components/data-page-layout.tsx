@@ -10,7 +10,6 @@ interface DataPageLayoutProps {
     actionComponent?: React.ReactNode
     filterComponent?: React.ReactNode
     searchBar?: React.ReactNode
-
     children: React.ReactNode
 }
 
@@ -39,7 +38,7 @@ export const DataPageLayout = ({
                     <SidebarTrigger />
                     <h1 className='text-2xl font-semibold'>{title}</h1>
                     {!isLoading && (
-                        <span className='text-muted-foreground'>({count})</span>
+                        count !== undefined ? <span className='text-muted-foreground'>({count})</span> : null
                     )}
                 </div>
                 {actionComponent}

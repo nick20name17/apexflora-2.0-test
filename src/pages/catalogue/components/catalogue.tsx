@@ -89,7 +89,7 @@ export const Catalogue = ({
                     <ViewFilter className='hidden xl:block' />
                 </div>
             </div>
-            <ActiveFilters />
+            <ActiveFilters className='max-xl:hidden' />
             <div className='mt-4 flex items-center justify-between gap-x-4 border-b'>
                 <StatusTabs className='flex-1 max-sm:w-full max-sm:px-0' />
                 <PromoFilter className='hidden xl:flex' />

@@ -211,7 +211,7 @@ export const CartForm = () => {
                                             <FormControl>
                                                 <SelectTrigger
                                                     ref={field.ref}
-                                                    className='truncate border border-muted-foreground bg-transparent'
+                                                    className='h-12 truncate border border-muted-foreground bg-transparent'
                                                 >
                                                     <div className='max-w-44 truncate'>
                                                         <SelectValue placeholder='Оберіть отримувача' />
@@ -239,19 +239,19 @@ export const CartForm = () => {
                                 <div className='flex items-center gap-x-4'>
                                     <Button
                                         className='flex-1'
-                                        onClick={() => setStep(3)}
-                                        disabled={!recepient}
-                                        type='button'
-                                    >
-                                        Продовжити
-                                    </Button>
-                                    <Button
-                                        className='flex-1'
                                         variant='outline'
                                         onClick={() => setStep(1)}
                                         type='button'
                                     >
                                         Назад
+                                    </Button>
+                                    <Button
+                                        className='flex-1'
+                                        onClick={() => setStep(3)}
+                                        disabled={!recepient}
+                                        type='button'
+                                    >
+                                        Продовжити
                                     </Button>
                                 </div>
                             </>
@@ -287,7 +287,7 @@ export const CartForm = () => {
                                             <FormControl>
                                                 <SelectTrigger
                                                     ref={field.ref}
-                                                    className='truncate border border-muted-foreground bg-transparent'
+                                                    className='h-12 truncate border border-muted-foreground bg-transparent'
                                                 >
                                                     <div className='max-w-44 truncate'>
                                                         <SelectValue placeholder='Оберіть адресу доставки' />
@@ -314,6 +314,14 @@ export const CartForm = () => {
                                 <div className='flex items-center gap-x-4'>
                                     <Button
                                         className='flex-1'
+                                        variant='outline'
+                                        onClick={() => setStep(2)}
+                                        type='button'
+                                    >
+                                        Назад
+                                    </Button>
+                                    <Button
+                                        className='flex-1'
                                         disabled={!address || addOrderMutation.isLoading}
                                         type='submit'
                                     >
@@ -322,14 +330,6 @@ export const CartForm = () => {
                                         ) : (
                                             'Замовити'
                                         )}
-                                    </Button>
-                                    <Button
-                                        className='flex-1'
-                                        variant='outline'
-                                        onClick={() => setStep(2)}
-                                        type='button'
-                                    >
-                                        Назад
                                     </Button>
                                 </div>
                             </>

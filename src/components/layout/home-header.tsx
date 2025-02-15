@@ -53,11 +53,11 @@ export const HomeHeader = () => {
     const { cartCount } = useCartOperations()
 
     return (
-        <header className='container sticky left-0 right-0 top-0 z-50'>
+        <header className='container sticky left-0 right-0 top-0 !z-50'>
             <div
                 className={cn(
-                    'relative mt-4 flex items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-8 md:py-4',
-                    isScrolled ? 'h-[70px] before:!rounded-t-none' : 'h-20',
+                    'relative mt-4 flex h-[70px] items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-8 md:py-4',
+                    isScrolled ? 'before:!rounded-t-none' : '',
                     catalogueOpen || contactOpen ? 'before:rounded-b-none' : ''
                 )}
             >
@@ -73,6 +73,7 @@ export const HomeHeader = () => {
                     <HeaderContact />
 
                     <HeaderContactMobile
+                        isScrolled={isScrolled}
                         open={contactOpen}
                         setOpen={setContactOpen}
                     />
@@ -235,9 +236,10 @@ const HeaderContact = () => {
 interface HeaderContactMobileProps {
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    isScrolled: boolean
 }
 
-const HeaderContactMobile = ({ open, setOpen }: HeaderContactMobileProps) => {
+const HeaderContactMobile = ({ open, setOpen, isScrolled }: HeaderContactMobileProps) => {
     const isMobile = useMediaQuery('(max-width: 768px)')
 
     return isMobile ? (
@@ -256,8 +258,11 @@ const HeaderContactMobile = ({ open, setOpen }: HeaderContactMobileProps) => {
             </SheetTrigger>
             <SheetContent
                 closeHidden
-                overlayHidden
-                className='inset-x-4 top-20 !-z-50 min-h-[460px] w-[calc(100vw-2rem)] rounded-b-xl bg-background/90 p-3 backdrop-blur-lg md:top-20 md:p-6 md:pt-4'
+                overlayClassName='!-z-50'
+                className={cn(
+                    'inset-x-4 top-20 !z-30 min-h-[460px] w-[calc(100vw-2rem)] rounded-b-xl bg-background/80 p-3 backdrop-blur-lg md:p-6 md:pt-4',
+                    isScrolled && 'top-16'
+                )}
                 side='top'
             >
                 <SheetHeader>

@@ -18,7 +18,7 @@ export const FiltersPopup = ({ minMaxValues, scrollPosition }: FiltersPopupProps
     return isXl ? (
         <div
             className={cn(
-                'fixed right-0 z-40 mx-auto flex max-w-md items-center justify-end gap-x-4 text-sm leading-tight transition-all duration-300 ease-in-out md:max-w-2xl xl:left-48',
+                'fixed right-0 z-[100] mx-auto flex max-w-md items-center justify-end gap-x-4 text-sm leading-tight transition-all duration-300 ease-in-out md:max-w-2xl xl:left-48',
                 cartCount > 0 ? 'bottom-28' : 'bottom-14',
                 isVisible ? 'opacity-100' : 'opacity-0'
             )}

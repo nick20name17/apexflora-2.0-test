@@ -98,9 +98,9 @@ const CartPage = () => {
 
 const CartSkeleton = () => {
     return (
-        <div className='mt-6 flex h-full items-start justify-between gap-5'>
-            <Skeleton className='h-full max-h-[calc(100%-90px)] w-full min-w-[280px] max-w-96 rounded-lg' />
-            <div className='h-full max-h-[calc(100%-145px)] flex-1'>
+        <div className='mt-6 flex h-full items-start justify-between gap-5 max-lg:flex-col'>
+            <Skeleton className='h-80 max-h-[calc(100%-90px)] w-full min-w-[280px] max-w-96 rounded-lg max-lg:max-w-full lg:h-full' />
+            <div className='h-full max-h-[calc(100%-145px)] flex-1 max-lg:w-full'>
                 <div className='size-full space-y-5'>
                     <Skeleton className='h-56 w-full rounded-lg' />
                     <Skeleton className='h-56 w-full rounded-lg' />

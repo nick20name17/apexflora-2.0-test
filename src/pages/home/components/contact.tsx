@@ -25,20 +25,20 @@ import { Textarea } from '@/components/ui/textarea'
 export const Contact = () => {
     return (
         <section
-            className='container mt-15'
+            className='container mt-15 max-md:px-0'
             id='contact'
         >
-            <div className='relative min-h-[720px] rounded-2xl bg-flower bg-cover bg-no-repeat p-4 py-8 md:p-10 xl:p-15'>
+            <div className='relative min-h-[720px] rounded-2xl bg-flower bg-cover bg-no-repeat py-8 max-md:pb-0 lg:px-10 xl:p-15'>
                 <div className='absolute inset-0 rounded-2xl bg-foreground/70'></div>
 
                 <div className='relative z-10 flex min-h-full flex-col items-start justify-between gap-8 lg:flex-row'>
-                    <div className='flex flex-col justify-between lg:min-h-[calc(720px-3.75rem)]'>
+                    <div className='flex flex-col justify-between max-lg:px-10 max-md:px-4 lg:min-h-[calc(720px-3.75rem)]'>
                         <div>
                             <div>
-                                <h2 className='text-2xl text-background'>
+                                <h2 className='text-xl text-background md:text-2xl'>
                                     Наші контакти
                                 </h2>
-                                <p className='mt-1 text-muted'>
+                                <p className='mt-1 text-muted max-md:text-sm'>
                                     Ми завжди раді допомогти! Якщо у вас є питання або ви
                                     хочете отримати додаткову інформацію про наші продукти
                                     та послуги, не соромтесь звертатися до нас.
@@ -172,9 +172,9 @@ const ContactForm = () => {
     }
 
     return (
-        <div className='h-full min-h-full rounded-xl bg-background px-8 py-8 xl:px-10'>
-            <h2 className='text-2xl font-medium'>Зв'язатися з нами</h2>
-            <p className='mt-1 font-book text-muted'>
+        <div className='h-full min-h-full rounded-xl bg-background px-3 py-5 md:p-8 xl:px-10'>
+            <h2 className='text-xl font-medium md:text-2xl'>Зв'язатися з нами</h2>
+            <p className='mt-1 font-book text-muted max-md:text-sm'>
                 Скористайтесь формою для зв'язку нижче, і ми обов'язково відповімо на ваше
                 повідомлення у найкоротший термін.
             </p>

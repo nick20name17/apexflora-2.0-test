@@ -30,6 +30,7 @@ const ColorsPage = lazy(() => import('@/pages/admin/colors/colors-page'))
 const DiscountsPage = lazy(() => import('@/pages/admin/discounts/discounts-page'))
 const ContactsPage = lazy(() => import('@/pages/admin/contacts/contacts-page'))
 const ProducersPage = lazy(() => import('@/pages/admin/producers/producers-page'))
+const SliderPage = lazy(() => import('@/pages/admin/slider/slider-page'))
 
 const SignInPage = lazy(() => import('@/pages/auth/sign-in/sign-in-page'))
 const SignUpPage = lazy(() => import('@/pages/auth/sign-up/sign-up-page'))
@@ -140,6 +141,10 @@ const router = createBrowserRouter([
             </RequireAuthProvider>
         ),
         children: [
+            {
+                path: adminRoutes.slider,
+                element: <SliderPage />
+            },
             {
                 path: adminRoutes.colors,
                 element: <ColorsPage />

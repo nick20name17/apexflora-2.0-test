@@ -3,17 +3,17 @@ import { useQueryState } from 'nuqs'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 
+import { Catalogue } from './components/catalogue'
+import { FiltersSidebar } from './components/filters-sidebar'
+import { OrderSuccess } from './components/order-success'
+import { useActiveStockId } from './store/active-stock'
+import { useFilters } from './store/filters'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import '@/assets/styles/driver-js.css'
 import { MetaHead } from '@/components/meta-head'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { defaultLimit } from '@/constants/table'
 import { useAuth } from '@/hooks/use-auth'
-import { Catalogue } from './components/catalogue'
-import { FiltersSidebar } from './components/filters-sidebar'
-import { OrderSuccess } from './components/order-success'
-import { useActiveStockId } from './store/active-stock'
-import { useFilters } from './store/filters'
 
 import 'driver.js/dist/driver.css'
 
@@ -253,7 +253,7 @@ export const CataloguePage = () => {
                     minMaxValues={shopProducts?.min_max_values!}
                 />
                 <ScrollArea
-                    className='mr-4 h-full flex-1 pb-4 max-xl:ml-4 max-lg:mx-0'
+                    className='mr-4 h-full flex-1 max-xl:ml-4 max-lg:mx-0 xl:pb-4'
                     ref={scrollAreaRef}
                 >
                     <Catalogue

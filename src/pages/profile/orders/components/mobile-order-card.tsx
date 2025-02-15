@@ -194,9 +194,11 @@ const MobileOrderItemCard = ({ orderItem }: OrderItemCardProps) => {
                 </div>
                 <div className='grid grid-cols-[0.75fr,0.9fr,1fr,1fr] items-start px-2 py-1.5 leading-none max-sm:w-full'>
                     <div className='flex flex-col gap-y-0.5'>
-                        <h2 className='text-xs text-muted'>Артикул</h2>
+                        <h2 className='text-xs text-muted'>Колір</h2>
                         <span className='text-sm'>
-                            {orderItem.stock_product.shop_product?.origin_id}
+                            {orderItem?.stock_product?.shop_product?.colors
+                                ?.map((color) => color?.name)
+                                ?.join(', ') || '-'}
                         </span>
                     </div>
                     <div className='flex flex-col gap-y-0.5'>

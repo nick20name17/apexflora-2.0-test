@@ -68,11 +68,19 @@ export const columns: ColumnDef<Cart>[] = [
                 </div>
             </div>
         ),
-        size: 180
+        size: 170
     },
     {
-        accessorFn: (row) => row.stock_product.shop_product.origin_id,
-        header: 'Артикул',
+        cell: ({ row }) => {
+            return (
+                <div className='truncate'>
+                    {row?.original?.stock_product?.shop_product?.colors
+                        ?.map((color) => color?.name)
+                        ?.join(', ') || '-'}
+                </div>
+            )
+        },
+        header: 'Колір',
         size: 70
     },
     {

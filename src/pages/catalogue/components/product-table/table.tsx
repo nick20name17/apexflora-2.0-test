@@ -34,7 +34,7 @@ export const ProductTable = ({ columns, data, isLoading }: DataTableProps) => {
     return (
         <ScrollArea className='mt-3 pr-2.5'>
             <Table>
-                <TableHeader className='sticky top-0 z-40 bg-secondary'>
+                <TableHeader className='sticky top-0 z-30 bg-secondary'>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {

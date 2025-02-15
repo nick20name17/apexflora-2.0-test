@@ -6,14 +6,6 @@ import { useMutation, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import type {
-    BaseModalProps,
-    CreateModalProps,
-    DeleteModalProps,
-    EditModalProps,
-    Entity,
-    FormModalProps
-} from './base-modal.types'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
@@ -23,6 +15,15 @@ import {
     DialogTrigger
 } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
+import { cn } from '@/lib/utils'
+import type {
+    BaseModalProps,
+    CreateModalProps,
+    DeleteModalProps,
+    EditModalProps,
+    Entity,
+    FormModalProps
+} from './base-modal.types'
 
 const BaseModal = ({
     open,
@@ -137,8 +138,8 @@ export function CreateModal<TData extends Entity, TSchema extends z.ZodType>({
         onSuccess: () => {
             Array.isArray(queryKey)
                 ? queryKey.forEach((key) =>
-                      queryClient.invalidateQueries({ queryKey: key })
-                  )
+                    queryClient.invalidateQueries({ queryKey: key })
+                )
                 : queryClient.invalidateQueries({ queryKey })
 
             toast.success(`${title} успішно додано`)
@@ -183,7 +184,8 @@ export function EditModal<TData extends Entity, TSchema extends z.ZodType>({
     mutation,
     queryKey,
     renderFields,
-    transformDefaultValues
+    transformDefaultValues,
+    className
 }: EditModalProps<TData, TSchema>) {
     const [open, setOpen] = useState(false)
     const queryClient = useQueryClient()
@@ -197,8 +199,8 @@ export function EditModal<TData extends Entity, TSchema extends z.ZodType>({
         onSuccess: () => {
             Array.isArray(queryKey)
                 ? queryKey.forEach((key) =>
-                      queryClient.invalidateQueries({ queryKey: key })
-                  )
+                    queryClient.invalidateQueries({ queryKey: key })
+                )
                 : queryClient.invalidateQueries({ queryKey })
             toast.success(`${title} успішно відредаговано`)
             setOpen(false)
@@ -210,6 +212,7 @@ export function EditModal<TData extends Entity, TSchema extends z.ZodType>({
             onClick={(e) => {
                 e.stopPropagation()
             }}
+            className={cn(className)}
             size='icon'
             variant='outline'
         >
@@ -238,7 +241,8 @@ export function DeleteModal<TData extends Entity>({
     title,
     data,
     mutation,
-    queryKey
+    queryKey,
+    className
 }: DeleteModalProps<TData>) {
     const [open, setOpen] = useState(false)
     const queryClient = useQueryClient()
@@ -248,8 +252,8 @@ export function DeleteModal<TData extends Entity>({
         onSuccess: () => {
             Array.isArray(queryKey)
                 ? queryKey.forEach((key) =>
-                      queryClient.invalidateQueries({ queryKey: key })
-                  )
+                    queryClient.invalidateQueries({ queryKey: key })
+                )
                 : queryClient.invalidateQueries({ queryKey })
             toast.success(`${title} успішно видалено`)
             setOpen(false)
@@ -261,7 +265,10 @@ export function DeleteModal<TData extends Entity>({
             onClick={(e) => {
                 e.stopPropagation()
             }}
-            className='hover:border-destructive hover:bg-destructive hover:text-destructive-foreground'
+            className={
+                cn('hover:border-destructive hover:bg-destructive hover:text-destructive-foreground',
+                    className)
+            }
             variant='outline'
             size='icon'
         >

@@ -24,7 +24,8 @@ export const adminRoutes = {
     categories: '/admin/categories',
     producers: '/admin/producers',
     discounts: '/admin/discounts',
-    products: '/admin/products'
+    products: '/admin/products',
+    slider: '/admin/slider'
 }
 export const publicRoutes = [
     routes.home,

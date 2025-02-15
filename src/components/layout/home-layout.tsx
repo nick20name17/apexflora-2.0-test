@@ -2,9 +2,9 @@ import type { PropsWithChildren } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Outlet } from 'react-router-dom'
 
+import { ErrorPage } from '@/pages/error/error-page'
 import { Footer } from './footer'
 import { HomeHeader } from './home-header'
-import { ErrorPage } from '@/pages/error/error-page'
 
 export const HomeLayout = ({ children }: PropsWithChildren) => {
     return (

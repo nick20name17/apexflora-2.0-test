@@ -41,7 +41,7 @@ export const Feedback = () => {
 
     return (
         <section className='mx-auto w-full max-w-[1920px]'>
-            <div className='pb-4 pt-8'>
+            <div className='container pb-4 pt-8'>
                 <h2 className='text-center text-2xl font-medium md:text-4xl'>
                     Відгуки наших клієнтів
                 </h2>
@@ -59,11 +59,11 @@ export const Feedback = () => {
                 className='mt-10 w-full'
                 setApi={setApi}
             >
-                <CarouselContent className='-ml-4 md:-ml-6'>
+                <CarouselContent className='-ml-0'>
                     {stories.map((story, index) => (
                         <CarouselItem
                             key={story.id}
-                            className='basis-[85%] pl-4 sm:basis-[45%] md:basis-[30%] md:pl-6 lg:basis-[23%] xl:basis-[18%]'
+                            className='basis-[85%] pl-0 sm:basis-[45%] md:basis-[30%] lg:basis-[23%] xl:basis-[18%]'
                         >
                             <Story
                                 videoSrc={story.videoSrc}

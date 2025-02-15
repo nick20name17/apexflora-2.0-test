@@ -162,8 +162,11 @@ const OrderItemCard = ({ orderItem }: OrderItemCardProps) => {
                     </div>
                 </div>
             </div>
-            <div>{orderItem.stock_product.shop_product?.origin_id}</div>
-
+            <div className='truncate'>
+                {orderItem?.stock_product?.shop_product?.colors
+                    ?.map((color) => color?.name)
+                    ?.join(', ') || '-'}
+            </div>
             <HeightInfo height={orderItem.stock_product.shop_product?.height} />
 
             <WeighDiameterInfo

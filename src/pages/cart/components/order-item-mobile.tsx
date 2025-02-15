@@ -74,7 +74,11 @@ export const OrderItemMobile = ({ cart }: OrderItemMobileProps) => {
             <div className='grid grid-cols-3 border-t px-2.5 py-3 text-sm'>
                 <div className='flex flex-col gap-y-0.5'>
                     <h3 className='text-xs text-muted'>Артикул</h3>
-                    <span>{cart?.stock_product?.shop_product.origin_id}</span>
+                    <span>
+                        {cart?.stock_product?.shop_product?.colors
+                            ?.map((color) => color?.name)
+                            ?.join(', ') || '-'}
+                    </span>
                 </div>
                 <div className='flex flex-col gap-y-0.5 text-center'>
                     <h3 className='text-xs text-muted'>Висота</h3>

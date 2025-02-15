@@ -34,7 +34,6 @@ export interface FormModalProps<_, TSchema extends z.ZodType> {
     onOpenChange: (open: boolean) => void
 }
 
-// Create modal props
 export interface CreateModalProps<TData extends Entity, TSchema extends z.ZodType> {
     title: string
     defaultValues: z.infer<TSchema>
@@ -46,7 +45,6 @@ export interface CreateModalProps<TData extends Entity, TSchema extends z.ZodTyp
     buttonText?: string
 }
 
-// Edit modal props
 export interface EditModalProps<TData extends Entity, TSchema extends z.ZodType> {
     title: string
     data: TData
@@ -54,14 +52,14 @@ export interface EditModalProps<TData extends Entity, TSchema extends z.ZodType>
     mutation: (id: TData['id'], data: z.infer<TSchema>) => Promise<TData>
     queryKey: string | string[]
     renderFields: (form: UseFormReturn<z.infer<TSchema>>) => React.ReactNode
-    // Add new transform function prop
     transformDefaultValues?: (data: TData) => z.infer<TSchema>
+    className?: string
 }
 
-// Delete modal props
 export interface DeleteModalProps<TData extends Entity> {
     title: string
     data: TData
     mutation: (id: TData['id']) => Promise<void>
     queryKey: string | string[]
+    className?: string
 }
