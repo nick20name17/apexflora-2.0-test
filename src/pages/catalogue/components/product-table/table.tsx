@@ -64,6 +64,7 @@ export const ProductTable = ({ columns, data, isLoading }: DataTableProps) => {
                     ) : table.getRowModel().rows?.length ? (
                         table.getRowModel()?.rows.map((row) => (
                             <TableRow
+                                className='h-16'
                                 key={row.original.id}
                                 data-state={row.getIsSelected() && 'selected'}
                             >

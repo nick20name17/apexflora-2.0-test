@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
 import { HeightIcon } from '@/components/icons'
-import { DiscountLabel, PromoLabel } from '@/components/product-card'
+import { DiscountLabel, PromoLabel, getProductLabel } from '@/components/product-card'
 import { WeighDiameterInfo } from '@/components/product-info'
 import { Button } from '@/components/ui/button'
 import {
@@ -83,10 +83,8 @@ export const Catalogue = () => {
                 <div className='pl-4 md:pl-0'>
                     <Carousel
                         opts={{
-                            align: 'start',
-                            breakpoints: {
-                                '(max-width: 768px)': { align: 'center' }
-                            },
+                            align: 'center',
+
                             loop: true,
                             dragFree: true,
                             inViewThreshold: 1
@@ -161,7 +159,7 @@ export const ProductCard = ({ shopProduct }: ProductCardProps) => {
     const { isAuth } = useAuth()
 
     return (
-        <article className='h-[270px] w-[200px] overflow-hidden rounded-sm border bg-[#F6F4F0] font-book'>
+        <article className='h-[280px] w-[200px] overflow-hidden rounded-sm border bg-[#F6F4F0] font-book'>
             <div className='relative h-[150px] w-full rounded-t-sm bg-muted-foreground'>
                 <div className='absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/20 to-transparent'></div>
                 {isAuth ? (
@@ -195,9 +193,10 @@ export const ProductCard = ({ shopProduct }: ProductCardProps) => {
                     ) : null}
                 </div>
             </div>
-            <div className='flex h-5 items-center justify-center gap-x-1 truncate bg-secondary px-1.5 text-center text-xs'>
+            <div className='flex h-[28px] items-center justify-center gap-x-1 truncate bg-[hsl(0,0%,91%)] px-1.5 text-center text-xs text-muted'>
                 Доступно:{'  '}
-                <span className='text-primary'> {currentStock?.quantity ?? '-'}</span>
+                <span> {currentStock?.quantity ?? '-'}</span>
+                {getProductLabel(currentStock?.quantity ?? 0)}
             </div>
             <div className='flex items-start justify-between gap-x-1 border-b p-2.5 leading-none'>
                 <div className='flex h-full flex-col gap-y-1 truncate'>

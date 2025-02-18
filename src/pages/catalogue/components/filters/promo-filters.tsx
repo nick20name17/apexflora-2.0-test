@@ -6,8 +6,9 @@ import { cn } from '@/lib/utils'
 
 interface PromoFilterProps {
     className?: string
+    disabled?: boolean
 }
-export const PromoFilter = ({ className }: PromoFilterProps) => {
+export const PromoFilter = ({ className, disabled = false }: PromoFilterProps) => {
     const [promo, setPromo] = useQueryState('promo', {
         parse: Boolean,
         defaultValue: false
@@ -53,6 +54,7 @@ export const PromoFilter = ({ className }: PromoFilterProps) => {
                 Промо ціна
             </Label>
             <Switch
+                disabled={disabled}
                 id='promo'
                 checked={promo!}
                 onCheckedChange={handlePromoChange}

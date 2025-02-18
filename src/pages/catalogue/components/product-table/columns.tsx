@@ -46,7 +46,7 @@ export const columns: ColumnDef<ShopProduct>[] = [
         header: 'Назва',
         cell: ({ row }) => (
             <div className='flex flex-col'>
-                <span className='truncate text-foreground'>
+                <span className='truncate leading-[17px] text-foreground'>
                     {row.original?.product?.ukr_name}
                 </span>
                 <div className='flex items-center gap-x-1'>
@@ -55,7 +55,7 @@ export const columns: ColumnDef<ShopProduct>[] = [
                         alt={row.original?.producer?.name}
                         className='size-4'
                     />
-                    <span className='truncate text-xs'>
+                    <span className='truncate text-xs leading-[14.4px]'>
                         {row.original?.producer?.name}
                     </span>
                 </div>

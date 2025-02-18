@@ -128,6 +128,7 @@ export interface MinMaxValues {
     min_weight_size: number
     max_retail_price: number
     min_retail_price: number
+    count_promotion: number
 }
 
 export type ShopProductsResponse = Response<ShopProduct> & {

@@ -27,7 +27,7 @@ export const DataPageLayout = ({
     return (
         <div
             className={cn(
-                'flex flex-col gap-2 md:gap-4',
+                'flex flex-col gap-2 p-2 md:gap-4',
                 state === 'collapsed'
                     ? 'w-[calc(100vw-32px)] xl:w-[calc(100vw-3rem-32px)]'
                     : 'xl:w-[calc(100vw-14rem-32px)]'
@@ -37,9 +37,10 @@ export const DataPageLayout = ({
                 <div className='flex items-center gap-2'>
                     <SidebarTrigger />
                     <h1 className='text-2xl font-semibold'>{title}</h1>
-                    {!isLoading && (
-                        count !== undefined ? <span className='text-muted-foreground'>({count})</span> : null
-                    )}
+                    {!isLoading &&
+                        (count !== undefined ? (
+                            <span className='text-muted-foreground'>({count})</span>
+                        ) : null)}
                 </div>
                 {actionComponent}
             </div>

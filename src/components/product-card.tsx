@@ -47,7 +47,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
     return (
         <article
             className={cn(
-                'h-32 overflow-hidden rounded-sm border bg-background shadow-sm max-sm:flex sm:h-[272px]',
+                'h-[120px] overflow-hidden rounded-sm border bg-background shadow-sm max-sm:flex sm:h-[279px]',
                 className
             )}
         >
@@ -85,12 +85,12 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                 </div>
             </div>
             <div className='flex flex-col justify-between max-sm:w-full'>
-                <div className='flex h-6 items-center justify-center truncate bg-[#F9F9F9] px-1.5 text-xs text-muted-foreground max-sm:hidden'>
+                <div className='flex h-[28px] items-center justify-center truncate bg-[hsl(0,0%,91%)] px-1.5 text-xs text-muted max-sm:hidden'>
                     Доступно:{'  '}
                     {currentStock?.quantity}{' '}
                     {getProductLabel(currentStock?.quantity ?? 0)}
                 </div>
-                <div className='flex flex-1 items-start justify-between gap-1 border-b border-b-secondary p-1.5 leading-none max-sm:w-full md:p-2'>
+                <div className='flex flex-1 items-start justify-between gap-1 border-b border-b-secondary p-1.5 leading-none max-sm:w-full md:p-2.5'>
                     <div className='flex h-full flex-col items-start gap-1 max-[480px]:max-w-36 min-[480px]:max-w-52 sm:max-w-30'>
                         <h1 className='max-w-full truncate text-sm'>
                             {shopProduct?.product?.ukr_name}
@@ -122,7 +122,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                         </span>
                     )}
                 </div>
-                <div className='flex flex-1 items-center justify-between p-1.5 leading-none max-sm:w-full md:p-2'>
+                <div className='flex flex-1 items-center justify-between p-1.5 leading-none max-sm:w-full md:p-2.5'>
                     <div className='flex flex-col gap-y-0.5'>
                         <h2 className='text-xs text-muted'>Висота</h2>
                         <HeightInfo height={shopProduct.height} />
@@ -135,7 +135,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                         />
                     </div>
                 </div>
-                <div className='flex h-6 items-center justify-center truncate bg-[#F9F9F9] px-1.5 text-xs text-muted-foreground sm:hidden md:px-2'>
+                <div className='flex h-[28px] items-center justify-center truncate bg-[hsl(0,0%,91%)] px-1.5 text-xs text-muted sm:hidden md:px-2'>
                     Доступно:{'  '}
                     {currentStock?.quantity}{' '}
                     {getProductLabel(currentStock?.quantity ?? 0)}

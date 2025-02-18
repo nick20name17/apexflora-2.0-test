@@ -44,6 +44,11 @@ const addShopProductSchema = z.object({
             required_error: "Це поле є обов'яковим"
         })
         .min(1, "Це поле є обов'яковим"),
+    code_1c: z
+        .string({
+            required_error: "Це поле є обов'яковим"
+        })
+        .min(1, "Це поле є обов'яковим"),
     stage: z
         .string({
             required_error: "Це поле є обов'яковим"
@@ -97,7 +102,7 @@ const productFormFields = (
     form: UseFormReturn<z.infer<typeof addShopProductSchema>>,
     shopProduct?: ShopProduct
 ) => (
-    <div className='max-h-[calc(100vh-200px)] overflow-y-auto'>
+    <div className='max-h-[calc(100vh-200px)] overflow-y-auto px-2 pb-2'>
         <FormField
             control={form.control}
             name='image'
@@ -175,7 +180,7 @@ const productFormFields = (
                 control={form.control}
                 name='stage'
                 render={({ field }) => (
-                    <FormItem className='min-w-40 flex-1'>
+                    <FormItem className='min-w-28 flex-1'>
                         <FormLabel>Зрілість</FormLabel>
                         <FormControl>
                             <Input
@@ -191,7 +196,7 @@ const productFormFields = (
                 control={form.control}
                 name='origin_id'
                 render={({ field }) => (
-                    <FormItem className='min-w-40 flex-1'>
+                    <FormItem className='min-w-28 flex-1'>
                         <FormLabel>Артикул</FormLabel>
                         <FormControl>
                             <Input
@@ -207,8 +212,24 @@ const productFormFields = (
                 control={form.control}
                 name='quality'
                 render={({ field }) => (
-                    <FormItem className='min-w-40 flex-1'>
+                    <FormItem className='min-w-28 flex-1'>
                         <FormLabel>Якість</FormLabel>
+                        <FormControl>
+                            <Input
+                                placeholder='A1'
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name='code_1c'
+                render={({ field }) => (
+                    <FormItem className='min-w-28 flex-1'>
+                        <FormLabel>Код 1С</FormLabel>
                         <FormControl>
                             <Input
                                 placeholder='A1'
@@ -298,7 +319,7 @@ const editProductFormFields = (
     form: UseFormReturn<z.infer<typeof editShopProductSchema>>,
     shopProduct?: ShopProduct
 ) => (
-    <div className='max-h-[calc(100vh-200px)] overflow-y-auto'>
+    <div className='max-h-[calc(100vh-200px)] overflow-y-auto px-2 pb-2'>
         <div className='grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-4'>
             <FormField
                 control={form.control}
@@ -332,22 +353,40 @@ const editProductFormFields = (
                     </FormItem>
                 )}
             />
-            <FormField
-                control={form.control}
-                name='origin_id'
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Артикул</FormLabel>
-                        <FormControl>
-                            <Input
-                                placeholder='707'
-                                {...field}
-                            />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
+            <div className='flex items-center gap-2'>
+                <FormField
+                    control={form.control}
+                    name='origin_id'
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Артикул</FormLabel>
+                            <FormControl>
+                                <Input
+                                    placeholder='707'
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name='code_1c'
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Код 1С</FormLabel>
+                            <FormControl>
+                                <Input
+                                    placeholder='A1'
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </div>
         </div>
 
         <div className='mt-2 grid grid-cols-1 gap-2 md:mt-4 md:grid-cols-2 md:gap-4'>
@@ -616,6 +655,7 @@ export const AddShopProductModal = ({
                 quality: '',
                 producer: '',
                 product: '',
+                code_1c: '',
                 diameter: undefined
             }}
             schema={addShopProductSchema}
@@ -694,6 +734,7 @@ export const EditShopProductModal = ({ shopProduct }: { shopProduct: ShopProduct
                         currentStock?.discounts?.map((discount) =>
                             discount.id?.toString()
                         ) ?? [],
+                    code_1c: values?.code_1c,
                     category: shopProduct?.product.category?.id,
                     name: shopProduct?.product.name,
                     description: shopProduct?.product.description || '',

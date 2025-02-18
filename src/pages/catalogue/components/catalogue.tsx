@@ -48,7 +48,7 @@ export const Catalogue = ({
 
     return (
         <section
-            className='relative mt-4 size-full rounded-xl border bg-background p-6 max-xl:px-4'
+            className='relative mt-4 size-full rounded-xl border bg-background p-6 max-xl:mb-4 max-xl:px-4'
             id='catalogue'
         >
             <Breadcrumb>
@@ -75,7 +75,10 @@ export const Catalogue = ({
                             <span>товари</span>
                         </div>
                     </div>
-                    <PromoFilter className='xl:hidden' />
+                    <PromoFilter
+                        className='xl:hidden'
+                        disabled={shopProducts?.min_max_values?.count_promotion === 0}
+                    />
                 </div>
                 <div className='flex flex-col-reverse items-center justify-end gap-3 max-xl:w-full md:flex-row'>
                     <SearchBar className='h-12 w-full xl:w-96' />
@@ -92,7 +95,10 @@ export const Catalogue = ({
             <ActiveFilters className='max-xl:hidden' />
             <div className='mt-4 flex items-center justify-between gap-x-4 border-b'>
                 <StatusTabs className='flex-1 max-sm:w-full max-sm:px-0' />
-                <PromoFilter className='hidden xl:flex' />
+                <PromoFilter
+                    className='hidden xl:flex'
+                    disabled={shopProducts?.min_max_values?.count_promotion === 0}
+                />
             </div>
 
             {view === 'tiles' ? (

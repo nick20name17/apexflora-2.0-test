@@ -53,74 +53,83 @@ export const HomeHeader = () => {
     const { cartCount } = useCartOperations()
 
     return (
-        <header className='container sticky left-0 right-0 top-0 !z-50'>
-            <div
-                className={cn(
-                    'relative mt-4 flex h-[70px] items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-8 md:py-4',
-                    isScrolled ? 'before:!rounded-t-none' : '',
-                    catalogueOpen || contactOpen ? 'before:rounded-b-none' : ''
-                )}
-            >
-                <div className='flex items-center gap-x-2 md:gap-x-6'>
-                    <Logo className='max-md:w-10' />
-                    <HeaderCatalogue
-                        open={catalogueOpen}
-                        setOpen={setCatalogueOpen}
-                    />
-                </div>
+        <header
+            className={cn(
+                'sticky left-0 right-0 top-0 !z-50 transition-all',
+                isScrolled
+                    ? 'shadow-sm before:absolute before:inset-0 before:bg-[#FFFEFC]/80 before:backdrop-blur-lg'
+                    : ''
+            )}
+        >
+            <div className='container'>
+                <div
+                    className={cn(
+                        'relative mt-4 flex h-[70px] items-center justify-between gap-x-1 px-4 py-2.5 transition-all before:absolute before:inset-0 before:top-0 before:-z-10 before:rounded-xl before:bg-[#FFFEFC]/80 before:backdrop-blur-lg max-md:h-16 max-md:before:bg-background/80 md:px-8 md:py-4',
+                        isScrolled ? 'mt-0 before:!rounded-none' : '',
+                        catalogueOpen || contactOpen ? 'before:rounded-b-none' : ''
+                    )}
+                >
+                    <div className='flex items-center gap-x-2 md:gap-x-6'>
+                        <Logo className='max-md:w-10' />
+                        <HeaderCatalogue
+                            open={catalogueOpen}
+                            setOpen={setCatalogueOpen}
+                        />
+                    </div>
 
-                <div className='flex items-center gap-x-1 md:gap-x-2'>
-                    <HeaderContact />
+                    <div className='flex items-center gap-x-1 md:gap-x-2'>
+                        <HeaderContact />
 
-                    <HeaderContactMobile
-                        isScrolled={isScrolled}
-                        open={contactOpen}
-                        setOpen={setContactOpen}
-                    />
+                        <HeaderContactMobile
+                            isScrolled={isScrolled}
+                            open={contactOpen}
+                            setOpen={setContactOpen}
+                        />
 
-                    <Button
-                        className='max-md:size-10 max-md:[&>span]:hidden'
-                        variant='ghost'
-                        asChild
-                    >
-                        <Link to={routes.settings}>
-                            <ReactSVG
-                                src='/icons/user.svg'
-                                className='size-5 stroke-foreground'
-                            />
-                            <span className='font-book'>Кабінет</span>
-                        </Link>
-                    </Button>
-                    <Button
-                        className='text-foreground max-md:size-10 max-md:[&>span]:hidden'
-                        variant='ghost'
-                        asChild
-                    >
-                        <Link to={routes.wishList}>
-                            <div className='relative'>
-                                <Heart />
-                                <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
-                                    {wishList?.count ?? 0}
+                        <Button
+                            className='max-md:size-10 max-md:[&>span]:hidden'
+                            variant='ghost'
+                            asChild
+                        >
+                            <Link to={routes.settings}>
+                                <ReactSVG
+                                    src='/icons/user.svg'
+                                    className='size-5 stroke-foreground'
+                                />
+                                <span className='font-book'>Кабінет</span>
+                            </Link>
+                        </Button>
+                        <Button
+                            className='text-foreground max-md:size-10 max-md:[&>span]:hidden'
+                            variant='ghost'
+                            asChild
+                        >
+                            <Link to={routes.wishList}>
+                                <div className='relative'>
+                                    <Heart />
+                                    <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
+                                        {wishList?.count ?? 0}
+                                    </div>
                                 </div>
-                            </div>
-                            <span className='font-book'>Обране</span>
-                        </Link>
-                    </Button>
-                    <Button
-                        className='text-foreground max-md:size-10 max-md:[&>span]:hidden'
-                        variant='ghost'
-                        asChild
-                    >
-                        <Link to={routes.cart}>
-                            <div className='relative'>
-                                <ShoppingCartIcon />
-                                <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
-                                    {cartCount}
+                                <span className='font-book'>Обране</span>
+                            </Link>
+                        </Button>
+                        <Button
+                            className='text-foreground max-md:size-10 max-md:[&>span]:hidden'
+                            variant='ghost'
+                            asChild
+                        >
+                            <Link to={routes.cart}>
+                                <div className='relative'>
+                                    <ShoppingCartIcon />
+                                    <div className='absolute -right-2 -top-2 flex size-3.5 items-center justify-center rounded-full bg-accent text-xs'>
+                                        {cartCount}
+                                    </div>
                                 </div>
-                            </div>
-                            <span className='font-book'>Кошик</span>
-                        </Link>
-                    </Button>
+                                <span className='font-book'>Кошик</span>
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
             </div>
         </header>

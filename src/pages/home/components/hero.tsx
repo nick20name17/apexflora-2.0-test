@@ -65,7 +65,7 @@ export const HeroCarousel = ({ profiles, isLoading }: HeroCarouselProps) => {
 
     return (
         <section
-            className='mt-5'
+            className='mt-5 max-w-[100vw] overflow-x-hidden'
             id='hero'
         >
             <Carousel
