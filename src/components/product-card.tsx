@@ -47,7 +47,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
     return (
         <article
             className={cn(
-                'h-[120px] overflow-hidden rounded-sm border bg-background shadow-sm max-sm:flex sm:h-[279px]',
+                'h-[120px] overflow-hidden rounded-sm border bg-background shadow-sm max-sm:flex sm:h-[282px]',
                 className
             )}
         >
@@ -90,7 +90,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                     {currentStock?.quantity}{' '}
                     {getProductLabel(currentStock?.quantity ?? 0)}
                 </div>
-                <div className='flex flex-1 items-start justify-between gap-1 border-b border-b-secondary p-1.5 leading-none max-sm:w-full md:p-2.5'>
+                <div className='flex flex-1 items-start justify-between gap-1 border-b border-b-secondary p-1.5 leading-none max-sm:w-full md:px-2.5 md:py-2'>
                     <div className='flex h-full flex-col items-start gap-1 max-[480px]:max-w-36 min-[480px]:max-w-52 sm:max-w-30'>
                         <h1 className='max-w-full truncate text-sm'>
                             {shopProduct?.product?.ukr_name}
@@ -102,7 +102,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                                 alt={shopProduct?.producer?.name}
                             />
 
-                            <span className='max-w-full truncate text-[11px] text-muted'>
+                            <span className='max-w-full truncate text-[10px] text-muted-foreground'>
                                 {shopProduct?.producer?.name}
                             </span>
                         </div>

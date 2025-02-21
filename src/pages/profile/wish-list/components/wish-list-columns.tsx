@@ -11,7 +11,9 @@ import ImageWithSkeleton from '@/components/ui/image-with-skeleton'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 import { DiscountCell } from '@/pages/catalogue/components/product-table/cell/discount-cell'
+import { OrderCell } from '@/pages/catalogue/components/product-table/cell/order-cell'
 import { PriceCell } from '@/pages/catalogue/components/product-table/cell/price-cell'
+import { QuantityCell } from '@/pages/catalogue/components/product-table/cell/quantity-cell'
 
 export const wishListColumns: ColumnDef<ShopProduct>[] = [
     {
@@ -63,12 +65,12 @@ export const wishListColumns: ColumnDef<ShopProduct>[] = [
                 </div>
             </div>
         ),
-        size: 200
+        size: 185
     },
     {
         accessorFn: (row) => row.origin_id,
         header: 'Артикул',
-        size: 100
+        size: 90
     },
     {
         accessorKey: 'height',
@@ -91,7 +93,7 @@ export const wishListColumns: ColumnDef<ShopProduct>[] = [
         header: 'Ціна',
         accessorKey: 'price',
         cell: ({ row }) => <PriceCell stocks={row.original?.stocks} />,
-        size: 100
+        size: 90
     },
     {
         accessorKey: 'promotion',
@@ -138,8 +140,20 @@ export const wishListColumns: ColumnDef<ShopProduct>[] = [
     {
         accessorKey: 'discounts',
         header: '',
-        size: 65,
+        size: 60,
         cell: ({ row }) => <DiscountCell stocks={row.original?.stocks} />
+    },
+    {
+        header: 'Кількість',
+        accessorKey: 'quantity',
+        cell: ({ row }) => <QuantityCell stocks={row.original?.stocks} />,
+        size: 190
+    },
+    {
+        header: 'Замовлення',
+        accessorKey: 'order',
+        cell: ({ row }) => <OrderCell stocks={row.original?.stocks} />,
+        size: 95
     },
     {
         accessorKey: 'actions',

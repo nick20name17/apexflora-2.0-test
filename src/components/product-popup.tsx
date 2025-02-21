@@ -25,9 +25,14 @@ import { useActiveStockId } from '@/pages/catalogue/store/active-stock'
 
 interface ProductPopupProps extends PropsWithChildren {
     shopProduct: ShopProduct
+    initialCurrentStockId?: string
 }
 
-export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
+export const ProductPopup = ({
+    shopProduct,
+    children,
+    initialCurrentStockId
+}: ProductPopupProps) => {
     const {
         currentStock,
         inCart,
@@ -39,7 +44,8 @@ export const ProductPopup = ({ shopProduct, children }: ProductPopupProps) => {
         handleAddToWishList
     } = useCatalogueOperations({
         stocks: shopProduct.stocks,
-        inWishList: shopProduct.in_wish_list
+        inWishList: shopProduct.in_wish_list,
+        initialCurrentStockId
     })
 
     const { isAuth } = useAuth()

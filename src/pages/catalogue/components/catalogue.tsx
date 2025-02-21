@@ -48,7 +48,7 @@ export const Catalogue = ({
 
     return (
         <section
-            className='relative mt-4 size-full rounded-xl border bg-background p-6 max-xl:mb-4 max-xl:px-4'
+            className='relative mb-4 mt-4 size-full rounded-xl border bg-background p-6 max-xl:px-4'
             id='catalogue'
         >
             <Breadcrumb>

@@ -48,6 +48,11 @@ const ProductsPage = () => {
         defaultValue: 'all'
     })
 
+    const [hasCategory] = useQueryState('has-category', {
+        parse: Boolean,
+        defaultValue: null
+    })
+
     const queryParams = {
         offset,
         limit,
@@ -57,7 +62,8 @@ const ProductsPage = () => {
         promotion: promo === 'all' ? null : promo === 'promo',
         has_code_1c: hasCode1c === 'all' ? null : hasCode1c === 'code',
         has_image: hasImage === 'all' ? null : hasImage === 'has-image',
-        is_visible: isVisible === 'all' ? null : isVisible === 'visible'
+        is_visible: isVisible === 'all' ? null : isVisible === 'visible',
+        has_category: hasCategory
     }
 
     const { data, isLoading } = useQuery({
@@ -71,7 +77,8 @@ const ProductsPage = () => {
             queryParams.promotion,
             queryParams.has_code_1c,
             queryParams.has_image,
-            queryParams.is_visible
+            queryParams.is_visible,
+            queryParams.has_category
         ],
         queryFn: async () => {
             const res = await getShopProducts(queryParams)

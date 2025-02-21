@@ -79,6 +79,7 @@ export interface ShopProductsQueryParams extends BaseQueryParams {
     stage: string
     packaging_of: string
     quality: string
+    has_category: boolean
     code_1c: string
     origin_id: string
     name: string

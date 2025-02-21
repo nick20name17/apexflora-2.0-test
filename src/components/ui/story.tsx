@@ -100,7 +100,6 @@ export const Story = ({ videoSrc, isActive }: StoryProps) => {
                 src={videoSrc}
                 className='h-full w-full object-cover'
                 loop
-                preload='metadata'
                 onLoadedMetadata={handleLoadedMetadata}
             />
 

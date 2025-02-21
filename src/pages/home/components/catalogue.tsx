@@ -210,7 +210,7 @@ export const ProductCard = ({ shopProduct }: ProductCardProps) => {
                             alt={shopProduct.producer.name}
                         />
 
-                        <span className='truncate font-book text-[11px] text-muted-foreground'>
+                        <span className='max-w-full truncate text-[10px] text-muted-foreground'>
                             {shopProduct.producer.name}
                         </span>
                     </div>

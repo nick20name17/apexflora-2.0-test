@@ -40,6 +40,7 @@ export const ProductTable = ({ columns, data, isLoading }: DataTableProps) => {
                             {headerGroup.headers.map((header) => {
                                 return (
                                     <TableHead
+                                        className='h-8 text-xs font-normal'
                                         key={header.id}
                                         style={{
                                             maxWidth: header.getSize(),
