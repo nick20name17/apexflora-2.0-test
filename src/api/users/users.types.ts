@@ -12,6 +12,7 @@ export interface User {
     company: string
     position: string
     role: Roles
+    first_discount: number
     city: string
     service_manager: ServiceManager
     is_active: boolean

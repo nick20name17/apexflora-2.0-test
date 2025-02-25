@@ -1,6 +1,7 @@
 import { useQueryState } from 'nuqs'
 import { useEffect, useMemo, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
+import { toast } from 'sonner'
 
 import { useAuth } from './use-auth'
 import { addToCart, removeFromCart, updateCart } from '@/api/carts/carts'
@@ -9,6 +10,7 @@ import type { ShopProductsResponse } from '@/api/shop-products/shop-products.typ
 import type { Stock } from '@/api/stock/stock.types'
 import { deleteFromWishList, postWishList } from '@/api/wish-list/wish-list'
 import { useFilters } from '@/pages/catalogue/store/filters'
+import { isErrorWithMessage } from '@/utils/is-error-with-message'
 
 type CartOperation = {
     amount: number
@@ -40,6 +42,7 @@ export const useCatalogueOperations = ({
     const { filters } = useFilters()
 
     const queryClient = useQueryClient()
+
     const { currentUser } = useAuth()
 
     const [currentStockStatus] = useQueryState('status', {
@@ -54,6 +57,7 @@ export const useCatalogueOperations = ({
             () => stocks?.find((stock) => stock.status.id === +currentStockId),
             [stocks, currentStockId]
         )
+
     const currentStockPrice = useMemo(
         () => formatPrice(+currentStock?.retail_price!),
         [currentStock]
@@ -79,6 +83,34 @@ export const useCatalogueOperations = ({
     }, [currentStock, currentStock?.in_basket])
 
     const updateOptimisticData = (newAmount: number, stockId: number) => {
+        if (filters.in_wish_list) {
+            queryClient.setQueryData<ShopProductsResponse>(
+                [
+                    'shopProducts',
+                    filters.limit,
+                    filters.offset,
+                    filters.ordering,
+                    filters.search,
+                    filters.in_wish_list
+                ],
+                (oldData): ShopProductsResponse => {
+                    if (!oldData) return oldData!
+
+                    return {
+                        ...oldData,
+                        results: oldData.results.map((shopProduct) => ({
+                            ...shopProduct,
+                            stocks: shopProduct.stocks.map((stock) =>
+                                stock.id === stockId
+                                    ? { ...stock, in_basket: newAmount }
+                                    : stock
+                            )
+                        }))
+                    }
+                }
+            )
+        } else {
+        }
         queryClient.setQueryData<ShopProductsResponse>(
             ['shopProducts', filters],
             (oldData): ShopProductsResponse => {
@@ -178,11 +210,19 @@ export const useCatalogueOperations = ({
                     ])
                 }
 
-                updateOptimisticData(newCart.amount, newCart.stock_product)
+                updateOptimisticData(newCart?.amount, newCart?.stock_product)
 
                 return previousState
             },
-            onError: (_, __, context) => {
+            onError: (error, __, context) => {
+                const isErrorMessage = isErrorWithMessage(error)
+
+                toast.error(
+                    isErrorMessage
+                        ? error.response.data.detail || error.response.data.amount
+                        : 'Щось пішло не так'
+                )
+
                 if (context) {
                     queryClient.setQueryData(['cart'], context.cart)
                     queryClient.setQueryData(
@@ -214,7 +254,15 @@ export const useCatalogueOperations = ({
 
                 return previousState
             },
-            onError: (_, __, context) => {
+            onError: (error, __, context) => {
+                const isErrorMessage = isErrorWithMessage(error)
+
+                toast.error(
+                    isErrorMessage
+                        ? error.response.data.detail || error.response.data.amount
+                        : 'Щось пішло не так'
+                )
+
                 if (context) {
                     queryClient.setQueryData(['cart'], context.cart)
                     queryClient.setQueryData(
@@ -243,7 +291,15 @@ export const useCatalogueOperations = ({
 
             return previousState
         },
-        onError: (_, __, context) => {
+        onError: (error, __, context) => {
+            const isErrorMessage = isErrorWithMessage(error)
+
+            toast.error(
+                isErrorMessage
+                    ? error.response.data.detail || error.response.data.amount
+                    : 'Щось пішло не так'
+            )
+
             if (context) {
                 queryClient.setQueryData(['cart'], context.cart)
                 queryClient.setQueryData(['shopProducts', filters], context.shopProducts)
@@ -356,7 +412,11 @@ export const useCatalogueOperations = ({
 
             return previousState
         },
-        onError: (_, __, context) => {
+        onError: (error, __, context) => {
+            const isErrorMessage = isErrorWithMessage(error)
+
+            toast.error(isErrorMessage ? error.response.data.detail : 'Щось пішло не так')
+
             if (context) {
                 queryClient.setQueryData(['wishList'], context.wishList)
                 queryClient.setQueryData(['shopProducts', filters], context.shopProducts)
@@ -461,7 +521,13 @@ export const useCatalogueOperations = ({
 
                 return previousState
             },
-            onError: (_, __, context) => {
+            onError: (error, __, context) => {
+                const isErrorMessage = isErrorWithMessage(error)
+
+                toast.error(
+                    isErrorMessage ? error.response.data.detail : 'Щось пішло не так'
+                )
+
                 if (context) {
                     queryClient.setQueryData(['wishList'], context.wishList)
                     queryClient.setQueryData(

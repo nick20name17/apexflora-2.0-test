@@ -1,8 +1,8 @@
 import { ErrorBoundary } from 'react-error-boundary'
 import { Outlet } from 'react-router-dom'
 
-import { ErrorPage } from '@/pages/error/error-page'
 import { Header } from './header'
+import { ErrorPage } from '@/pages/error/error-page'
 
 export const Layout = () => {
     return (

@@ -1,6 +1,6 @@
 import { Loader2 } from 'lucide-react'
 import { useQueryState } from 'nuqs'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { OrderingFilter } from '../../../components/ordering-filter'
@@ -22,8 +22,7 @@ import { ViewFilter } from '@/components/view-filter'
 import { routes } from '@/config/routes'
 import { defaultLimit } from '@/constants/table'
 import { ProductTable } from '@/pages/catalogue/components/product-table/table'
-
-const inWishList = true
+import { useFilters } from '@/pages/catalogue/store/filters'
 
 const WishListPage = () => {
     const [search] = useQueryState('search', {
@@ -38,17 +37,34 @@ const WishListPage = () => {
         defaultValue: 'name'
     })
 
+    const { setFilters } = useFilters()
+
+    const queryParams = useMemo(() => {
+        return {
+            in_wish_list: true,
+            limit,
+            search,
+            offset,
+            ordering
+        }
+    }, [limit, search, offset, ordering])
+
     const { data: shopProducts, isLoading } = useQuery({
-        queryKey: ['shopProducts', search, limit, offset, ordering],
-        queryFn: () =>
-            getShopProducts({
-                in_wish_list: inWishList,
-                limit,
-                search,
-                offset,
-                ordering
-            })
+        queryKey: [
+            'shopProducts',
+            queryParams.limit,
+            queryParams.offset,
+            queryParams.ordering,
+            queryParams.search,
+            queryParams.in_wish_list
+        ],
+        queryFn: () => getShopProducts(queryParams),
+        refetchOnWindowFocus: true
     })
+
+    useEffect(() => {
+        setFilters(queryParams)
+    }, [queryParams])
 
     const [view] = useQueryState('view', {
         defaultValue: 'lines'
@@ -87,6 +103,7 @@ const WishListPage = () => {
                     <ViewFilter className='hidden xl:block' />
                 </div>
             </div>
+            {/* <StatusTabs className='mt-4 flex-1 max-sm:w-full max-sm:px-0' /> */}
 
             {view === 'tiles' ? (
                 <WishListTiles

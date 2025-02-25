@@ -33,18 +33,21 @@ export const useCartOperations = () => {
     }
 
     const statusTotalPrices = {
-        available:
+        available: formatPrice(
             statusProducts.available?.reduce((acc, item) => {
                 return acc + item.amount * +item.stock_product.retail_price
-            }, 0) || 0,
-        delivery:
+            }, 0) || 0
+        ),
+        delivery: formatPrice(
             statusProducts.delivery?.reduce((acc, item) => {
                 return acc + item.amount * +item.stock_product.retail_price
-            }, 0) || 0,
-        preOrder:
+            }, 0) || 0
+        ),
+        preOrder: formatPrice(
             statusProducts.preOrder?.reduce((acc, item) => {
                 return acc + item.amount * +item.stock_product.retail_price
             }, 0) || 0
+        )
     }
 
     const totalPrice =
@@ -314,7 +317,7 @@ export const useCartOperations = () => {
     return {
         isCartEmpty,
         totalDiscount,
-        totalPrice,
+        totalPrice: formatPrice(totalPrice),
         isLoading,
         statusProducts,
         statusTotalPrices,

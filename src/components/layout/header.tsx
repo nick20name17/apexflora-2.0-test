@@ -16,7 +16,7 @@ export const Header = () => {
     const [catalogueOpen, setCatalogueOpen] = useState(false)
 
     const wishListQuery = useQuery({
-        queryKey: ['wishList'],
+        queryKey: ['shopProducts'],
         queryFn: () =>
             getShopProducts({
                 limit: 200,

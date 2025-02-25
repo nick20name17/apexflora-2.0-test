@@ -159,7 +159,7 @@ export const ProductCard = ({ shopProduct }: ProductCardProps) => {
     const { isAuth } = useAuth()
 
     return (
-        <article className='h-[280px] w-[200px] overflow-hidden rounded-sm border bg-[#F6F4F0] font-book'>
+        <article className='h-[280px] w-[200px] overflow-hidden rounded-sm border border-muted-foreground bg-[#F6F4F0] font-book'>
             <div className='relative h-[150px] w-full rounded-t-sm bg-muted-foreground'>
                 <div className='absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/20 to-transparent'></div>
                 {isAuth ? (

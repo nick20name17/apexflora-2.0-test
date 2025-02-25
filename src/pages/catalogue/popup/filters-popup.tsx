@@ -1,4 +1,5 @@
-import { MobileFiltersSidebar } from './filters-sidebar'
+import { MobileFiltersSidebar } from '../components/filters-sidebar'
+
 import type { MinMaxValues } from '@/api/shop-products/shop-products.types'
 import { useCartOperations } from '@/hooks/use-cart-operations'
 import { useMediaQuery } from '@/hooks/use-media-query'

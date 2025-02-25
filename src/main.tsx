@@ -8,6 +8,7 @@ import { Providers } from '@/providers'
 if (process.env.NODE_ENV === 'production') {
     disableReactDevTools()
 }
+
 createRoot(document.getElementById('root')!).render(
     <Providers>
         <App />

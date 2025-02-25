@@ -55,7 +55,7 @@ const SettingsPage = () => {
             <h1 className='py-4 text-2xl'>Налаштування</h1>
 
             <div className='flex flex-col gap-y-4'>
-                <div className='flex flex-wrap items-center gap-8 rounded-lg border border-secondary p-3 max-sm:flex-col max-sm:items-start'>
+                <div className='flex flex-wrap items-center gap-8 rounded-lg border border-muted-foreground p-3 max-sm:flex-col max-sm:items-start'>
                     {isLoadingUser ? (
                         <Skeleton className='h-48 w-full lg:h-32' />
                     ) : (
@@ -141,7 +141,7 @@ const UsersInfo = () => {
         <Collapsible
             open={open}
             onOpenChange={setOpen}
-            className='rounded-lg border border-secondary p-3 max-lg:flex-col-reverse max-lg:items-start'
+            className='rounded-lg border border-muted-foreground p-3 max-lg:flex-col-reverse max-lg:items-start'
         >
             <CollapsibleTrigger className='flex w-full items-center justify-between gap-x-4'>
                 <h2 className='flex items-center gap-x-2'>
@@ -257,7 +257,7 @@ const OrdersCoworkers = () => {
         <Collapsible
             open={open}
             onOpenChange={setOpen}
-            className='rounded-lg border border-secondary p-3 max-lg:flex-col-reverse max-lg:items-start'
+            className='rounded-lg border border-muted-foreground p-3 max-lg:flex-col-reverse max-lg:items-start'
         >
             <CollapsibleTrigger className='flex w-full items-center justify-between gap-x-4'>
                 <h2 className='flex items-center gap-x-2'>
@@ -357,7 +357,7 @@ const DeliverAddress = () => {
         <Collapsible
             open={open}
             onOpenChange={setOpen}
-            className='rounded-lg border border-secondary p-3 max-lg:flex-col-reverse max-lg:items-start'
+            className='rounded-lg border border-muted-foreground p-3 max-lg:flex-col-reverse max-lg:items-start'
         >
             <CollapsibleTrigger className='flex w-full items-center justify-between gap-x-4'>
                 <h2 className='flex items-center gap-x-2'>
@@ -429,7 +429,7 @@ const ChangePassword = () => {
         <Collapsible
             open={open}
             onOpenChange={setOpen}
-            className='rounded-lg border border-secondary p-3 max-lg:flex-col-reverse max-lg:items-start'
+            className='rounded-lg border border-muted-foreground p-3 max-lg:flex-col-reverse max-lg:items-start'
         >
             <CollapsibleTrigger className='flex w-full items-center justify-between gap-x-4'>
                 <h2 className='flex items-center gap-x-2'>

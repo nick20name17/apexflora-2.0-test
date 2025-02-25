@@ -34,6 +34,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
         currentStock,
         currentStockPrice,
         priceWithDiscount,
+        inCart,
         currentStockMaxDiscountPercentage
     } = useCatalogueOperations({
         stocks: shopProduct.stocks,
@@ -42,12 +43,15 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
 
     const isPromo = currentStock?.promotion
 
+    const isPreorder = currentStock?.status?.id === 3
+
     const { isAuth } = useAuth()
 
     return (
         <article
             className={cn(
-                'h-[120px] overflow-hidden rounded-sm border bg-background shadow-sm max-sm:flex sm:h-[282px]',
+                'h-[120px] overflow-hidden rounded-sm border border-muted-foreground bg-background max-sm:flex sm:h-[282px]',
+                inCart ? 'bg-primary/5' : '',
                 className
             )}
         >
@@ -85,11 +89,17 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                 </div>
             </div>
             <div className='flex flex-col justify-between max-sm:w-full'>
-                <div className='flex h-[28px] items-center justify-center truncate bg-[hsl(0,0%,91%)] px-1.5 text-xs text-muted max-sm:hidden'>
-                    Доступно:{'  '}
-                    {currentStock?.quantity}{' '}
-                    {getProductLabel(currentStock?.quantity ?? 0)}
-                </div>
+                {!isPreorder ? (
+                    <div className='flex h-[28px] items-center justify-center truncate bg-[hsl(0,0%,91%)] px-1.5 text-xs text-muted max-sm:hidden'>
+                        Доступно:{'  '}
+                        {currentStock?.quantity}{' '}
+                        {getProductLabel(currentStock?.quantity ?? 0)}
+                    </div>
+                ) : (
+                    <div className='flex h-[28px] items-center justify-center truncate bg-[hsl(0,0%,91%)] px-1.5 text-xs text-muted max-sm:hidden'>
+                        Доступно:{'  '}∞
+                    </div>
+                )}
                 <div className='flex flex-1 items-start justify-between gap-1 border-b border-b-secondary p-1.5 leading-none max-sm:w-full md:px-2.5 md:py-2'>
                     <div className='flex h-full flex-col items-start gap-1 max-[480px]:max-w-36 min-[480px]:max-w-52 sm:max-w-30'>
                         <h1 className='max-w-full truncate text-sm'>
@@ -102,7 +112,7 @@ export const ProductCard = ({ shopProduct, className }: ProductCardProps) => {
                                 alt={shopProduct?.producer?.name}
                             />
 
-                            <span className='max-w-full truncate text-[10px] text-muted-foreground'>
+                            <span className='max-w-full truncate text-[10px] leading-normal text-muted-foreground'>
                                 {shopProduct?.producer?.name}
                             </span>
                         </div>

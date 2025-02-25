@@ -1,6 +1,19 @@
 import {
-    ChevronsUpDown
-} from 'lucide-react'
+    ArchiveBox,
+    BoxAdd,
+    Category,
+    ColorsSquare,
+    Convertshape,
+    Login,
+    MessageQuestion,
+    People,
+    PercentageSquare,
+    ShoppingCart,
+    SliderHorizontal,
+    TicketDiscount,
+    Unlimited
+} from 'iconsax-react'
+import { ChevronsUpDown } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
 import { Avatar, AvatarFallback } from '../ui/avatar'
@@ -28,7 +41,6 @@ import { Sidebar, SidebarContent, SidebarGroup } from '@/components/ui/sidebar'
 import { adminRoutes, routes } from '@/config/routes'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
-import { ArchiveBox, BoxAdd, Category, ColorsSquare, Convertshape, Login, MessageQuestion, People, PercentageSquare, ShoppingCart, SliderHorizontal, TicketDiscount, Unlimited } from 'iconsax-react'
 
 export const AdminSidebar = () => {
     const location = useLocation()
@@ -69,9 +81,7 @@ export const AdminSidebar = () => {
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <SidebarMenuButton
-                                    isActive={
-                                        location.pathname === adminRoutes.slider
-                                    }
+                                    isActive={location.pathname === adminRoutes.slider}
                                     asChild
                                 >
                                     <Link to={adminRoutes.slider}>
@@ -260,7 +270,9 @@ export const AdminSidebar = () => {
                                 <SidebarMenuButton
                                     size='lg'
                                     className={cn(
-                                        state === 'collapsed' ? 'hover:bg-transparent' : '',
+                                        state === 'collapsed'
+                                            ? 'hover:bg-transparent'
+                                            : ''
                                     )}
                                 >
                                     <Avatar className='size-8'>

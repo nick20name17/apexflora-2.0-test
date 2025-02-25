@@ -2,6 +2,7 @@ interface ErrorWithMessage {
     response: {
         data: {
             detail: string
+            amount: string
         }
     }
 }

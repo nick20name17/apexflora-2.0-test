@@ -43,8 +43,8 @@ export const ProductPopup = ({
         priceWithDiscount,
         handleAddToWishList
     } = useCatalogueOperations({
-        stocks: shopProduct.stocks,
-        inWishList: shopProduct.in_wish_list,
+        stocks: shopProduct?.stocks,
+        inWishList: shopProduct?.in_wish_list,
         initialCurrentStockId
     })
 
@@ -77,6 +77,7 @@ export const ProductPopup = ({
     }, [shopProduct.in_wish_list])
 
     const isPromo = currentStock?.promotion
+    const isPreorder = currentStock?.status?.id === 3
 
     const totalPrice = formatPrice(amount * currentStockPrice)
     const totalPriceWithDiscount = formatPrice(amount * priceWithDiscount)
@@ -108,25 +109,6 @@ export const ProductPopup = ({
                 <article className='w-full p-4'>
                     <div className='relative h-60 max-w-full overflow-hidden rounded-xs bg-muted'>
                         <div className='absolute inset-x-0 top-0 z-10 h-24 max-w-full bg-gradient-to-b from-black/20 to-transparent'></div>
-                        {/* {isAuth ? (
-                            <Button
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    handleAddToWishList()
-                                }}
-                                className='group absolute left-2 top-2 z-20 size-fit rounded-full bg-transparent p-1 hover:bg-transparent'
-                                size='icon'
-                            >
-                                <Heart
-                                    className={cn(
-                                        '!size-5 text-card group-hover:fill-accent group-hover:text-accent',
-                                        inWishList
-                                            ? 'fill-accent text-accent hover:text-primary'
-                                            : ''
-                                    )}
-                                />
-                            </Button>
-                        ) : null} */}
                         <img
                             className='size-full max-h-full max-w-full object-cover'
                             src={shopProduct.image}
@@ -210,7 +192,8 @@ export const ProductPopup = ({
                         </div>
                     </div>
                     <div className='flex h-6 items-center justify-center bg-accent text-xs text-muted'>
-                        Доступно до замовлення: {currentStock?.quantity}
+                        Доступно до замовлення:{' '}
+                        {isPreorder ? '∞' : currentStock?.quantity}
                     </div>
                     <div className='mb-3 flex flex-col gap-y-2'>
                         <div className='grid h-8 grid-cols-3 items-center bg-muted/10 px-2.5 text-xs'>
@@ -236,7 +219,7 @@ export const ProductPopup = ({
                             <NumberStepper
                                 onChange={inCart ? handleValueChange : setAmount}
                                 className='mx-auto w-24 shrink-0'
-                                max={currentStock?.quantity || 0}
+                                max={isPreorder ? 99_999 : currentStock?.quantity || 0}
                                 value={amount}
                                 step={currentStock?.shop_product.packaging_of || 1}
                             />
@@ -259,6 +242,7 @@ export const ProductPopup = ({
                     </div>
                     {isAuth ? (
                         <Button
+                            disabled={amount === 0}
                             onClick={() => handleValueChange(inCart ? 0 : amount)}
                             className={cn(
                                 'w-full',
