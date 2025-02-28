@@ -18,10 +18,10 @@ import {
     DialogTrigger
 } from '@/components/ui/dialog'
 import { routes } from '@/config/routes'
-import { useAuth } from '@/hooks/use-auth'
 import { formatPrice, useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
 import { useActiveStockId } from '@/pages/catalogue/store/active-stock'
+import { useAuth } from '@/providers/auth-provider'
 
 interface ProductPopupProps extends PropsWithChildren {
     shopProduct: ShopProduct

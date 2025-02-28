@@ -3,9 +3,9 @@ import { Heart } from 'iconsax-react'
 import { HeightInfo, WeighDiameterInfo } from './product-info'
 import { Button } from './ui/button'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
-import { useAuth } from '@/hooks/use-auth'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/providers/auth-provider'
 
 interface ProductCardProps {
     shopProduct: ShopProduct

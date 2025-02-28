@@ -3,13 +3,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 
-import { useAuth } from './use-auth'
 import { addToCart, removeFromCart, updateCart } from '@/api/carts/carts'
 import type { Cart, CartsResponse } from '@/api/carts/carts.types'
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
 import type { Stock } from '@/api/stock/stock.types'
 import { deleteFromWishList, postWishList } from '@/api/wish-list/wish-list'
 import { useFilters } from '@/pages/catalogue/store/filters'
+import { useAuth } from '@/providers/auth-provider'
 import { isErrorWithMessage } from '@/utils/is-error-with-message'
 
 type CartOperation = {
@@ -110,25 +110,25 @@ export const useCatalogueOperations = ({
                 }
             )
         } else {
-        }
-        queryClient.setQueryData<ShopProductsResponse>(
-            ['shopProducts', filters],
-            (oldData): ShopProductsResponse => {
-                if (!oldData) return oldData!
+            queryClient.setQueryData<ShopProductsResponse>(
+                ['shopProducts', filters],
+                (oldData): ShopProductsResponse => {
+                    if (!oldData) return oldData!
 
-                return {
-                    ...oldData,
-                    results: oldData.results.map((shopProduct) => ({
-                        ...shopProduct,
-                        stocks: shopProduct.stocks.map((stock) =>
-                            stock.id === stockId
-                                ? { ...stock, in_basket: newAmount }
-                                : stock
-                        )
-                    }))
+                    return {
+                        ...oldData,
+                        results: oldData.results.map((shopProduct) => ({
+                            ...shopProduct,
+                            stocks: shopProduct.stocks.map((stock) =>
+                                stock.id === stockId
+                                    ? { ...stock, in_basket: newAmount }
+                                    : stock
+                            )
+                        }))
+                    }
                 }
-            }
-        )
+            )
+        }
 
         queryClient.setQueryData<CartsResponse>(['cart'], (oldData): CartsResponse => {
             if (!oldData) {

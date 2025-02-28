@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { newPasswordSchema, passwordShape } from '@/config/schemas'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/providers/auth-provider'
 
 const changePasswordSchema = z
     .object({

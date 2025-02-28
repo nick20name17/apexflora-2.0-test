@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 import type { ShopProduct } from '@/api/shop-products/shop-products.types'
 import { ProductPopup } from '@/components/product-popup'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/hooks/use-auth'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/providers/auth-provider'
 
 interface ProductsActionsCellProps {
     shopProduct: ShopProduct
@@ -30,6 +30,7 @@ export const ProductsActionsCell = ({ shopProduct }: ProductsActionsCellProps) =
         <div className='flex items-center justify-end gap-x-2'>
             {isAuth ? (
                 <Button
+                    id='wish-list-button'
                     onClick={(e) => {
                         e.stopPropagation()
                         handleAddToWishList()

@@ -24,8 +24,8 @@ import {
     FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useAuth } from '@/hooks/use-auth'
 import { CreateModal, DeleteModal, EditModal } from '@/pages/admin/components/base-modal'
+import { useAuth } from '@/providers/auth-provider'
 
 const orderSchema = z.object({
     // recipient: z.string().min(1, 'Це поле обовязкове'),

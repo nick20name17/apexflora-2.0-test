@@ -30,9 +30,9 @@ import {
     SelectValue
 } from '@/components/ui/select'
 import { routes } from '@/config/routes'
-import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import { AddAddressModal } from '@/pages/admin/orders/components/modals/add-address'
+import { useAuth } from '@/providers/auth-provider'
 import { isErrorWithMessage } from '@/utils/is-error-with-message'
 
 const addOrderSchema = z.object({

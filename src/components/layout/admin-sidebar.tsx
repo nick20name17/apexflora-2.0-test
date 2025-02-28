@@ -39,8 +39,8 @@ import {
 
 import { Sidebar, SidebarContent, SidebarGroup } from '@/components/ui/sidebar'
 import { adminRoutes, routes } from '@/config/routes'
-import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/providers/auth-provider'
 
 export const AdminSidebar = () => {
     const location = useLocation()

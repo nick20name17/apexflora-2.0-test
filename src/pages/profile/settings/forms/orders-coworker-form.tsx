@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { emailSchema } from '@/config/schemas'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/providers/auth-provider'
 
 export const ordersCoworkerSchema = z.object({
     ...emailSchema.shape,

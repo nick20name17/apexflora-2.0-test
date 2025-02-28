@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
-import { useAuth } from './use-auth'
 import { formatPrice } from './use-catalogue-operations'
 import { addToCart, getCarts, removeFromCart, updateCart } from '@/api/carts/carts'
 import type { Cart, CartsResponse } from '@/api/carts/carts.types'
 import type { ShopProductsResponse } from '@/api/shop-products/shop-products.types'
+import { useAuth } from '@/providers/auth-provider'
 
 type CartOperation = {
     amount: number

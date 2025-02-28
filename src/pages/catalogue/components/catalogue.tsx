@@ -4,7 +4,6 @@ import { useQueryState } from 'nuqs'
 import { OrderingFilter } from '../../../components/ordering-filter'
 import { CartPopup } from '../popup/cart-popup'
 import { FiltersPopup } from '../popup/filters-popup'
-import { FirstDiscountPopup } from '../popup/first-discount-popup'
 
 import { ActiveFilters } from './active-filters'
 import { MobileFiltersSidebar } from './filters-sidebar'
@@ -124,7 +123,6 @@ export const Catalogue = ({
                 minMaxValues={minMaxValues}
                 scrollPosition={scrollPosition}
             />
-            <FirstDiscountPopup />
         </section>
     )
 }

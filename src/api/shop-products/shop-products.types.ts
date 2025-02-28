@@ -85,6 +85,7 @@ export interface ShopProductsQueryParams extends BaseQueryParams {
     name: string
     category: string
     country: string
+    producers: string | null
     producer: string | null
     quantity: string
     price: string | null

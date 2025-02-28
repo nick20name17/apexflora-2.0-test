@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/collapsible'
 import { Skeleton } from '@/components/ui/skeleton'
 import { routes } from '@/config/routes'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/providers/auth-provider'
 
 const SettingsPage = () => {
     const { currentUser, isLoadingUser } = useAuth()

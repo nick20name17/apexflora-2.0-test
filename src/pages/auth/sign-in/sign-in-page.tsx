@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SignInForm } from './sign-in-form'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/providers/auth-provider'
 
 const SignInPage = () => {
     const navigate = useNavigate()

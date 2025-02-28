@@ -25,9 +25,9 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import { adminRoutes, routes } from '@/config/routes'
-import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import { ErrorPage } from '@/pages/error/error-page'
+import { useAuth } from '@/providers/auth-provider'
 
 export const ProfileLayout = () => {
     return (

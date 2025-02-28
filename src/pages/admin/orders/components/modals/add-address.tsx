@@ -11,9 +11,9 @@ import {
     FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useAuth } from '@/hooks/use-auth'
 import { CreateModal } from '@/pages/admin/components/base-modal'
 import { ordersAddressSchema } from '@/pages/profile/settings/forms/deliver-address-form'
+import { useAuth } from '@/providers/auth-provider'
 
 const addressFormFields = (form: UseFormReturn<z.infer<typeof ordersAddressSchema>>) => {
     return (

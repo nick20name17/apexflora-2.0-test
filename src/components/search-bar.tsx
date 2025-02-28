@@ -1,6 +1,7 @@
 import { SearchNormal1 } from 'iconsax-react'
 import { X } from 'lucide-react'
 import { useQueryState } from 'nuqs'
+import { useRef } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
 import { Button } from './ui/button'
@@ -11,6 +12,7 @@ export const SearchBar = ({ className }: { className?: string }) => {
     const [search, setSearch] = useQueryState('search', {
         defaultValue: ''
     })
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const [, setOffset] = useQueryState('offset', { defaultValue: 0, parse: Number })
 
@@ -22,10 +24,19 @@ export const SearchBar = ({ className }: { className?: string }) => {
         250
     )
 
+    const handleReset = () => {
+        setSearch('')
+        setOffset(0)
+        if (inputRef.current) {
+            inputRef.current.value = ''
+        }
+    }
+
     return (
         <div className={cn('relative h-10 overflow-hidden', className)}>
             <SearchNormal1 className='absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
             <Input
+                ref={inputRef}
                 className='h-full bg-background pl-9 placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0'
                 placeholder='Пошук'
                 defaultValue={search}
@@ -34,7 +45,7 @@ export const SearchBar = ({ className }: { className?: string }) => {
 
             <Button
                 tabIndex={-1}
-                onClick={() => setSearch('')}
+                onClick={handleReset}
                 className={cn(
                     'absolute top-1/2 size-8 -translate-y-1/2 transition-all',
                     search.length > 0 ? 'right-3.5' : '-right-10'

@@ -2,7 +2,7 @@ import { type PropsWithChildren } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
 import { type PublicRoute, publicRoutes, routes } from '@/config/routes'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/providers/auth-provider'
 
 export const RequireAuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const location = useLocation()

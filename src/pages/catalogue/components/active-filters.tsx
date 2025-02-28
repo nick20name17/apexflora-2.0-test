@@ -9,7 +9,7 @@ import { getAllProducers } from '@/api/producers/producers'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-type FilterKey = 'colors' | 'price' | 'height' | 'categories' | 'countries'
+type FilterKey = 'colors' | 'price' | 'height' | 'categories' | 'countries' | 'producer'
 
 export const ActiveFilters = ({ className }: { className?: string }) => {
     const { data: allCategories } = useQuery({
@@ -37,11 +37,12 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
     const [height, setHeight] = useQueryState('height')
     const [categories, setCategories] = useQueryState('categories')
     const [countries, setCountries] = useQueryState('countries')
+    const [producers, setProducers] = useQueryState('producer')
 
     const selectedColors = colors ? colors.split(',') : []
-
     const selectedCountries = countries ? countries.split(',') : []
     const selectedCategories = categories ? categories.split(',') : []
+    const selectedProducers = producers ? producers.split(',') : []
 
     const getColor = (colorId: string) => {
         const color = allColors?.find((color) => color.id.toString() === colorId)
@@ -79,6 +80,13 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
         }
     }
 
+    const getProducerName = (producerId: string) => {
+        const producer = allProducers?.find(
+            (producer) => producer.id.toString() === producerId
+        )
+        return producer?.name
+    }
+
     const filters = [
         {
             key: 'price',
@@ -98,6 +106,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
             React.Dispatch<React.SetStateAction<string | null>>
         > = {
             colors: setColors,
+            producer: setProducers,
             price: setPrice,
             height: setHeight,
             categories: setCategories,
@@ -122,6 +131,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
     const onClearAll = () => {
         setColors(null)
         setPrice(null)
+        setProducers(null)
         setHeight(null)
         setCategories(null)
         setCountries(null)
@@ -132,7 +142,8 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
         !filters.length &&
         !selectedCategories.length &&
         !selectedColors.length &&
-        !selectedCountries.length
+        !selectedCountries.length &&
+        !selectedProducers.length
 
     return (
         <ul
@@ -143,7 +154,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
                 className
             )}
         >
-            {filters.map((filter) => (
+            {filters?.map((filter) => (
                 <li key={filter.key}>
                     <Button
                         onClick={() => onFilterRemove(filter.key as FilterKey)}
@@ -192,6 +203,18 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
                 )
             })}
 
+            {selectedProducers?.map((producer) => (
+                <li key={`producer-${producer}`}>
+                    <Button
+                        onClick={() => onFilterRemove('producer', producer)}
+                        className='h-8 rounded-full bg-secondary/50 p-2 text-xs text-muted-foreground transition-colors hover:text-background xl:h-9 xl:px-4 xl:py-3'
+                    >
+                        {getProducerName(producer)}
+                        <X className='ml-2 size-4' />
+                    </Button>
+                </li>
+            ))}
+
             {selectedCategories.map((category) => (
                 <li key={`category-${category}`}>
                     <Button
@@ -207,6 +230,7 @@ export const ActiveFilters = ({ className }: { className?: string }) => {
             {filters.length ||
             selectedColors.length ||
             selectedCountries.length ||
+            selectedProducers.length ||
             selectedCategories.length ? (
                 <li>
                     <Button

@@ -22,7 +22,7 @@ import {
     FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/providers/auth-provider'
 
 interface DeliverAddressFormProps {
     deliverAddress?: DeliverAddress

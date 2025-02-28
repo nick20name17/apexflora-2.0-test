@@ -44,8 +44,6 @@ export const FilePicker = ({
 }: FilePickerProps) => {
     const maxSize = maxSizeInMB * 1024 * 1024
 
-    console.log(value)
-
     const [files, setFiles] = useState<(UploadedFile | UploadedUrl)[]>(
         value?.map((file) =>
             'url' in file

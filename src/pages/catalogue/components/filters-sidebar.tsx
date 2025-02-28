@@ -6,6 +6,7 @@ import { ColorsFilter } from './filters/color-filter'
 import { CountriesFilter } from './filters/country-filter'
 import { HeightFilter } from './filters/height-filter'
 import { PriceFilter } from './filters/price-filter'
+import { ProducerFilter } from './filters/producer-filter'
 import { getAllCategories } from '@/api/categories/categories'
 import { getAllColors } from '@/api/colors/colors'
 import { getAllProducers } from '@/api/producers/producers'
@@ -78,6 +79,14 @@ export const FiltersSidebar = ({ minMaxValues, className }: FiltersSidebarProps)
                     </AccordionTrigger>
                     <AccordionContent className='space-y-3 px-1 pb-3'>
                         <CountriesFilter producers={producers || []} />
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value='producer'>
+                    <AccordionTrigger className='px-1 py-3 text-primary'>
+                        Виробник
+                    </AccordionTrigger>
+                    <AccordionContent className='space-y-3 px-1 pb-3'>
+                        <ProducerFilter producers={producers || []} />
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value='color'>

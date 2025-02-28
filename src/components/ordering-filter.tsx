@@ -30,8 +30,8 @@ export const OrderingFilter = ({ className }: OrderingFilterProps) => {
                 <SelectItem value='name'>За назвою (А-Я)</SelectItem>
                 <SelectItem value='-name'>За назвою (Я-А)</SelectItem>
                 <SelectItem value='category'>За категорією</SelectItem>
-                <SelectItem value='price'>Найдорожчі</SelectItem>
-                <SelectItem value='-price'>Найдешевші</SelectItem>
+                <SelectItem value='-price'>Найдорожчі</SelectItem>
+                <SelectItem value='price'>Найдешевші</SelectItem>
             </SelectContent>
         </Select>
     )

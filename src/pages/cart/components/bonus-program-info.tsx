@@ -1,5 +1,5 @@
-import { useAuth } from '@/hooks/use-auth'
 import { formatPrice } from '@/hooks/use-catalogue-operations'
+import { useAuth } from '@/providers/auth-provider'
 
 interface BonusProgramInfoProps {
     totalPrice: number

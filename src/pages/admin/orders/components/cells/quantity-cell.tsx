@@ -7,8 +7,8 @@ import type { OrderItem } from '@/api/order-items/order-items.types'
 import type { Stock } from '@/api/stock/stock.types'
 import { NumberStepper } from '@/components/ui/number-stepper'
 import { routes } from '@/config/routes'
-import { useAuth } from '@/hooks/use-auth'
 import { useCatalogueOperations } from '@/hooks/use-catalogue-operations'
+import { useAuth } from '@/providers/auth-provider'
 
 export const QuantityCell = ({ stocks }: { stocks: Stock[] }) => {
     const navigate = useNavigate()

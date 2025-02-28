@@ -1,5 +1,6 @@
 import { type ColumnDef } from '@tanstack/react-table'
 
+import { ColorsCell } from './cell/colors-cell'
 import { DiscountCell } from './cell/discount-cell'
 import { OrderCell } from './cell/order-cell'
 import { PriceCell } from './cell/price-cell'
@@ -64,8 +65,9 @@ export const columns: ColumnDef<ShopProduct>[] = [
         size: 180
     },
     {
-        accessorFn: (row) => row.origin_id,
-        header: 'Артикул',
+        header: 'Колір',
+        accessorKey: 'colors',
+        cell: ({ row }) => <ColorsCell colors={row.original?.colors} />,
         size: 70
     },
     {
