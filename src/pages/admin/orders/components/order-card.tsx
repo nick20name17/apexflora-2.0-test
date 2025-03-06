@@ -74,10 +74,19 @@ export const AdminOrderCard = ({ order }: OrderCardProps) => {
                             {format(order.created_at, 'dd.MM.yyyy')}
                         </span>
                     </div>
-                    <div className='flex flex-col items-start gap-y-0.5'>
-                        <span className='text-xs'>Спосіб оплати</span>
-                        <span className='text-primary'>Самовивіз</span>
-                    </div>
+                    {order?.address ? (
+                        <div className='flex flex-col items-start gap-y-0.5 text-left'>
+                            <span className='text-xs'>Адреса доставки</span>
+                            <span className='text-primary'>
+                                {order?.address?.city + ', ' + order?.address?.street}
+                            </span>
+                        </div>
+                    ) : (
+                        <div className='flex flex-col items-start gap-y-0.5 text-left'>
+                            <span className='text-xs'>Спосіб доставки</span>
+                            <span className='text-primary'>Самовивіз</span>
+                        </div>
+                    )}
                     <div className='flex flex-col items-start gap-y-0.5 truncate'>
                         <span className='text-xs'>Статус</span>
                         <OrderStatusSelect

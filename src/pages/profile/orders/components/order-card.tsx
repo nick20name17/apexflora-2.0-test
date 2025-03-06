@@ -66,7 +66,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             className='rounded-xs border-2 border-secondary p-3 transition-colors data-[state=open]:border-primary lg:p-4'
         >
             <CollapsibleTrigger className='flex w-full items-center justify-between gap-x-4 text-sm lg:gap-x-8'>
-                <div className='grid flex-1 grid-cols-[0.5fr,repeat(3,1fr),1.2fr] items-center gap-x-4 text-left lg:grid-cols-[repeat(3,1fr),1.2fr,1fr] lg:gap-x-6'>
+                <div className='grid flex-1 grid-cols-[0.5fr,repeat(3,1fr),1.2fr] items-center gap-x-4 text-left lg:grid-cols-[repeat(2,1fr),1.3fr,1.2fr,1fr] lg:gap-x-6'>
                     <div className='flex flex-col items-start gap-y-0.5'>
                         <span className='text-xs'>
                             № <span className='max-lg:hidden'>Замовлення</span>
@@ -77,10 +77,19 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                         <span className='text-xs'>Дата оформлення</span>
                         <span>{format(order.created_at, DATE_FORMATS.date)}</span>
                     </div>
-                    <div className='flex flex-col items-start gap-y-0.5'>
-                        <span className='text-xs'>Спосіб доставки</span>
-                        <span>Самовивіз</span>
-                    </div>
+                    {order?.address ? (
+                        <div className='flex flex-col items-start gap-y-0.5'>
+                            <span className='text-xs'>Адреса доставки</span>
+                            <span>
+                                {order?.address?.city + ', ' + order?.address?.street}
+                            </span>
+                        </div>
+                    ) : (
+                        <div className='flex flex-col items-start gap-y-0.5'>
+                            <span className='text-xs'>Спосіб доставки</span>
+                            <span>Самовивіз</span>
+                        </div>
+                    )}
                     <OrderCardStatus statusName={order.status as Statuses} />
                     <div className='flex flex-col items-start gap-y-0.5'>
                         <span className='text-xs'>Сума</span>

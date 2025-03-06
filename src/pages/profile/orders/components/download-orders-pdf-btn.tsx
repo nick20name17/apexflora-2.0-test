@@ -113,12 +113,12 @@ const OTHER_PAGES_ITEMS = 14
 
 const styles = StyleSheet.create({
     page: {
-        padding: 30,
+        padding: 15,
         fontFamily: 'Roboto'
     },
     section: {
         margin: 10,
-        padding: 10
+        padding: 8
     },
     orderInfo: {
         display: 'flex',
@@ -126,6 +126,18 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 15,
         marginTop: 25
+    },
+    orderHeader: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10
+    },
+    orderCreator: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        fontSize: 12
     },
     label: {
         fontSize: 10,
@@ -162,7 +174,6 @@ const styles = StyleSheet.create({
         textAlign: 'right'
     },
     discountPrice: {
-        textDecoration: 'line-through',
         color: '#666',
         fontSize: '10px'
     },
@@ -236,7 +247,7 @@ const OrderItem = ({ item }: { item: OrderItem }) => {
             </View>
             <View style={styles.details}>
                 <Text style={styles.detailsItem}>
-                    {item.stock_product.shop_product.origin_id}
+                    {item?.stock_product?.shop_product?.producer?.name}
                 </Text>
 
                 <View
@@ -305,16 +316,19 @@ const OrderItem = ({ item }: { item: OrderItem }) => {
             </View>
 
             <View style={styles.priceInfo}>
-                {+item.discount > 0 && (
+                {+item.discount > 0 ? (
+                    <Text style={styles.value}>
+                        {formatPrice(itemTotalWithDiscount)}грн
+                    </Text>
+                ) : (
                     <Text style={styles.discountPrice}>{formatPrice(itemTotal)}грн</Text>
                 )}
-                <Text style={styles.value}>{formatPrice(itemTotalWithDiscount)}грн</Text>
             </View>
         </View>
     )
 }
 
-const OrderPage = ({
+export const OrderPage = ({
     order,
     items,
     pageNumber,
@@ -348,19 +362,49 @@ const OrderPage = ({
             <View style={styles.section}>
                 {showHeader && (
                     <>
-                        <Text>№ Замовлення {order.id}</Text>
+                        <View style={styles.orderHeader}>
+                            <Text>№ Замовлення {order.id}</Text>
+                        </View>
+                        <View style={styles.orderCreator}>
+                            <Text>Замовник / Отримувач: </Text>
+                            <Text>
+                                {order.creator?.first_name +
+                                    ' ' +
+                                    order?.creator?.last_name +
+                                    ' '}
+                            </Text>
+                            <Text> /</Text>
+                            <Text>
+                                {order.recipient
+                                    ? order?.recipient?.first_name +
+                                      ' ' +
+                                      order?.recipient?.last_name
+                                    : '-'}
+                            </Text>
+                        </View>
                         <View style={styles.orderInfo}>
                             <View>
-                                <Text style={styles.label}>Дата оформлення</Text>
+                                <Text style={styles.label}>Дата</Text>
                                 <Text style={styles.value}>
                                     {format(order.created_at, DATE_FORMATS.date)}
                                 </Text>
                             </View>
 
-                            <View>
-                                <Text style={styles.label}>Спосіб доставки</Text>
-                                <Text style={styles.value}>Самовивіз</Text>
-                            </View>
+                            {order?.address ? (
+                                <View>
+                                    <Text style={styles.label}>Адреса доставки</Text>
+                                    <Text style={styles.value}>
+                                        {order?.address?.city +
+                                            ', ' +
+                                            order?.address?.street}
+                                    </Text>
+                                </View>
+                            ) : (
+                                <View>
+                                    <Text style={styles.label}>Спосіб доставки</Text>
+                                    <Text style={styles.value}>Самовивіз</Text>
+                                </View>
+                            )}
 
                             <View style={[styles.status, status.style]}>
                                 <Text style={{ color: status.style.color }}>
@@ -369,15 +413,26 @@ const OrderPage = ({
                             </View>
 
                             <View>
+                                <Text style={styles.label}>Знижка</Text>
+
+                                <Text style={styles.value}>
+                                    {order.discount
+                                        ? formatPrice(+order.discount) + ' грн'
+                                        : '-'}
+                                </Text>
+                            </View>
+
+                            <View>
                                 <Text style={styles.label}>Сума</Text>
-                                {+order.discount > 0 && (
+                                {+order.discount > 0 ? (
+                                    <Text style={styles.value}>
+                                        {formatPrice(totalPriceWithDiscount)}грн
+                                    </Text>
+                                ) : (
                                     <Text style={styles.discountPrice}>
                                         {formatPrice(totalPrice)}грн
                                     </Text>
                                 )}
-                                <Text style={styles.value}>
-                                    {formatPrice(totalPriceWithDiscount)}грн
-                                </Text>
                             </View>
                         </View>
                     </>

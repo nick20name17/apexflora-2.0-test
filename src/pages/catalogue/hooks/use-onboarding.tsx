@@ -1,20 +1,26 @@
 // hooks/useOnboarding.js
 import { driver } from 'driver.js'
+import { useQueryState } from 'nuqs'
 import { useEffect, useMemo, useState } from 'react'
 
 import { useActiveStockId } from '../store/active-stock'
 
-import type { User } from '@/api/users/users.types'
+import { useAuth } from '@/providers/auth-provider'
 
-export const useOnboarding = (
-    currentUser: User | undefined,
-    firstStockId: number | undefined
-) => {
+const ONBOARDING_KEY = 'showCatalogueOnboarding'
+
+export const useCatalogueOnboarding = (firstStockId: number | undefined) => {
+    const { currentUser } = useAuth()
+
     const [showOnboarding, setShowOnboarding] = useState(false)
     const { setActiveStockId } = useActiveStockId()
 
+    const [_, setView] = useQueryState('view', {
+        defaultValue: 'lines'
+    })
+
     useEffect(() => {
-        const storedValue = localStorage.getItem('showOnboarding')
+        const storedValue = localStorage.getItem(ONBOARDING_KEY)
         setShowOnboarding(storedValue === 'true')
     }, [])
 
@@ -22,11 +28,11 @@ export const useOnboarding = (
         if (!currentUser) return
 
         const isFirstTimeUser = currentUser.last_login === null
-        const hasExistingSetting = localStorage.getItem('showOnboarding') !== null
+        const hasExistingSetting = localStorage.getItem(ONBOARDING_KEY) !== null
 
         const shouldShowOnboarding = isFirstTimeUser || !hasExistingSetting
 
-        localStorage.setItem('showOnboarding', shouldShowOnboarding ? 'true' : 'false')
+        localStorage.setItem(ONBOARDING_KEY, shouldShowOnboarding ? 'true' : 'false')
         setShowOnboarding(shouldShowOnboarding)
     }, [currentUser])
 
@@ -45,9 +51,12 @@ export const useOnboarding = (
             progressText: '{{current}}/{{total}}',
             steps: [
                 {
+                    onHighlighted: () => {
+                        setView('lines')
+                    },
                     popover: {
                         description:
-                            'Вітаємо у веб-шопі Apex Flora, тут зібрані квіти, від кращих світових виробників, для вашого магазину чи івенту. Зараз ми швиденько покажемо, куди натискати, щоб успішно зробити ваше перше замовлення.'
+                            'Вітаємо у веб-шопі Apex Flora! Тут ми зібрали квіти від кращих світових виробників для вашого магазину чи заходу. Щоб успішно зробити ваше перше замовлення, повторіть прості дії, як це показано на ілюстраціях.'
                     }
                 },
                 {
@@ -55,14 +64,14 @@ export const useOnboarding = (
                     popover: {
                         side: 'bottom',
                         description:
-                            'Прямо перед вами каталог, всіх можливих і не можливих квітів.'
+                            'Перед вами каталог найнеймовірніших квітів з різних куточків світу.'
                     }
                 },
                 {
                     element: '#wish-list-button',
                     popover: {
                         description:
-                            'Щоб не загубити важливий товар, додайте його у список збережених.'
+                            'Щоб не загубити важливий товар, додайте його у список збережених. '
                     }
                 },
                 {
@@ -76,21 +85,20 @@ export const useOnboarding = (
                     element: '#statuses',
                     popover: {
                         description:
-                            'Для зручності пошуку, використовуйте сортування. У нас в вебшопі,ви можете зробити замволення, згідно 3-х статусів.'
+                            'Використовуйте сортування, щоб обрати бажаний варіант замовлення. Для вас доступні три варіанти замовлень: передзамовлення; замовити квіти, які вже в дорозі; обрати з наявного товару. '
                     }
                 },
                 {
                     element: '#filters',
                     popover: {
                         description:
-                            'Використовуйте фільтри, для детального пошуку потрібних вам квітів, за:'
+                            'Використовуйте фільтри для зручності пошуку потрібних вам квітів. Фільтрувати можна за “Категоріями”, “Країною”, “Кольором”, “Ціною”, “Висотою”.  '
                     }
                 },
                 {
                     element: '#quantity-cell',
                     popover: {
-                        description:
-                            'Щоб додати потрібні квіти у кошик, ви можете обрати потрібну к-ть квітів і вони автоматично додатуться у кошик'
+                        description: 'Щоб додати товар у Кошик, натисніть вказану кнопку.'
                     }
                 },
                 {
@@ -113,8 +121,20 @@ export const useOnboarding = (
                             'Також ви можете натиснути "Детальніше", щоб побачити детальнішу інформацію про квітку'
                     },
                     onDeselected: () => {
-                        localStorage.setItem('showOnboarding', 'false')
+                        localStorage.setItem(ONBOARDING_KEY, 'false')
                         setActiveStockId(null)
+                    }
+                },
+                {
+                    element: '#cart',
+                    popover: {
+                        description:
+                            'Для остаточного оформлення замовлення перейдіть у “Кошик”.'
+                    }
+                },
+                {
+                    popover: {
+                        description: 'Тепер ви готові зробити ваше перше замовлення.'
                     }
                 }
             ]

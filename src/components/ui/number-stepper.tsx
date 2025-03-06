@@ -63,6 +63,7 @@ export const NumberStepper = ({
                 <Minus />
             </Button>
             <Input
+                autoFocus={false}
                 type='number'
                 value={value ?? internalValue}
                 onChange={handleInputChange}

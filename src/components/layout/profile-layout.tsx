@@ -120,6 +120,7 @@ const ProfileSidebar = ({ className }: { className?: string }) => {
                         </li>
                     )}
                     <li
+                        id='wish-list-link'
                         className={cn(
                             'cursor-pointer rounded-md text-muted transition-colors hover:bg-primary/10 hover:text-primary',
                             pathname === routes.wishList && 'bg-primary text-background'
@@ -134,6 +135,7 @@ const ProfileSidebar = ({ className }: { className?: string }) => {
                         </NavLink>
                     </li>
                     <li
+                        id='orders'
                         className={cn(
                             'cursor-pointer rounded-md text-muted transition-colors hover:bg-primary/10 hover:text-primary',
                             pathname === routes.orders && 'bg-primary text-background'

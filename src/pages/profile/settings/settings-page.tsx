@@ -8,6 +8,7 @@ import { ChangePasswordForm } from './forms/change-password-form'
 import { DeliverAddressForm } from './forms/deliver-address-form'
 import { OrdersCoworkerForm } from './forms/orders-coworker-form'
 import { UserInfoForm } from './forms/user-info-form'
+import { useProfileOnboarding } from './hooks/use-onboarding'
 import { EditAddressModal, RemoveAddressModal } from './modals/address-modal'
 import { EditCoworkerModal, RemoveCoworkerModal } from './modals/coworker-modal'
 import { getCoworkers } from '@/api/coworkers/coworkers'
@@ -37,6 +38,8 @@ const SettingsPage = () => {
 
     const userManager = currentUser?.service_manager
 
+    useProfileOnboarding()
+
     return (
         <section className='relative size-full overflow-hidden rounded-xl border bg-background p-3 xl:p-6'>
             <Breadcrumb>
@@ -55,7 +58,10 @@ const SettingsPage = () => {
             <h1 className='py-4 text-2xl'>Налаштування</h1>
 
             <div className='flex flex-col gap-y-4'>
-                <div className='flex flex-wrap items-center gap-8 rounded-lg border border-muted-foreground p-3 max-sm:flex-col max-sm:items-start'>
+                <div
+                    className='flex flex-wrap items-center gap-8 rounded-lg border border-muted-foreground p-3 max-sm:flex-col max-sm:items-start'
+                    id='manager'
+                >
                     {isLoadingUser ? (
                         <Skeleton className='h-48 w-full lg:h-32' />
                     ) : (
@@ -123,10 +129,15 @@ const SettingsPage = () => {
                         </div>
                     )}
                 </div>
-                <UsersInfo />
-                <OrdersCoworkers />
-                <DeliverAddress />
-                <ChangePassword />
+                <div
+                    className='space-y-4'
+                    id='settings'
+                >
+                    <UsersInfo />
+                    <OrdersCoworkers />
+                    <DeliverAddress />
+                    <ChangePassword />
+                </div>
             </div>
         </section>
     )

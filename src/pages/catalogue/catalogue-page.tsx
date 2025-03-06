@@ -4,20 +4,18 @@ import { useQuery } from 'react-query'
 import { Catalogue } from './components/catalogue'
 import { FiltersSidebar } from './components/filters-sidebar'
 import { OrderSuccess } from './components/order-success'
-import { useOnboarding } from './hooks/use-onboarding'
+import { useCatalogueOnboarding } from './hooks/use-onboarding'
 import { useProductFilters } from './hooks/use-product-filters'
 import { FirstDiscountPopup } from './popup/first-discount-popup'
 import { getShopProducts } from '@/api/shop-products/shop-products'
 import '@/assets/styles/driver-js.css'
 import { MetaHead } from '@/components/meta-head'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useAuth } from '@/providers/auth-provider'
 
 import 'driver.js/dist/driver.css'
 
 export const CataloguePage = () => {
     const filters = useProductFilters()
-    const { currentUser } = useAuth()
 
     const [scrollPosition, setScrollPosition] = useState(0)
 
@@ -35,7 +33,7 @@ export const CataloguePage = () => {
         )?.id
     }, [shopProducts?.results, filters.statuses])
 
-    useOnboarding(currentUser, firstStockId)
+    useCatalogueOnboarding(firstStockId)
 
     const handleScroll = useCallback(
         (event: any) => {
@@ -55,6 +53,7 @@ export const CataloguePage = () => {
                     minMaxValues={shopProducts?.min_max_values!}
                 />
                 <ScrollArea
+                    id='catalogue'
                     onScrollCapture={handleScroll}
                     className='mr-4 h-full flex-1 max-xl:ml-4 max-lg:mx-0'
                 >

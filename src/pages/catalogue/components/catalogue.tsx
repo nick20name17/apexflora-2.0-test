@@ -2,7 +2,7 @@ import { Loader2 } from 'lucide-react'
 import { useQueryState } from 'nuqs'
 
 import { OrderingFilter } from '../../../components/ordering-filter'
-import { CartPopup } from '../popup/cart-popup'
+import { CartPopup } from '../popup/cart-popup.tsx'
 import { FiltersPopup } from '../popup/filters-popup'
 
 import { ActiveFilters } from './active-filters'
@@ -47,10 +47,7 @@ export const Catalogue = ({
     })
 
     return (
-        <section
-            className='relative mb-4 mt-4 size-full rounded-xl border bg-background p-6 max-xl:px-4'
-            id='catalogue'
-        >
+        <section className='relative mb-4 mt-4 size-full rounded-xl border bg-background p-6 max-xl:px-4'>
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>

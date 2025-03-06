@@ -18,7 +18,7 @@
 }
 
 .driver-popover.driverjs-theme .driver-popover-prev-btn {
-    @apply bg-background/20 text-background backdrop-blur-lg hover:bg-background/50;
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90;
 }
 
 .driver-popover.driverjs-theme .driver-popover-close-btn {

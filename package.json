@@ -10,6 +10,7 @@
         "test:chrome": "npx playwright test --headed --browser=chromium",
         "test:firefox": "npx playwright test --headed --browser=firefox",
         "test:safari": "npx playwright test --headed --browser=webkit",
+        "test:iphone13": "npx playwright test --headed --config=iphone13.config.js",
         "format": "prettier --write ."
     },
     "dependencies": {
